@@ -1,0 +1,118 @@
+
+
+#blogsFrame{
+    height: 100%;
+}
+
+#searchOptions{
+    position: fixed;
+    top: 63px;
+    width: 250px;
+    height: 100%;
+    border: 1px solid var(--color-border);
+    border-top: 0;
+}
+
+.searchInput{
+    position: fixed;
+    margin-top: 10px;
+    top: 53px;
+    padding: 7px 0;
+    left: 252px;
+    width: 80%;
+    background-color: white;
+    z-index: 900;
+    display: flex;
+    justify-content: space-around;
+}
+
+#frameFilter {
+    position: absolute;
+    right: 410px;
+    top: 58px;
+    width: 450px;
+    height: auto;
+    padding-bottom: 16px;
+    background-color: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    z-index: 100;
+}
+
+#filterIco:hover{
+    background-color: rgb(223, 223, 223);
+    transition: all 0.2s ease-in-out;
+}
+
+.items {
+    padding: 6px 12px;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid white;
+    margin: 4px 4px;
+}
+
+.items:hover {
+    border: 1px solid #dfdfdf;
+    cursor: pointer;
+}
+
+#createBlog{
+    border-radius: 15px;
+    font-size: 15px;
+    color: black;
+    padding: 5px 3px;
+}
+
+
+.btnCreateBlog {
+    background-color: #f6f6f694;
+    border: 1px solid #dfdfdf;
+    border-radius: 15px;
+    font-size: 16px;
+    color: black;
+    padding: 5px 7px;
+}
+
+.btnCreateBlog:hover {
+    background-color: rgba(176, 176, 176, 0.32);
+    transition: all 0.4s ease-in-out;
+}
+
+.blogContent:hover{
+    background-color: rgb(214 214 214 / 32%);
+    transition: all 0.4s ease-in-out;
+}
+
+#blogsFrame{
+    height: 80%;
+    position: relative;
+    left: 278px;
+    width: 600px;
+    padding-top: 88px;
+}
+
+.createDate{
+    margin: 0px;
+    margin-left: 3px;
+    font-size: 14px;
+    margin-top: 8px;
+    color: #474747;
+}
+
+.blogContent {
+    width: 59vw;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    height: auto;
+}
+
+
+.description {
+    margin-left: 26px;
+    font-size: 13px;
+    padding-right: 26px;
+}

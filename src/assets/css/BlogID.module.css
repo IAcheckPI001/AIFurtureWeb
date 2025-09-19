@@ -1,0 +1,90 @@
+
+#blogframe {
+    height: auto;
+    background-color: #fcfcfc;
+    justify-content: center;
+}
+
+
+#blogContent{
+    width: 46%;
+    padding: 8px 38px 18px 45px;
+    border: 1px solid rgb(223, 223, 223);
+    height: auto;
+    background-color: white;
+    border-radius: 15px;
+    margin: 49px 25px 30px 78px;
+}
+
+
+.title {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+#frameActor {
+    width: 318px;
+    height: auto;
+    padding: 8px;
+    margin-top: 50px;
+    border-radius: 10px;
+    background-color: #e6e6e6;
+}
+
+.showTranslate{
+    width: 112px;
+    height: 8px;
+    color: #7c7c7c;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.showTranslate:hover{
+    color: #43b9b1;
+    transition: all 0.3s ease-in;
+}
+
+.imgUpload{
+    height: 100px;
+    max-width: 70%;
+    max-height: 70%;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.imgUploadZoom{
+    width: auto;
+    padding: 84px;
+    max-width: 90%;
+    max-height: 90%;
+    cursor: pointer;
+}
+
+.imgUpload:hover{
+    background-color: #dfdfdf;
+    transition: all 0.2s ease-in;
+}
+
+
+.label{
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.items {
+    padding: 4px 8px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid #dfdfdf;
+    background-color: white;
+}
+
+#frameReact button {
+    border: none;
+    padding: 8px 18px;
+    background: none;
+    flex: 1;
+    font-size: 16px;
+}

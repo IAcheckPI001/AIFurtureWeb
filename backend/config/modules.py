@@ -1,0 +1,121 @@
+
+from sqlalchemy import Column, Integer, Unicode, DateTime, ForeignKey, TEXT, Table, UniqueConstraint
+from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.dialects.postgresql import ARRAY
+from datetime import datetime, timezone
+
+
+Base = declarative_base()
+
+class Permission(Base):
+    __tablename__ = 'permissions'
+    access_id = Column(Unicode(50), nullable=False, primary_key=True)
+
+class SupportsCard(Base):
+    __tablename__ = 'supports_card'
+    chatbot_id = Column(Integer, primary_key=True, autoincrement=True)
+    email_user = Column(Unicode(255), nullable=True)
+    inputs_data = Column(TEXT, nullable=True)
+    responses = Column(TEXT, nullable=True)
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+class Services(Base):
+    __tablename__ = 'services'
+    service_id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(Unicode(255), nullable=False)
+    content = Column(Unicode(1500), nullable=True)
+    image_url = Column(Unicode(1000), nullable=True)
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+blog_tags = Table(
+    "blog_tags",
+    Base.metadata,
+    Column("blog_id", ForeignKey("blogs.blog_id"), primary_key=True),
+    Column("tag_id", ForeignKey("tags.tag_id"), primary_key=True)
+)
+
+class Tags(Base):
+    __tablename__ = 'tags'
+    tag_id = Column(Integer, primary_key=True, autoincrement=True)
+    tag_content = Column(Unicode(50), nullable=False)
+
+class Users(Base):
+    __tablename__ = 'users'
+    id = Column(Unicode(255), primary_key=True, nullable=False)
+    nickname = Column(Unicode(30), unique=True, nullable=False)
+    avatar_img = Column(Unicode(1000), nullable=True)
+    session_key = Column(Unicode(255), unique=True, nullable=False)
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    blogs = relationship("Blogs", back_populates="author", cascade="all, delete-orphan")
+    comments = relationship("Comments", back_populates="author", cascade="all, delete-orphan")
+    likes = relationship("Likes", back_populates="user", cascade="all, delete-orphan")
+    comment_likes = relationship("CommentLikes", back_populates="user", cascade="all, delete-orphan")
+
+
+class Blogs(Base):
+    __tablename__ = 'blogs'
+    blog_id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(Unicode(255), nullable=False)
+    blog_content = Column(TEXT, nullable=True)
+    cover_img = Column(ARRAY(Unicode(1000)), nullable=True)
+    public_id = Column(Unicode(255), unique=True, index=True) 
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    update_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    lang = Column(Unicode(10), nullable=True)
+    user_id = Column(Unicode(255), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+    author = relationship("Users", back_populates="blogs")
+    comments = relationship("Comments", back_populates="blog", cascade="all, delete-orphan")
+    likes = relationship("Likes", back_populates="blog", cascade="all, delete-orphan")
+
+Blogs.tags = relationship("Tags", secondary=blog_tags, back_populates="blogs")
+Tags.blogs = relationship("Blogs", secondary=blog_tags, back_populates="tags")
+
+class Likes(Base):
+    __tablename__ = 'likes'
+    like_id = Column(Integer, primary_key=True, autoincrement=True)
+    blog_id = Column(Integer, ForeignKey('blogs.blog_id'), nullable=False)
+    user_id = Column(Unicode(255), ForeignKey('users.id'), nullable=False)
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    user = relationship("Users", back_populates="likes")
+    blog = relationship("Blogs", back_populates="likes")
+
+    __table_args__ = (UniqueConstraint("user_id", "blog_id", name="unique_blog_like"),)
+
+
+class Comments(Base):
+    __tablename__ = 'comments'
+    cmt_id = Column(Integer, primary_key=True, autoincrement=True)
+    blog_id = Column(Integer, ForeignKey('blogs.blog_id'), nullable=False)
+    user_id = Column(Unicode(255), ForeignKey('users.id'), nullable=False)
+    content = Column(TEXT, nullable=True)
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    update_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    author = relationship("Users", back_populates="comments")
+    blog = relationship("Blogs", back_populates="comments")
+    likes = relationship("CommentLikes", back_populates="comment", cascade="all, delete-orphan")
+
+class CommentLikes(Base):
+    __tablename__ = "comment_likes"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Unicode(255), ForeignKey("users.id", ondelete="CASCADE"))
+    comment_id = Column(Integer, ForeignKey("comments.cmt_id", ondelete="CASCADE"))
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    user = relationship("Users", back_populates="comment_likes")
+    comment = relationship("Comments", back_populates="likes")
+
+    __table_args__ = (UniqueConstraint("user_id", "comment_id", name="unique_comment_like"),)
+
+
+class Contacts(Base):
+    __tablename__ = 'contacts'
+    contact_id = Column(Integer, primary_key=True, autoincrement=True)
+    fullname = Column(Unicode(255), nullable=False)
+    email = Column(Unicode(255), nullable=False)
+    phone_number = Column(Unicode(30), nullable=False)
+    messages = Column(Unicode(1500), nullable=True)
+    create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)

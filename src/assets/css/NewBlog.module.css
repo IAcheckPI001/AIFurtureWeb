@@ -1,0 +1,216 @@
+
+
+.label {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.inputTitle {
+    width: 40vw;
+    height: 21px;
+    border-radius: 5px;
+    padding: 12px 12px 12px 10px;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    border: 1px solid #dadada;
+    font-size: 16px;
+    resize: none;
+}
+
+.inputTitle::placeholder{
+    font-size: 16px;
+}
+.inputNickname::placeholder{
+    font-size: 16px;
+}
+.inputEmail::placeholder{
+    font-size: 16px;
+}
+
+#inputContent{
+    width: 50vw;
+}
+
+.inputNickname{
+    width: 83%;
+    height: 16px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    margin-right: 20px;
+    padding: 13px 14px 13px 10px
+}
+
+.inputEmail {
+    width: 88%;
+    height: 16px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    padding: 13px 14px 13px 10px
+}
+
+.inputCode {
+    width: 8vw;
+    height: 34px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    padding-left: 12px;
+}
+
+#submit{
+    width: auto;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    background-color: black;
+    font-size: 15px;
+    cursor: pointer;
+    color: white;
+}
+
+#blogframe{
+    margin-left: 20px;
+    margin-top: 40px;
+}
+
+#blogContent{
+    width: 88%;
+    padding: 8px;
+    padding-left: 45px;
+    padding-bottom: 12px;
+    border-left: 1px solid rgb(223, 223, 223);
+    height: auto;
+}
+
+#contentFrame {
+    line-height: 1.5;
+    height: 288px;
+    font-size: 16px;
+}
+
+#contentFrame::placeholder{
+    font-size: 18px;
+}
+
+.imageFrame {
+    height: 148px; 
+    max-width: 70%; 
+    max-height: 70%; 
+    margin-left: 15px; 
+    border: 1px solid #ededed;
+    cursor: pointer;
+}
+
+.imageFrame:hover{
+    background-color: #ececec87;
+}
+
+
+.imgUpload{
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    border-radius: 100%;
+}
+
+.imgUpload:hover{
+    background-color: #dfdfdf;
+    transition: all 0.2s ease-in;
+}
+
+
+.removeIcon {
+    cursor: pointer;
+    position: absolute;
+    background-color: white;
+    border: 1px solid white;
+}
+
+.removeIcon:hover {
+    background-color: #ebeeee;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.frameCode ul{
+    list-style: none;
+}
+
+.frameCode li.ql-indent-1:not(.frameCode-direction-rtl)::before {
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+}
+
+.frameCode img {
+    max-width: 543px;
+    height: auto;
+}
+
+.frameCode pre {
+    background-color: #f4f4f4;
+    padding: 18px;
+    border-radius: 13px;
+}
+
+.frameCode ul > li::before {
+    content: '\2022';
+    margin-right: 8px;
+}
+
+
+.closeFrame:hover {
+    background-color: #dfdfdf;
+    transition: all 0.2s ease-in-out;
+}
+
+.closeFrame {
+    cursor: pointer;
+}
+
+#frameAccount{
+    width: 60%;
+    background-color: #dfdfdf;
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #dfdfdf;
+    cursor: pointer;
+}
+
+#newAccount {
+    background: none;
+    margin-top: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+
+.iconScale {
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    border-radius: 100%;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.iconScale:hover{
+    border: 1px solid #dfdfdf;
+    transition: all 0.3s ease-in-out;
+}
+
+#btnSaveScale {
+    border: none;
+    height: auto;
+    width: 100%;
+    padding: 8px;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#btnSaveScale:hover {
+    background-color: #dfdfdf;
+    transition: all 0.3s ease-in-out;
+}

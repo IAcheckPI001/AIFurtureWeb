@@ -1,0 +1,123 @@
+
+
+#chatbot {
+    width: 300px;
+    height: 400px;
+    position: fixed;
+    bottom: 2px;
+    right: 20px;   
+    border-radius: 10px;
+    padding: 5px 5px;
+    background-color: rgb(199, 243, 243); 
+}
+
+
+#titleChatbot p {
+    margin: 5px 0;
+}
+
+.arrowCloseChatbot{
+    cursor: pointer;
+}
+
+.arrowCloseChatbot:hover {
+    background-color: #fbfffbc4;
+}
+
+.contentChatbot{
+    height: 80%;
+    border: 1px solid hsla(0, 0%, 32%, 0.3);
+    border-radius: 5px;
+    background: white;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    scrollbar-width: thin;
+    scrollbar-color: #13bbad69 #545e5903;
+}
+
+.contentUser {
+    display: flex;
+    flex-direction: column;
+    justify-content: jc-end;
+    padding: 6px 8px;
+}
+
+
+
+.inputsChatbot{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid hsla(0, 1%, 18%, 0.448);
+    border-radius: 15px;
+    background-color: white;
+}
+
+.inputsChatbot input {
+    padding: 8px 4px;
+    width: 84%;
+    border-radius: 15px;
+}
+
+.textChatbot {
+    display: flex;
+    justify-content: jc-end;
+}
+
+.responsesChatbot {
+    display: flex;
+    justify-content: jc-start;
+}
+
+.id_users {
+    margin: 0;
+    width: auto;
+    color: #2a1d1d;
+    background-color: hsl(187deg 51% 68% / 61%);
+    padding: 5px 8px;
+    border-radius: 8px;
+}
+.responses{
+    margin: 0;
+    width: auto;
+    color: black;
+    background-color: hsl(0deg 0% 89.28% / 60%);
+    padding: 5px 8px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+}
+
+.fileAttached {
+    width: 20px;
+    border-radius: 50%;
+}
+
+.inputTextCb{
+    outline: none;
+    border: none;
+    width: 368px;
+    resize: none;
+    overflow-y: auto;
+    max-height: 195px;
+    height: 15px;
+    font-size: 14px;
+    /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+@keyframes blink {
+    0%, 80%, 100% { 
+        transform: scale(0); 
+        opacity: 0.3; }
+    40% { 
+        transform: scale(1); opacity: 1; 
+    }
+}
+
+.point_request {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border-radius: 50%;
+  animation: blink 1.2s infinite;
+}

@@ -1,0 +1,38 @@
+
+
+.frameChat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 10px;
+    height: 100%;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    scrollbar-width: thin;
+    scrollbar-color: #545e5903;
+    scroll-behavior: smooth;
+    margin-top: 10px
+};
+
+.contentIntro {
+    line-height: 1.5; 
+    white-space: pre-wrap; 
+    margin: 8px; 
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+#frameInput {
+    margin-bottom: 10px;
+    position: absolute;
+    margin-top: 10px;
+    width: 58vw;
+    bottom: 4px;
+}
+
+
+@media (max-width: 768px) {
+
+
+  
+}

@@ -1,0 +1,99 @@
+
+
+#inforFrame {
+    height: var(--height-section);
+    width: 100%;
+    background-size: 100%;
+    background-color: #f6f6f6;
+}
+
+.frameInfor {
+    position: absolute;
+    top: 198px;
+    right: 188px;
+    width: 564px;
+}
+
+.button {
+    font-size: 18px;
+    color: white;
+    margin-left: 202px;
+    margin-top: 43px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background-color: #000000;
+    border: 1px solid #dfdfdf;
+    cursor: pointer;
+}
+
+.button:hover{
+   background-color: #5a5a5a47; 
+   color: white;
+   transition: all 0.2s ease-in;
+}
+
+
+.downButton {
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: rgb(86 112 221 / 88%);
+    border: none;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+.downButton:hover{
+    background-color: black;
+    transition: all 0.2s ease-in;
+}
+
+.inforButton{
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background-color: #dfdfdf;
+    cursor: pointer;
+    border: 1px solid #dfdfdf;
+}
+
+.inforButton:hover{
+    background-color: rgb(255 255 255 / 88%);
+    transition: all 0.2s ease-in;
+    border: 1px solid;
+}
+
+
+.pauseVideo {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid #dfdfdf;
+    background-color: rgb(255 255 255 / 88%);
+}
+
+.pauseVideo:hover{
+    border: 1px solid black;
+    transition: all 0.2s ease-in;
+}
+
+
+.description {
+    padding-right: 12px;
+    margin-top: 0;
+    margin-left: 0;
+    line-height: 1.5;
+}
+
+.listBenefit {
+    margin: 0;
+}
+
+.icoBenefit {
+    height: 32px;
+    width: 32px;
+    margin-right: 8px;
+}

@@ -1,0 +1,21 @@
+
+
+
+
+#notifyFrame {
+    top: 64px;
+    right: 5px;
+    transition: all;
+    margin-top: 8px;
+    padding-right: 10px;
+}
+
+.iconNotification{
+    width: 28px;
+    height: 28px;
+}
+
+.font{
+    font-size: 16px;
+    padding-left: 10px;
+}

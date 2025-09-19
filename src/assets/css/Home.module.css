@@ -1,0 +1,80 @@
+
+#section0{
+    background-color: aliceblue;
+    position: relative;
+}
+
+
+#section1{
+    margin-top: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sectionName {
+    font-size: 32px; 
+    font-weight: 600; 
+    margin-bottom: 15px;
+}
+
+.title{
+    margin-bottom: 0;
+    margin-top: 15px;
+    font-size: 35px;
+}
+
+.buttonService {
+    font-size: 16px;
+    border: 1px solid #dfdfdf;
+    background-color: black;
+    border-radius: 5px;
+    padding: 8px 6px;
+    color: white;
+    cursor: pointer;
+}
+
+.buttonService:hover{
+    background-color: rgb(86 112 221 / 88%);
+    color: white;
+    transition: all 0.3s ease-in;
+}
+
+.serivceImg {
+    height: 248px;
+}
+
+#section3 {
+    display: flex;
+    height: auto;
+    padding: 58px 0;
+    background-color: rgb(237 237 237 / 45%); 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  height: auto;
+  width: 67vw;
+}
+
+.idBlog{
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  
+}
+
+.description{
+    font-size: 12px;
+    color: #000;
+}

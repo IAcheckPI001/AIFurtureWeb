@@ -1,0 +1,100 @@
+
+
+{
+  "menu_bar": {
+    "home": "Home",
+    "service": "Service",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "chatbot": {
+    "titleContent": "Welcome to AI Furture",
+    "description": "We are working hard to bring you a great experience. Stay tuned!",
+    "question": "What can I help for you?",
+    "placeholder": "Chat with AI Furture"
+  },
+  "service_home":{
+    "titleContent": "Our service",
+    "target": "Connect. Automate. Innovate with AI",
+    "description": "We provide automated software, connecting multiple innovative solutions with intelligent AI to streamline business operations and improve performance.",
+    "btn": "Get started"
+  },
+  "service_page": {
+    "titleInfor": "Service",
+    "description":"We deliver advanced software and system management solutions, leveraging AI integration to enhance efficiency and ensure a seamless user experience",
+    "btnView": "View",
+    "btnDownload":"Download",
+    "btnDemo":"Demo",
+    "pauseDemo": "Pause",
+    "resumeDemo": "Resume"
+  },
+  "ARPSoftware":{
+    "descriptionARP":"Protects your network by monitoring and detecting ARP spoofing attacks in real-time. Uses AI-driven analysis to automatically prevent malicious activity and ensure secure communication.",
+    "benefit_1": "ARP attack detection",
+    "benefit_2": "Dynamic ARP Inspection (DAI)",
+    "benefit_3": "Warning realtime",
+    "benefit_4": "Automation",
+    "content_1": "Monitor ARP table cache, IP identification ↔ MAC abnormality",
+    "content_2": "Integration into manage switches",
+    "content_3": "Integrate Email, SMS, Window warning",
+    "content_4_a": "Set up time for running and scanning automation",
+    "content_4_b": "Convenient interface, flexible interaction, can run in the background"
+  },
+  "blog_home": {
+    "titleContent": "Blog",
+    "description": "Recently blog"
+  },
+  "blog_page": {
+    "placeholderInput": "Search blog",
+    "filterTitle": "Topic",
+    "btnBlog": "Create blog",
+    "titleContent": "New Blogs",
+    "description": "Blog realate to AI, security, anything."
+  },
+  "newBlog": {
+    "titleNewBlog":"Create blog",
+    "nicknameLabel":"Nickname",
+    "checkNickname":"Username is already taken!",
+    "emailLabel":"Email address",
+    "titleLabel":"Tilte blog",
+    "topicLabel":"Topic",
+    "placeholderTags": "Type or select tags...",
+    "placeholderContent":"What do you think?",
+    "createUser": "Create user",
+    "yourNickname": "Your nickname",
+    "uploadImageLabel":"Upload image",
+    "btnScale": "Save",
+    "createDate": "Create date: ",
+    "newUser": "New user",
+    "verifyCode": "Code verification",
+    "resendCode": "Resend code in ",
+    "btnSubmit": "Submit",
+    "titleDefault": "Title blog",
+    "descriptionDefault": "What do you think?",
+    "success": "Your post has been created successfully!",
+    "warningEmptyContent": "Please do not forget your blog title and content!",
+    "warningEmptyAccount": "Please do not forget nickname and your email!"
+  },
+  "blogID": {
+    "showTranslate": "Show translate",
+    "showOrigin":"Show origin",
+    "createdDate": "Post date: ",
+    "filterTitle": "Topic"
+  },
+  "contact_page": {
+    "titleContent": "Contact us",
+    "labelFirstName": "First Name",
+    "labelLastName": "Last Name",
+    "labelEmail": "Email address",
+    "labelCode" : "Code verification",
+    "labelPhone": "Phone",
+    "labelMessage": "Your Message",
+    "placeholderMessage": "Enter your question or message",
+    "btnSubmit": "Send",
+    "success": "Your message sent to server. Thank you for trusting and using our company service!",
+    "waitCheck": "Code verification was sent to your email. Please check your email and enter code!",
+    "warningEmpty":"Please do not pass important informations(*)!",
+    "error":"So Sorry! Our service is maintaining and enhancing. Please contact us by email in last page. Thank you!"
+  }
+
+}

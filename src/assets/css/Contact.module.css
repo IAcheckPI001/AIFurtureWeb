@@ -1,0 +1,82 @@
+
+
+.label {
+    font-size: 16px;
+    margin-bottom: 9px;
+}
+
+.inputName {
+    height: 36px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    font-size: 16px;
+    padding-left: 12px;
+}
+
+.inputName::placeholder{
+    font-size: 16px;
+}
+
+.inputEmail{
+    border: 1px solid #dfdfdf;
+    height: 38px;
+    width: 86%;
+    border-radius: 5px;
+    padding-left: 12px; 
+}
+
+.inputCode{
+    display: block;
+    border: 1px solid #dfdfdf;
+    height: 38px;
+    width: 58%;
+    border-radius: 5px;
+    padding-left: 12px;
+}
+
+.inputEmail::placeholder{
+    font-size: 15px;
+}
+
+.inputPhone{
+    border: 1px solid #dfdfdf;
+    height: 38px;
+    width: 30%;
+    border-radius: 5px;
+    padding-left: 12px;
+}
+
+.inputPhone::placeholder{
+    font-size: 15px;
+}
+
+
+.textareaMessage {
+    height: 188px;
+    width: 84%;
+    border-radius: 5px;
+    padding: 12px;
+    font-family: var(--font-main);
+    font-size: 16px;
+}
+
+.textareaMessage::placeholder {
+    font-size: 16px;
+}
+
+#submit {
+    width: auto;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    background-color: black;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+#submit:hover{
+    background-color: rgb(86 112 221 / 88%);
+    transition: all 0.2s ease-in-out;
+}
+

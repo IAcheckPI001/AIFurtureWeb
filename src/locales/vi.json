@@ -1,0 +1,99 @@
+
+
+{
+  "menu_bar": {
+    "home": "Trang chủ",
+    "service": "Dịch vụ",
+    "blog": "Blog",
+    "contact": "Liên hệ"
+  },
+  "chatbot": {
+    "titleContent": "Chào mừng đến với AI Furture",
+    "description": "Chúng tôi đang nỗ lực để mang đến cho bạn trải nghiệm tuyệt vời. Hãy theo dõi nhé!",
+    "question": "Tôi có thể giúp gì cho bạn?",
+    "placeholder": "Chat với AI Furture"
+  },
+  "service_home":{
+    "titleContent": "Dịch vụ của chúng tôi",
+    "target": "Sự kết nối. Tự động. Sự đổi mới với AI",
+    "description": "Chúng tôi cung cấp các phần mềm tự động, kết nối nhiều giải pháp đổi mới với tích hợp AI để hợp lý hóa hoạt động kinh doanh và nâng cao năng suất.",
+    "btn": "Khám phá"
+  },
+  "service_page": {
+    "titleInfor": "Dịch vụ",
+    "description":"Cung cấp các giải pháp quản lý hệ thống, tận dụng tích hợp AI để nâng cao hiệu quả và đảm bảo trải nghiệm người dùng liền mạch",
+    "btnView": "Tìm hiểu",
+    "btnDownload":"Tải xuống",
+    "btnDemo":"Hướng dẫn",
+    "pauseDemo": "Tạm ngừng",
+    "resumeDemo": "Tiếp tục"
+  },
+  "ARPSoftware":{
+    "descriptionARP":"Bảo vệ mạng của bạn bằng cách giám sát và phát hiện các cuộc tấn công giả mạo ARP theo thời gian thực. Sử dụng phân tích dựa trên AI để tự động ngăn chặn hoạt động độc hại và đảm bảo giao tiếp an toàn.",
+    "benefit_1": "Phát hiện tấn công ARP",
+    "benefit_2": "Dynamic ARP Inspection (DAI)",
+    "benefit_3": "Cảnh báo thời gian thực",
+    "benefit_4": "Tính tự động",
+    "content_1": "Giám sát bảng ARP cache, nhận diện IP ↔ MAC bất thường",
+    "content_2": "Tích hợp trên switch quản lý (managed switch)",
+    "content_3": "Tích hợp cảnh báo Email, SMS, Window",
+    "content_4_a": "Cài đặt tùy chỉnh thời gian chạy tự động quét",
+    "content_4_b": "Giao diện tiện lợi, tương tác linh hoạt, có thể chạy nền"
+  },
+  "blog_home": {
+    "titleContent": "Blog",
+    "description": "Các bài blog gần đây"
+  },
+  "blog_page": {
+    "placeholderInput": "Tìm kiếm bài blog",
+    "filterTitle": "Chủ đề",
+    "btnBlog": "Tạo blog",
+    "titleContent": "Các bài blog mới",
+    "description": "Blog các chủ đề liên quan AI, an toàn mạng, và các chủ đề khác"
+  },
+  "newBlog": {
+    "titleNewBlog":"Tạo blog",
+    "nicknameLabel":"Tên người dùng",
+    "checkNickname":"Tên người dùng đã được sử dụng!",
+    "emailLabel":"Email",
+    "titleLabel":"Tiêu đề",
+    "topicLabel":"Chủ đề",
+    "placeholderTags": "Gán tags...",
+    "placeholderContent":"Bạn đang nghĩ gì?",
+    "createUser": "Tạo người dùng",
+    "yourNickname": "Tên người dùng",
+    "uploadImageLabel":"Tải ảnh lên",
+    "btnScale": "Lưu",
+    "createDate": "Ngày tạo: ",
+    "newUser": "Người dùng mới",
+    "verifyCode": "Mã xác thực",
+    "resendCode": "Gửi lại trong",
+    "btnSubmit": "Hoàn thành",
+    "titleDefault": "Tiêu đề bài blog",
+    "descriptionDefault": "Bạn đang nghĩ gì?",
+    "success": "Bài blog của bạn đã được khởi tạo thành công!",
+    "warningEmptyContent": "Vui lòng không để trống tiêu đề và nội dung blog của bạn!",
+    "warningEmptyAccount": "Vui lòng không để trống tên dùng và email của bạn!"
+  },
+  "blogID": {
+    "showTranslate": "Hiện thị bản dịch",
+    "showOrigin":"Hiện thị bản gốc",
+    "createdDate": "Ngày đăng: ",
+    "filterTitle": "Chủ đề"
+  },
+  "contact_page": {
+    "titleContent": "Liên hệ với chúng tôi",
+    "labelFirstName": "Họ tên",
+    "labelLastName": "Tên",
+    "labelEmail": "Email",
+    "labelCode" : "Mã xác thực",
+    "labelPhone": "Số điện thoại",
+    "labelMessage": "Nội dung",
+    "placeholderMessage": "Nhập vào đây nội dung của bạn",
+    "btnSubmit": "Gửi",
+    "success": "Tin nhắn của bạn đã được gửi đến Server. Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của công ty chúng tôi!",
+    "waitCheck": "Mã xác thực đã được gửi tới email của bạn. Vui lòng kiểm tra và nhập mã xác thực!",
+    "warningEmpty":"Vui lòng không bỏ trống các thông tin (*)!",
+    "error":"Thật sự xin lỗi! Hệ thống dịch vụ của chúng tôi đang được bảo trì và nâng cấp. Bạn có thể liên hệ tới email của công ty ở của trang. Xin cảm ơn!"
+  }
+}
