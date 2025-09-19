@@ -6,6 +6,7 @@ import avatar from "../assets/image/avatar_default.png"
 import styles from "../assets/css/BlogID.module.css"
 import SafeContent from "../hooks/DOMpurify";
 import AutoResizeTextarea from "../hooks/AutoResizeTextarea";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function BlogID (){
 
@@ -20,7 +21,6 @@ function BlogID (){
     const [error, setError] = useState(null);
     const [translate, setTranslated] = useState(false);
     const [checkUpdateCmt, setCheckUpdate] = useState(false);
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     
     useEffect(() => {
         if (!public_id) return;

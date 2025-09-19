@@ -10,13 +10,14 @@ import LimitText from "../components/LimitText.jsx";
 import filterIcon from "../assets/icon/filterIco.png"
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function Blogs (){
 
     const MAX_SEARCH_LENGTH = 1000;
 
     const { t } = useTranslation();
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
     const frameRef = useRef(null);
     const [showAll, setShowAll] = useState(false);
     

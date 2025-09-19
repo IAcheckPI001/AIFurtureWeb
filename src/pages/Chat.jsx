@@ -6,11 +6,11 @@ import AutoResizeTextarea from '../hooks/AutoResizeTextarea.jsx';
 import ReactMarkdown from "react-markdown";
 import { useTranslation } from "react-i18next";
 import stylesChat from "../assets/css/Chat.module.css"
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function Chat() {
     const MAX_REQUEST_LENGTH = 1500;
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const [text, setText] = useState("");
     const [contentIntro, setContent] = useState("");
     const [trigger, setTrigger] = useState("");

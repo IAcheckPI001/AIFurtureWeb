@@ -19,6 +19,7 @@ import imgDefault from "../assets/image/service-back.png"
 import Notification from "../components/notification/Notification.jsx";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function NewBlog (){
 
@@ -27,7 +28,6 @@ function NewBlog (){
     const MAX_TITLE_LENGTH = 60;
     const MAX_CONTENT_BLOG = 20000;
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [nickname, setNickname] = useState("");
