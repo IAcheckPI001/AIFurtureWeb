@@ -16,6 +16,7 @@ function Blogs (){
     const MAX_SEARCH_LENGTH = 1000;
 
     const { t } = useTranslation();
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const frameRef = useRef(null);
     const [showAll, setShowAll] = useState(false);
     
@@ -60,7 +61,7 @@ function Blogs (){
         if (e.key === "Enter" && !e.shiftKey){
             e.preventDefault();
             if (searchTerm.trim() === "") return;
-            const res = await axios.get(`http://localhost:8000/search?q=${searchTerm}`);
+            const res = await axios.get(`${API_URL}/search?q=${searchTerm}`);
             setResults(res.data);
         }
     }

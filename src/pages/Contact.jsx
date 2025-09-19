@@ -15,7 +15,8 @@ function Contact (){
     const MAX_CODE_LENGTH = 6
     const MAX_PHONE_LENGTH = 25
     const MAX_CONTENT_LENGTH = 2500
-
+    
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -72,7 +73,7 @@ function Contact (){
 
     const verifyCode = async (data) =>{
         try {
-            const response = await fetch("http://localhost:8000/verify_email", {
+            const response = await fetch(`${API_URL}/verify_email`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({"email": email}),
@@ -91,7 +92,7 @@ function Contact (){
 
     const sendMessage = async (data) =>{
         try {
-            const response = await fetch("http://localhost:8000/create_contact", {
+            const response = await fetch(`${API_URL}/create_contact`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),

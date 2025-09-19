@@ -27,6 +27,7 @@ function NewBlog (){
     const MAX_TITLE_LENGTH = 60;
     const MAX_CONTENT_BLOG = 20000;
 
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [nickname, setNickname] = useState("");
@@ -221,7 +222,7 @@ function NewBlog (){
 
     const checkAccount = async (email) =>{
         try {
-            const response = await fetch("http://localhost:8000/check_account", {
+            const response = await fetch(`${API_URL}/check_account`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({"email": email}),
@@ -242,7 +243,7 @@ function NewBlog (){
 
     const verifyCode = async (data) =>{
         try {
-            const response = await fetch("http://localhost:8000/verify_email", {
+            const response = await fetch(`${API_URL}/verify_email`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({"email": email}),
@@ -261,7 +262,7 @@ function NewBlog (){
 
     const sendMessage = async (data) =>{
         try {
-            const response = await fetch("http://localhost:8000/create_blog", {
+            const response = await fetch(`${API_URL}/create_blog`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -323,7 +324,7 @@ function NewBlog (){
             try{
                 const formData = new FormData();
                 formData.append("file", uploadAvatar.blob, "avatar.png");
-                const response = await fetch("http://localhost:8000/upload_images", {
+                const response = await fetch(`${API_URL}/upload_images`, {
                     method: "POST",
                     body: formData
                 });
@@ -363,7 +364,7 @@ function NewBlog (){
                 formData.append("file", file);
 
                 try{
-                    const response = await fetch("http://localhost:8000/upload_images", {
+                    const response = await fetch(`${API_URL}/upload_images`, {
                         method: "POST",
                         body: formData
                     });

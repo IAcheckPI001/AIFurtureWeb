@@ -20,12 +20,12 @@ function BlogID (){
     const [error, setError] = useState(null);
     const [translate, setTranslated] = useState(false);
     const [checkUpdateCmt, setCheckUpdate] = useState(false);
-    
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     
     useEffect(() => {
         if (!public_id) return;
 
-        fetch(`http://localhost:8000/blogs/${public_id}`)
+        fetch(`${API_URL}/blogs/${public_id}`)
         .then(res => {
             if (!res.ok) throw new Error("Failed to fetch blog");
             return res.json();

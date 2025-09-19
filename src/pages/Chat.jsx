@@ -8,8 +8,9 @@ import { useTranslation } from "react-i18next";
 import stylesChat from "../assets/css/Chat.module.css"
 
 function Chat() {
-    const MAX_REQUEST_LENGTH = 1500
+    const MAX_REQUEST_LENGTH = 1500;
 
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const [text, setText] = useState("");
     const [contentIntro, setContent] = useState("");
     const [trigger, setTrigger] = useState("");
@@ -34,7 +35,7 @@ function Chat() {
 
     const sendMessage = async (message) =>{
         try {
-            const response = await fetch("http://localhost:8000/chatbot", {
+            const response = await fetch(`${API_URL}/chatbot`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({message}),
@@ -73,7 +74,7 @@ function Chat() {
     };
 
     useEffect(() => {
-        const es = new EventSource("http://localhost:8000/intro-stream");
+        const es = new EventSource(`${API_URL}/intro-stream`);
         setContent("");
 
         es.onmessage = (e) => {
