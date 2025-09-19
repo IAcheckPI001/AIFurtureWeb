@@ -13,10 +13,8 @@ services:
     image: postgres:17
     restart: always
     container_name: postgres_db
-    environment:
-      POSTGRES_USER: cus_sys01
-      POSTGRES_PASSWORD: cus01#
-      POSTGRES_DB: AIFurture
+    env_file:
+      - ./backend/.env
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
