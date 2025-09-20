@@ -13,7 +13,7 @@ import Contact from "./pages/Contact.jsx";
 import NewBlog from "./pages/NewBlog.jsx";
 import BlogID from "./pages/BlogID.jsx";
 import ScrollToTop from "./hooks/scrollToTop.jsx";
-import.meta.env.VITE_API_URL || "http://localhost:5000";
+import.meta.env.VITE_API_URL;
 
 function App(){
   return (

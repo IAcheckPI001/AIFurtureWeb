@@ -6,10 +6,9 @@ import styles from "../assets/css/Contact.module.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Notification from "../components/notification/Notification.jsx";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Contact (){
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const MAX_FIRSTNAME_LENGTH = 25
     const MAX_LASTNAME_LENGTH = 20
     const MAX_EMAIL_LENGTH = 50

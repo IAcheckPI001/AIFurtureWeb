@@ -19,10 +19,9 @@ import imgDefault from "../assets/image/service-back.png"
 import Notification from "../components/notification/Notification.jsx";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function NewBlog (){
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const MAX_NICKNAME_LENGTH = 22;
     const MAX_EMAIL_LENGTH = 40;
     const MAX_TITLE_LENGTH = 60;
