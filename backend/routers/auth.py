@@ -18,8 +18,8 @@ from dotenv import load_dotenv
 auth = APIRouter()
 
 load_dotenv()
-email_server = os.getenv("email_ssmtp")
-password_ssmtp = os.getenv("password_ssmtp")
+email_server = os.getenv("SMTP_USER")
+password_ssmtp = os.getenv("SMTP_PASSWORD")
         
 @auth.post("/verify_email")
 async def verify_email(request: Request):
