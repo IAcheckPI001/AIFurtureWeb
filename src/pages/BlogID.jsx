@@ -6,10 +6,11 @@ import avatar from "../assets/image/avatar_default.png"
 import styles from "../assets/css/BlogID.module.css"
 import SafeContent from "../hooks/DOMpurify";
 import AutoResizeTextarea from "../hooks/AutoResizeTextarea";
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 
 function BlogID (){
 
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const { public_id } = useParams();
     const { t } = useTranslation();
 
