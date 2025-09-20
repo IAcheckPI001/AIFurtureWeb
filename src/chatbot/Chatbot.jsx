@@ -3,6 +3,11 @@ import { useState } from 'react';
 import useEffectChatBot from '../hooks/useEffectChatBot.jsx'
 import useEffectScroll from '../hooks/useEffectScroll.jsx';
 
+import fileAttached from '../assets/icon/file_attached.png'
+import expandIcon from '../assets/icon/expand.png'
+
+import arrowIcon from '../assets/icon/arrow-234.png'
+
 function Chatbot({ closeWinChatbot }){
 
     const fileAttached = () => console.log("choose file!")
@@ -57,9 +62,6 @@ function Chatbot({ closeWinChatbot }){
 
     const { chats, loading, error, endOfMessagesRef } = useEffectChatBot();
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Something went wrong!</p>;
-    
     return (
         <div id= {styles.chatbot} className="flex flex-column">
             <div id={styles.titleChatbot} className= "flex jc-space-between margin-5-0">
@@ -67,10 +69,10 @@ function Chatbot({ closeWinChatbot }){
                 
                 <div className="flex">
                     <div className= {styles.arrowCloseChatbot} style={{padding:"5px", height: "15px", borderRadius: "100%"}}>
-                        <img style={{width: "15px"}} src="/src/assets/icon/expand.png" alt="" />
+                        <img style={{width: "15px"}} src={expandIcon} alt="" />
                     </div>
                     <div onClick={closeWinChatbot} className= {styles.arrowCloseChatbot} style={{padding:"5px", height: "15px", borderRadius: "100%"}}>
-                        <img style={{width: "15px"}} src="/src/assets/icon/arrow-234.png" alt="" />
+                        <img style={{width: "15px"}} src={arrowIcon} alt="" />
                     </div>
                 </div>
             </div>
@@ -119,7 +121,7 @@ function Chatbot({ closeWinChatbot }){
             <div style={{padding: "5px 0"}}>
                 <div className={styles.inputsChatbot}>
                     <div onClick={fileAttached} style={{padding:"5px 5px"}}>
-                        <img className = {styles.fileAttached} src="/src/assets/icon/file_attached.png" alt="" />
+                        <img className = {styles.fileAttached} src={fileAttached} alt="" />
                     </div>
                     <input className={styles.inputTextCb} placeholder="Ask anything" type="text" 
                         value={text} 

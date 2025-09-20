@@ -16,6 +16,10 @@ import styles from "../assets/css/NewBlog.module.css";
 import avatar from "../assets/image/avatar_default.png";
 import imgUpload from "../assets/icon/image-upload.png";
 import imgDefault from "../assets/image/service-back.png"
+import closeIcon from "../assets/icon/close.png";
+import addScale from "../assets/icon/add.png";
+import minusIcon from "../assets/icon/minus.png";
+import reloadCode from "../assets/icon/reload.png";
 import Notification from "../components/notification/Notification.jsx";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
@@ -423,7 +427,7 @@ function NewBlog (){
 
                         <div className="flex items-center" style={{margin:"8px 0"}}>
                             <button style={{background:"none"}} onClick={minusScale}>
-                                <img src="/src/assets/icon/minus.png" className={styles.iconScale} alt=""/>
+                                <img src={minusIcon} className={styles.iconScale} alt=""/>
                             </button>
                             <input
                                 style={{width:"80%", height:"6px", outline: "none", margin:"0 8px"}}
@@ -435,7 +439,7 @@ function NewBlog (){
                                 onChange={(e) => setScale(parseFloat(e.target.value))}
                             />
                             <button style={{background:"none"}} onClick={plusScale}>
-                                <img src="/src/assets/icon/add.png" className={styles.iconScale} alt=""/>
+                                <img src={addScale} className={styles.iconScale} alt=""/>
                             </button>
                         </div>
                         <div className="width-100 flex jc-center">
@@ -446,7 +450,7 @@ function NewBlog (){
                 <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
                     <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
                         <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
-                            src="/src/assets/icon/close.png" 
+                            src={closeIcon} 
                             alt=""
                             onClick={closeFrame} />
                     </div>
@@ -554,7 +558,7 @@ function NewBlog (){
                                     <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("newBlog.resendCode")}{timeLeft}s</p>
                                 ): (
                                     <img style={{padding:"8px", borderRadius:"100%", width:"20px", height:"20px", marginLeft:"2px", cursor:"pointer"}}
-                                        onClick={resetCode} src="/src/assets/icon/reload.png" 
+                                        onClick={resetCode} src={reloadCode} 
                                         disabled={timeLeft > 0}>
                                     </img>
                                 )}

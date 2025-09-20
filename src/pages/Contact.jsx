@@ -6,6 +6,7 @@ import styles from "../assets/css/Contact.module.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Notification from "../components/notification/Notification.jsx";
+import reloadCode from "../assets/icon/reload.png";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Contact (){
@@ -25,6 +26,26 @@ function Contact (){
     const [content, setContent] = useState("");
     const [notif, setNotif] = useState(null);
     const { t } = useTranslation();
+    const [timeLeft, setTimeLeft] = useState(0);
+
+    useEffect(() => {
+        if (timeLeft > 0) {
+            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft]);
+
+    const resetCode = () => {
+        if(!nickname.trim() && !email.trim()){
+            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+        }else{
+            verifyCode(email);
+            setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+            setTimeout(() => setNotif(null), 4000);
+            setTimeLeft(30);
+        }
+    }
     
     const sendContact = async () => {
         if(!email.trim() || !lastName.trim()){
@@ -148,15 +169,25 @@ function Contact (){
                     </div>
                     <div id="codeFrame" className="flex flex-column" style={{marginTop: "20px", display:"none"}}>
                         <label className={styles.label} htmlFor="code_input">{t("contact_page.labelCode")} <span style={{color:"red"}}>*</span></label>
-                        <input className={styles.inputCode} id="code_input" 
-                            maxLength={MAX_CODE_LENGTH}
-                            onChange={(e) => {
-                                if (e.target.value.length <= MAX_CODE_LENGTH) {
-                                    setCodeInput(e.target.value)
-                                }
-                            }}  
-                            placeholder="######" 
-                            type="text" required/>
+                        <div className="flex items-center">
+                            <input className={styles.inputCode} id="code_input" 
+                                maxLength={MAX_CODE_LENGTH}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= MAX_CODE_LENGTH) {
+                                        setCodeInput(e.target.value)
+                                    }
+                                }}  
+                                placeholder="######" 
+                                type="text" required/>
+                            {timeLeft > 0 ? (
+                                <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("newBlog.resendCode")}{timeLeft}s</p>
+                            ): (
+                                <img style={{padding:"8px", borderRadius:"100%", width:"20px", height:"20px", marginLeft:"2px", cursor:"pointer"}}
+                                    onClick={resetCode} src={reloadCode} 
+                                    disabled={timeLeft > 0}>
+                                </img>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-column" style={{marginTop: "20px"}}>

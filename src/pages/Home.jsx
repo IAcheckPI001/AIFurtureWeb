@@ -52,7 +52,7 @@ function Home (){
                     .map((blog) => (
                         <Link style={{paddingBottom:"32px"}} className="flex flex-column flex-col-3 relative" key={blog.public_id} to={`/blogs/${blog.public_id}`}>
                             <div style={{marginBottom:"8px"}} className="flex items-center" >
-                                <img className="img_user" src="/src/assets/logo/_logo_AI.ico" alt="" />
+                                <img className="img_user" src={blog.avatar_img} alt={blog.title} />
                                 <span className={styles.idBlog}>{blog.nickname}</span>
                             </div>
                             <h3 style={{marginTop:"8px", marginBottom:"5px"}}>{blog.title}</h3>
@@ -60,7 +60,7 @@ function Home (){
                             <p style={{margin:"8px 0",fontSize:"16px"}} className={styles.description}>
                                 <LimitText text = {blog.blog_content} limit = {150} />
                             </p>
-                            <span style={{fontSize:"14px",marginTop:"8px", position:"absolute", bottom:"10px"}}>12 Likes - 2 comments</span>
+                            <span style={{fontSize:"14px",marginTop:"8px", position:"absolute", bottom:"10px"}}>Likes - comments</span>
                         </Link>
                     ))}
                 </div>
