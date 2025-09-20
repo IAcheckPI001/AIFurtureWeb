@@ -1,6 +1,6 @@
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "../assets/css/Contact.module.css";
 import PhoneInput from "react-phone-input-2";
