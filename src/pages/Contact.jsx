@@ -36,7 +36,7 @@ function Contact (){
     }, [timeLeft]);
 
     const resetCode = () => {
-        if(!nickname.trim() && !email.trim()){
+        if(!email.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }else{
