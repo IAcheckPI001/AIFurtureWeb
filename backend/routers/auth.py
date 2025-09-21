@@ -18,11 +18,7 @@ from dotenv import load_dotenv
 auth = APIRouter()
 
 load_dotenv()
-email_server = os.getenv("EMAIL_USER")
-password_ssmtp = os.getenv("EMAIL_PASSWORD")
-
-print("EMAIL_USER:", email_server)
-print("EMAIL_PASSWORD:", password_ssmtp)
+email_server = os.getenv("EMAIL_VERIFIED")
         
 @auth.post("/verify_email")
 async def verify_email(request: Request):
@@ -31,5 +27,5 @@ async def verify_email(request: Request):
     if not isvalidEmail(email):
         raise HTTPException(status_code=400, detail="Invalid email address")
     code = generate_verification_code()
-    email_notice(email_server, password_ssmtp, email, code)
+    email_notice(email_server, email, code)
     return {"code": code}
