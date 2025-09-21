@@ -33,5 +33,7 @@ def email_notice(email, password, email_sent, code):
         html_message['To'] = email_sent
 
         session.sendmail(email, email_sent, html_message.as_string())
-    except Exception:
+        session.quit()
+    except Exception as err:
+       print(err)
        return False

@@ -20,6 +20,9 @@ auth = APIRouter()
 load_dotenv()
 email_server = os.getenv("EMAIL_USER")
 password_ssmtp = os.getenv("EMAIL_PASSWORD")
+
+print("EMAIL_USER:", email_server)
+print("EMAIL_PASSWORD:", password_ssmtp)
         
 @auth.post("/verify_email")
 async def verify_email(request: Request):
