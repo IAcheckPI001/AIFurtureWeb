@@ -3,6 +3,7 @@
 import os
 import time
 import uuid
+import asyncio
 from config import modules
 from config.conn import cloudinary 
 from config.database import create_db
@@ -155,11 +156,18 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
             db.add(new_user)   
             db.add(new_blog)
-            await es_cloud.index(
-                index=index_name,
-                id=new_blog.blog_id,
-                document=blog_idx
+
+            loop = asyncio.get_event_loop()
+            res = await loop.run_in_executor(
+                None,
+                lambda: es_cloud.index(
+                    index=index_name,
+                    id=new_blog.blog_id,
+                    document=blog_idx
+                )
             )
+
+            print(res)
 
             db.commit()
             db.refresh(new_user)
@@ -200,10 +208,14 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
             new_blog.tags = tags
 
             db.add(new_blog)
-            await es_cloud.index(
-                index=index_name,
-                id=new_blog.blog_id,
-                document=blog_idx
+            loop = asyncio.get_event_loop()
+            res = await loop.run_in_executor(
+                None,
+                lambda: es_cloud.index(
+                    index=index_name,
+                    id=new_blog.blog_id,
+                    document=blog_idx
+                )
             )
 
             db.commit()

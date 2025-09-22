@@ -1,6 +1,7 @@
 
 import os
 import time
+import asyncio
 # from config import modules
 from config.conn import cloudinary 
 # from typing import List
@@ -56,15 +57,19 @@ async def upload_image(file: UploadFile = File(...)):
 
 @services.get("/search/")
 async def search_blogs(q: str = Query(..., min_length=1)):
-    resp = await es_cloud.search(
-        index=index_name,
-        query={
-            "multi_match": {
-                "query": q,
-                "fields": ["nickname", "title", "blog_content"],
-                "fuzziness": "AUTO"
+    loop = asyncio.get_event_loop()
+    res = await loop.run_in_executor(
+        None,
+        lambda: es_cloud.search(
+            index=index_name,
+            query={
+                "multi_match": {
+                    "query": q,
+                    "fields": ["nickname", "title", "blog_content"],
+                    "fuzziness": "AUTO"
+                }
             }
-        }
+        )
     )
 
     results = [
@@ -77,7 +82,7 @@ async def search_blogs(q: str = Query(..., min_length=1)):
             "created_at": hit["_source"]["create_at"],
             "update_at": hit["_source"]["update_at"]
         }
-        for hit in resp["hits"]["hits"]
+        for hit in res["hits"]["hits"]
     ]
 
     return results
