@@ -606,7 +606,7 @@ function NewBlog (){
                     </div>
                     <div className="flex flex-column" style={{marginTop: "20px", width:"50vw", marginBottom:"50px"}}>
                         <ReactQuill ref={quillRef} modules={modules} style={{margin:"5px 0"}} 
-                            onChange={(e) => normalizeContent(e.target.value)}
+                            onChange={(value) => normalizeContent(value)}
                             id={styles.contentFrame} 
                             placeholder={t("newBlog.placeholderContent")} 
                             required/>
