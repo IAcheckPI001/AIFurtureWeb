@@ -360,9 +360,11 @@ function NewBlog (){
         for (let img of imageUrls) {
             if (img.src.startsWith("data:")) {
 
-                const file = await fetch(img.src)
+                const blob = await fetch(img.src)
                     .then(res => res.blob())
-                    .then(blob => new File([blob], "upload.jpg", { type: blob.type }));
+
+                const ext = blob.type.split("/")[1] || "png";
+                const file = new File([blob], `upload.${ext}`, { type: blob.type });
 
                 const formData = new FormData();
                 formData.append("file", file);

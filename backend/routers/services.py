@@ -50,7 +50,7 @@ async def upload_image(file: UploadFile = File(...)):
         result = cloudinary.uploader.upload(file.file, folder="blog_images")
         image_url = result.get("secure_url")
         public_id = result.get("public_id")
-        print({"image_url": image_url, "public_id":public_id})
+
         return {"image_url": image_url, "public_id":public_id}
     except Exception as e:
         return {"error": str(e)}
