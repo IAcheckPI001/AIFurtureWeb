@@ -366,7 +366,6 @@ function NewBlog (){
 
                 const formData = new FormData();
                 formData.append("file", file);
-                console.log(file)
 
                 try{
                     const response = await fetch(`${API_URL}/upload_images`, {
@@ -376,10 +375,6 @@ function NewBlog (){
 
                     const data = await response.json();
                     img.src = data.image_url;
-
-                    console.log(img.src)
-
-                    
 
                     if (data.image_url) uploadedUrls.push(data.image_url);
 
