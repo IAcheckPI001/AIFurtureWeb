@@ -41,22 +41,6 @@ es_cloud = Elasticsearch(
 
 index_name = "bloggen-idx20"
 
-if es_cloud.indices.exists(index=index_name):
-    es_cloud.indices.create(
-        index=index_name,
-        body={
-            "mappings": {
-                "properties": {
-                    "nickname":{"type": "keyword"},
-                    "title": {"type": "text"},
-                    "blog_content": {"type": "text"},
-                    "tags": {"type": "keyword"},
-                    "create_at": {"type": "date"}
-                }
-            }
-        }
-    )
-
 
 client = OpenAI(
   api_key=OpenAI_API_KEY
@@ -171,12 +155,11 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
             db.add(new_user)   
             db.add(new_blog)
-            if await es_cloud.indices.exists(index=index_name):
-                await es_cloud.index(
-                    index=index_name,
-                    id=new_blog.blog_id,
-                    document=blog_idx
-                )
+            await es_cloud.index(
+                index=index_name,
+                id=new_blog.blog_id,
+                document=blog_idx
+            )
 
             db.commit()
             db.refresh(new_user)
@@ -217,12 +200,11 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
             new_blog.tags = tags
 
             db.add(new_blog)
-            if await es_cloud.indices.exists(index=index_name):
-                await es_cloud.index(
-                    index=index_name,
-                    id=new_blog.blog_id,
-                    document=blog_idx
-                )
+            await es_cloud.index(
+                index=index_name,
+                id=new_blog.blog_id,
+                document=blog_idx
+            )
 
             db.commit()
             db.refresh(new_blog)
