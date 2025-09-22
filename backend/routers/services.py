@@ -9,16 +9,26 @@ from config.conn import cloudinary
 from fastapi import APIRouter, File, UploadFile, Query
 from fastapi.responses import StreamingResponse
 
-from elasticsearch import AsyncElasticsearch
+from elasticsearch import Elasticsearch
 from dotenv import load_dotenv
 
 
 load_dotenv()
 
-es_host = os.getenv("ELASTICSEARCH_HOST", "http://localhost:9200")
-es = AsyncElasticsearch(es_host)
+# es_host = os.getenv("ELASTICSEARCH_HOST", "http://localhost:9200")
+# es = AsyncElasticsearch(es_host)
+
+es_host = os.getenv("ELASTICSEARCH_API")
+es_key = os.getenv("ELASTICSEARCH_API_KEY")
 
 services = APIRouter()
+
+es_cloud = Elasticsearch(
+    es_host,
+    api_key=es_key
+)
+
+index_name = "bloggen-idx20"
 
 @services.get("/intro-stream")
 async def homePage():
@@ -46,12 +56,13 @@ async def upload_image(file: UploadFile = File(...)):
 
 @services.get("/search/")
 async def search_blogs(q: str = Query(..., min_length=1)):
-    resp = await es.search(
-        index="blogs",
+    resp = await es_cloud.search(
+        index=index_name,
         query={
             "multi_match": {
                 "query": q,
-                "fields": ["nickname", "title", "blog_content", "created_at"]
+                "fields": ["nickname", "title", "blog_content", "create_at"],
+                "fuzziness": "AUTO"
             }
         }
     )

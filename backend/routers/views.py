@@ -21,15 +21,41 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
-from elasticsearch import AsyncElasticsearch
+from elasticsearch import Elasticsearch
 
 
 views = APIRouter()
 
 load_dotenv()
 OpenAI_API_KEY = os.getenv("OpenAI_API_KEY")
-es_host = os.getenv("ELASTICSEARCH_HOST", "http://localhost:9200")
-es = AsyncElasticsearch(es_host)
+# es_host_local = os.getenv("ELASTICSEARCH_HOST", "http://localhost:9200")
+# es_local = AsyncElasticsearch(es_host_local)
+
+es_host = os.getenv("ELASTICSEARCH_API")
+es_key = os.getenv("ELASTICSEARCH_API_KEY")
+
+es_cloud = Elasticsearch(
+    es_host,
+    api_key=es_key
+)
+
+index_name = "bloggen-idx20"
+
+if es_cloud.indices.exists(index=index_name):
+    es_cloud.indices.create(
+        index=index_name,
+        body={
+            "mappings": {
+                "properties": {
+                    "nickname":{type: "keyword"},
+                    "title": {type: "text"},
+                    "blog_content": {type: "text"},
+                    "tags": {type: "keyword"},
+                    "create_at": {type: "date"}
+                }
+            }
+        }
+    )
 
 
 client = OpenAI(
@@ -145,7 +171,13 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
             db.add(new_user)   
             db.add(new_blog)
-            await es.index(index="blogs", id=new_blog.blog_id, document=blog_idx)
+            if await es_cloud.indices.exists(index=index_name):
+                await es_cloud.index(
+                    index=index_name,
+                    id=new_blog.blog_id,
+                    document=blog_idx
+                )
+
             db.commit()
             db.refresh(new_user)
             db.refresh(new_blog)
@@ -185,7 +217,13 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
             new_blog.tags = tags
 
             db.add(new_blog)
-            await es.index(index="blogs", id=new_blog.blog_id, document=blog_idx)
+            if await es_cloud.indices.exists(index=index_name):
+                await es_cloud.index(
+                    index=index_name,
+                    id=new_blog.blog_id,
+                    document=blog_idx
+                )
+
             db.commit()
             db.refresh(new_blog)
         except SQLAlchemyError as e:

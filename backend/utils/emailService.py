@@ -2,10 +2,12 @@ import smtplib
 import random
 import string
 from email.mime.text import MIMEText
+from dotenv import load_dotenv
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Email
 
+load_dotenv()
 def generate_verification_code():
     code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
     return code
