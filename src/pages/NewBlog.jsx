@@ -29,7 +29,7 @@ function NewBlog (){
     const MAX_NICKNAME_LENGTH = 22;
     const MAX_EMAIL_LENGTH = 40;
     const MAX_TITLE_LENGTH = 60;
-    const MAX_CONTENT_BLOG = 20000;
+    const MAX_CONTENT_BLOG = 100000;
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -349,6 +349,7 @@ function NewBlog (){
     };
 
 
+
     const uploadImages = async (html) => {
         const uploadedUrls = [];
         const div = document.createElement("div");
@@ -365,6 +366,7 @@ function NewBlog (){
 
                 const formData = new FormData();
                 formData.append("file", file);
+                console.log(file)
 
                 try{
                     const response = await fetch(`${API_URL}/upload_images`, {
@@ -374,6 +376,10 @@ function NewBlog (){
 
                     const data = await response.json();
                     img.src = data.image_url;
+
+                    console.log(img.src)
+
+                    
 
                     if (data.image_url) uploadedUrls.push(data.image_url);
 
@@ -604,7 +610,6 @@ function NewBlog (){
                     <div className="flex flex-column" style={{marginTop: "20px", width:"50vw", marginBottom:"50px"}}>
                         <ReactQuill ref={quillRef} modules={modules} style={{margin:"5px 0"}} 
                             onChange={normalizeContent}
-                            maxLength={MAX_CONTENT_BLOG}
                             id={styles.contentFrame} 
                             placeholder={t("newBlog.placeholderContent")} 
                             required/>

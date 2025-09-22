@@ -167,8 +167,6 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
                 )
             )
 
-            print(res)
-
             db.commit()
             db.refresh(new_user)
             db.refresh(new_blog)
