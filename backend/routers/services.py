@@ -61,7 +61,7 @@ async def search_blogs(q: str = Query(..., min_length=1)):
         query={
             "multi_match": {
                 "query": q,
-                "fields": ["nickname", "title", "blog_content", "create_at"],
+                "fields": ["nickname", "title", "blog_content"],
                 "fuzziness": "AUTO"
             }
         }
