@@ -397,14 +397,6 @@ function NewBlog (){
         };
     };
 
-    const normalizeContent = (value) => {
-        if (!value || value.trim() === "<p><br></p>") {
-            setContent("");
-        }else if (value.length <= MAX_CONTENT_BLOG){
-            setContent(value)
-        };
-    };
-
     async function deleteImage(public_id) {
         await cloudinary.uploader.destroy(public_id);
     }
@@ -606,7 +598,13 @@ function NewBlog (){
                     </div>
                     <div className="flex flex-column" style={{marginTop: "20px", width:"50vw", marginBottom:"50px"}}>
                         <ReactQuill ref={quillRef} modules={modules} style={{margin:"5px 0"}} 
-                            onChange={normalizeContent}
+                            onChange={(e) => {
+                                if (!e.target.value || e.target.value.trim() === "<p><br></p>") {
+                                    setContent("");
+                                }else{
+                                    setContent(e.target.value);
+                                }}
+                            }
                             id={styles.contentFrame} 
                             placeholder={t("newBlog.placeholderContent")} 
                             required/>
