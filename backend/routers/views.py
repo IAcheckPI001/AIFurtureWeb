@@ -47,11 +47,11 @@ if es_cloud.indices.exists(index=index_name):
         body={
             "mappings": {
                 "properties": {
-                    "nickname":{type: "keyword"},
-                    "title": {type: "text"},
-                    "blog_content": {type: "text"},
-                    "tags": {type: "keyword"},
-                    "create_at": {type: "date"}
+                    "nickname":{"type": "keyword"},
+                    "title": {"type": "text"},
+                    "blog_content": {"type": "text"},
+                    "tags": {"type": "keyword"},
+                    "create_at": {"type": "date"}
                 }
             }
         }
