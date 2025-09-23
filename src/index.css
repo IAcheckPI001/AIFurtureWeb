@@ -275,5 +275,6 @@ canvas {
 }
 
 #styleContent p img {
-  margin: 10px auto;
+  margin: 10px 18%;
+  max-width: 70% !important;
 }
