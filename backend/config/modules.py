@@ -1,6 +1,6 @@
 
 import json
-from config.database import create_db
+from config.database import getSessionLocal
 from sqlalchemy import Column, Integer, Unicode, DateTime, ForeignKey, TEXT, Table, UniqueConstraint
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -136,7 +136,7 @@ def load_tags_from_file():
         return json.load(f)
 
 def seed_tags():
-    db = create_db()
+    db = getSessionLocal()
     try:
         count = db.query(Tags).count()
         if count == 0:

@@ -13,6 +13,12 @@ def init_engine():
     engine = create_engine(DATABASE_URL)
     return engine
 
+def getSessionLocal():
+    engine = init_engine()
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    db = SessionLocal()
+    return db
+
 def create_db():
     engine = init_engine()
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
