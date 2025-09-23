@@ -124,13 +124,17 @@ class Contacts(Base):
     create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
 
-def load_tags_from_file(file_path="seed_data.json"):
-    path = Path(file_path)
-    if path.exists():
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
-# ---- Seeding function ----
+def load_tags_from_file():
+    secret_path = Path("/etc/secrets/seed_data.json")
+
+    if secret_path.exists():
+        path = secret_path
+    else:
+        print("Not found path file!")
+
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
 def seed_tags():
     db = create_db()
     try:
@@ -140,5 +144,12 @@ def seed_tags():
             for tag in tags:
                 db.add(Tags(tag_content=tag))
             db.commit()
-    except:
+            print("Tags inserted successfully")
+        else:
+            print("Tags already exist, skipping insert")
+    except Exception as e:
+        db.rollback()
+        print(f"Error seeding tags: {e}")
+        raise
+    finally:
         db.close()
