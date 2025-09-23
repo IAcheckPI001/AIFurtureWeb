@@ -599,7 +599,7 @@ function NewBlog (){
                         <CreatableSelect
                             isMulti
                             options={options}
-                            value={selectedTags}
+                            value={selectedTags}  
                             onChange={(e) => {handleChange(e)}}
                             placeholder={t("newBlog.placeholderTags")}
                         />

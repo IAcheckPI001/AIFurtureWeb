@@ -1,8 +1,11 @@
 
+import json
+from config.database import create_db
 from sqlalchemy import Column, Integer, Unicode, DateTime, ForeignKey, TEXT, Table, UniqueConstraint
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
+from pathlib import Path
 
 
 Base = declarative_base()
@@ -119,3 +122,23 @@ class Contacts(Base):
     phone_number = Column(Unicode(30), nullable=False)
     messages = Column(Unicode(1500), nullable=True)
     create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+def load_tags_from_file(file_path="seed_data.json"):
+    path = Path(file_path)
+    if path.exists():
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
+# ---- Seeding function ----
+def seed_tags():
+    db = create_db()
+    try:
+        count = db.query(Tags).count()
+        if count == 0:
+            tags = load_tags_from_file()
+            for tag in tags:
+                db.add(Tags(tag_content=tag))
+            db.commit()
+    except:
+        db.close()
