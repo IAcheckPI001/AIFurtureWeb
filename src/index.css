@@ -273,3 +273,7 @@ video:focus {
 canvas {
   background-color: #eeeeee;
 }
+
+#styleContent p img {
+  margin: 10px auto;
+}
