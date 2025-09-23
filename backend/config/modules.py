@@ -9,7 +9,7 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
 from pathlib import Path
 from dotenv import load_dotenv
-
+from elasticsearch import Elasticsearch
 
 Base = declarative_base()
 
@@ -161,37 +161,65 @@ def seed_tags():
 def seed_blogs_from_url():
     try:
         load_dotenv()
+        es_host = os.getenv("ELASTICSEARCH_API")
+        es_key = os.getenv("ELASTICSEARCH_API_KEY")
         BLOG_SEED_URL = os.getenv("BLOG_SEED_URL")
+
+        es_cloud = Elasticsearch(
+            es_host,
+            api_key=es_key
+        )
+
+        index_name = "bloggen-idx20"
         db = getSessionLocal()
         res = requests.get(BLOG_SEED_URL, timeout=10)
         res.raise_for_status()
         data = res.json()
 
         for blog in data:
-            exist_user = db.query(Users).filter_by(id=blog["user_id"]).first()
-            if not exist_user:
-                new_user = Users(
-                    id = blog["user_id"],
-                    nickname = blog["nickname"],
-                    avatar_img = blog["avatar_img"],
-                    session_key = blog["session_key"],
-                    create_at = blog["create_at"]
-                )
-                db.add(Users(**new_user))
-            exists = db.query(Blogs).filter_by(public_id=blog["public_id"]).first()
-            if not exists:
-                blog = Blogs(
-                    title = blog["title"],
-                    blog_content=blog["blog_content"],
-                    cover_img=blog["cover_img"],
-                    public_id = blog["public_id"],
-                    create_at = blog["create_at"],
-                    update_at = blog["update_at"],
-                    lang = blog["lang"],
-                    user_id = blog["user_id"]
-                )
-                db.add(Blogs(**blog))
+            try:
+                exist_user = db.query(Users).filter_by(id=blog["user_id"]).first()
+                if not exist_user:
+                    new_user = Users(
+                        id = blog["user_id"],
+                        nickname = blog["nickname"],
+                        avatar_img = blog["avatar_img"],
+                        session_key = blog["session_key"],
+                        create_at = blog["create_at"]
+                    )
+                    db.add(Users(**new_user))
+                exists = db.query(Blogs).filter_by(public_id=blog["public_id"]).first()
+                if not exists:
+                    new_blog = Blogs(
+                        title = blog["title"],
+                        blog_content=blog["blog_content"],
+                        cover_img=blog["cover_img"],
+                        public_id = blog["public_id"],
+                        create_at = blog["create_at"],
+                        update_at = blog["update_at"],
+                        lang = blog["lang"],
+                        user_id = blog["user_id"]
+                    )
+                    blog_idx = {
+                        "nickname":blog["nickname"],
+                        "title": blog["title"],
+                        "blog_content": blog["blog_content"],
+                        "cover_img": blog["cover_img"],
+                        "public_id": blog["public_id"],
+                        "create_at": blog["create_at"],
+                        "update_at": blog["update_at"],
+                        "lang": blog["lang"],
+                        "user_id": blog["user_id"]
+                    }
+                    db.add(Blogs(**new_blog))
 
+                    es_cloud.index(
+                        index=index_name,
+                        id=new_blog.blog_id,
+                        document=blog_idx
+                    )
+            except:
+                print("error")
         db.commit()
         print("✅ Blogs seeded from Cloudinary JSON")
 
