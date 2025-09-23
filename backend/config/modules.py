@@ -168,8 +168,28 @@ def seed_blogs_from_url():
         data = res.json()
 
         for blog in data:
+            exist_user = db.query(Users).filter_by(id=blog["user_id"]).first()
+            if not exist_user:
+                new_user = Users(
+                    id = blog["user_id"],
+                    nickname = blog["nickname"],
+                    avatar_img = blog["avatar_img"],
+                    session_key = blog["session_key"],
+                    create_at = blog["create_at"]
+                )
+                db.add(Users(**new_user))
             exists = db.query(Blogs).filter_by(public_id=blog["public_id"]).first()
             if not exists:
+                blog = Blogs(
+                    title = blog["title"],
+                    blog_content=blog["blog_content"],
+                    cover_img=blog["cover_img"],
+                    public_id = blog["public_id"],
+                    create_at = blog["create_at"],
+                    update_at = blog["update_at"],
+                    lang = blog["lang"],
+                    user_id = blog["user_id"]
+                )
                 db.add(Blogs(**blog))
 
         db.commit()
