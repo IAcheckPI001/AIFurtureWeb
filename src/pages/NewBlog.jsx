@@ -93,7 +93,7 @@ function NewBlog (){
         const updated = newValue.map(tag => {
             // assume if "value" is string (not a number/id), it's user-created
             if (typeof tag.value === "string" && isNaN(tag.value)) {
-                return { ...tag, label: "etc", value:37};
+                return { ...tag, label: "etc", value:1};
             }
             return tag;
         });
