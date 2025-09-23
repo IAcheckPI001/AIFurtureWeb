@@ -187,7 +187,7 @@ def seed_blogs_from_url():
                         session_key = blog["session_key"],
                         create_at = blog["create_at"]
                     )
-                    db.add(Users(**new_user))
+                    db.add(new_user)
                 exists = db.query(Blogs).filter_by(public_id=blog["public_id"]).first()
                 if not exists:
                     new_blog = Blogs(
@@ -211,17 +211,16 @@ def seed_blogs_from_url():
                         "lang": blog["lang"],
                         "user_id": blog["user_id"]
                     }
-                    db.add(Blogs(**new_blog))
-
+                    db.add(new_blog)
+                    db.flush()
                     es_cloud.index(
                         index=index_name,
                         id=new_blog.blog_id,
                         document=blog_idx
                     )
-            except:
-                print("error")
-        db.commit()
-        print("✅ Blogs seeded from Cloudinary JSON")
-
+                    db.commit()
+            except Exception as e:
+                db.rollback()
+                print(f"Error: {e}")
     except Exception as e:
         print(f"❌ Error seeding blogs: {e}")
