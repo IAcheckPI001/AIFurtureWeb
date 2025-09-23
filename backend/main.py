@@ -2,7 +2,7 @@
 # main.py
 from fastapi import FastAPI
 from config.database import init_engine
-from config.modules import Base, seed_tags
+from config.modules import Base, seed_blogs_from_url, seed_tags
 from fastapi.middleware.cors import CORSMiddleware
 import time
 from sqlalchemy.exc import OperationalError
@@ -32,6 +32,7 @@ def create_app():
             time.sleep(3)
     
     seed_tags()
+    seed_blogs_from_url()
 
     from routers.chatbot import router as chatbot_router
     from routers.views import views as views_router

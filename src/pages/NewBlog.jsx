@@ -146,7 +146,7 @@ function NewBlog (){
                                 const data = {
                                     "email":  email,
                                     "nickname": nickname,
-                                    "avatar_img": urls,
+                                    "avatar_img": urls.trim == "" ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
                                     "title": title,
                                     "tags": selectedTags.map(tag => tag.value),
                                     "content": html,

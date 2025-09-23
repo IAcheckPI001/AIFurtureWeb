@@ -1,0 +1,26 @@
+
+[
+  {
+    "title": "The Power of Computer Vision: Teaching Machines to See",
+    "blog_content": "This is the very first blog post in our system.",
+    "cover_img": null,
+    "public_id": "default-1",
+    "lang": "en"
+  },
+  {
+    "nickname": "System",
+    "title": "Computer Vision in 2025",
+    "blog_content": "A quick look at the future of computer vision with AI.",
+    "cover_img": "https://res.cloudinary.com/demo/image/upload/computer_vision.png",
+    "public_id": "default-2",
+    "lang": "en"
+  },
+  {
+    "nickname": "AI Bot",
+    "title": "Natural Language Processing",
+    "blog_content": "Exploring NLP applications in chatbots, search, and summarization.",
+    "cover_img": null,
+    "public_id": "default-3",
+    "lang": "vi"
+  }
+]

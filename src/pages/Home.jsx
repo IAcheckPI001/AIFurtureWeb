@@ -22,7 +22,7 @@ function Home (){
             <section id = {styles.section1} className="flex flex-column width-100">
                 <div className="flex jc-center" style={{width:"80vw", marginTop: "8px", height: "78%", paddingTop: "37px"}}>
                     <div className="flex items-center" style={{marginRight: "58px", marginBottom:"50px"}}>
-                        <img src="https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181096/service_w1feav.png" className={styles.serivceImg} alt="/other-services" />
+                        <img src="https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627288/service-back_pdu5kr.png" className={styles.serivceImg} alt="/other-services" />
                     </div>
                     <div className="flex flex-column" style={{width: "40vw", marginLeft: "8px"}}>
                         <h4 className={styles.sectionName}>{t("service_home.titleContent")}</h4>

@@ -1,11 +1,14 @@
 
+import os
 import json
+import requests
 from config.database import getSessionLocal
 from sqlalchemy import Column, Integer, Unicode, DateTime, ForeignKey, TEXT, Table, UniqueConstraint
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
 from pathlib import Path
+from dotenv import load_dotenv
 
 
 Base = declarative_base()
@@ -153,3 +156,24 @@ def seed_tags():
         raise
     finally:
         db.close()
+
+
+def seed_blogs_from_url():
+    try:
+        load_dotenv()
+        BLOG_SEED_URL = os.getenv("BLOG_SEED_URL")
+        db = getSessionLocal()
+        res = requests.get(BLOG_SEED_URL, timeout=10)
+        res.raise_for_status()
+        data = res.json()
+
+        for blog in data:
+            exists = db.query(Blogs).filter_by(public_id=blog["public_id"]).first()
+            if not exists:
+                db.add(Blogs(**blog))
+
+        db.commit()
+        print("✅ Blogs seeded from Cloudinary JSON")
+
+    except Exception as e:
+        print(f"❌ Error seeding blogs: {e}")

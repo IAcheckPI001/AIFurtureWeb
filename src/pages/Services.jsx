@@ -55,7 +55,7 @@ function Services (){
             <div id={styles.inforFrame}>
                 <div className="flex flex-column height-100 relative">
                     <video ref={videoRef} className="width-100 absolute" style={{height:"97%",width:"98%", paddingTop:"12px"}} autoPlay muted loop playsInline>
-                        <source src="https://res.cloudinary.com/dhbcyrfmw/video/upload/v1758181344/Service_ik6vmu.mp4" type="video/mp4"/>
+                        <source src="https://res.cloudinary.com/dhbcyrfmw/video/upload/v1758627314/Service_ztktep.mp4" type="video/mp4"/>
                     </video>
                     <div className={styles.frameInfor}>
                         <h1 style={{color: "#0f9880", fontSize:"58px"}}>{t("service_page.titleInfor")}</h1>
@@ -79,13 +79,13 @@ function Services (){
                         )}
                     </div>
                     <div style={{maxHeight: "350px"}}>
-                        <img style={{height: "40vh", borderRadius:"5px"}} src="https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181372/ARP_Frameapp1_obt1tv.png" alt="" />
+                        <img style={{height: "40vh", borderRadius:"5px"}} src="https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627288/ARP_Frameapp1_szmhtf.png" alt="" />
                     </div>
                 </div>
             </section>
             <div id="arp-id00-frame" style={{display: "none"}} className="flex flex-column items-center width-100 hidden">
                 <video ref={videoRef} id="arp-id00" style={{height:"52vh", borderRadius:"5px", marginBottom:"20px"}} autoPlay muted loop playsInline>
-                    <source src="https://res.cloudinary.com/dhbcyrfmw/video/upload/v1758181342/ARP_Service_tv7nh0.mp4" type="video/mp4"/>
+                    <source src="https://res.cloudinary.com/dhbcyrfmw/video/upload/v1758627314/ARP_Service_dtqswz.mp4" type="video/mp4"/>
                 </video>
                 <button style={{width:"auto", margin:"20px 0", padding:" 8px 12px", borderRadius: "5px", border: "1px solid #dfdfdf", backgroundColor: "rgb(255 255 255 / 88%)", fontSize:"13px", cursor: "pointer"}} 
                     className={isPlaying ? "pauseBtn" : "resumeBtn"} 
