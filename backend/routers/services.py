@@ -2,13 +2,15 @@
 import os
 import time
 import asyncio
-# from config import modules
+from config import modules
+from config.database import create_db
 from config.conn import cloudinary 
 # from typing import List
 
 # from flask import send_from_directory, abort
-from fastapi import APIRouter, File, UploadFile, Query
+from fastapi import APIRouter, File, UploadFile, Query, Depends
 from fastapi.responses import StreamingResponse
+from sqlalchemy.orm import Session
 
 from elasticsearch import Elasticsearch
 from dotenv import load_dotenv
@@ -57,7 +59,7 @@ async def upload_image(file: UploadFile = File(...)):
 
 
 @services.get("/search/")
-async def search_blogs(q: str = Query(..., min_length=1)):
+async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(create_db)):
     loop = asyncio.get_event_loop()
     res = await loop.run_in_executor(
         None,
@@ -72,19 +74,29 @@ async def search_blogs(q: str = Query(..., min_length=1)):
             }
         )
     )
+    results = []
 
-    results = [
-        {
-            "title": hit["_source"]["title"],
-            "blog_content": hit["_source"]["blog_content"],
-            "imgURLs": hit["_source"]["cover_img"],
-            "public_id": hit["_source"]["public_id"],
-            "language": hit["_source"]["lang"],
-            "created_at": hit["_source"]["create_at"],
-            "update_at": hit["_source"]["update_at"]
-        }
-        for hit in res["hits"]["hits"]
-    ]
+    for hit in res["hits"]["hits"]:
+        blog = (
+            db.query(modules.Blogs)
+            .filter(modules.Blogs.public_id == hit["_source"]["public_id"])
+            .first()
+        )
+        if blog:
+            results.append(
+                {
+                    "nickname": blog.author.nickname,
+                    "avatar_img": blog.author.avatar_img,
+                    "title": blog.title,
+                    "blog_content": blog.blog_content,
+                    "imgURLs": blog.cover_img,
+                    "public_id": blog.public_id,
+                    "lang": blog.lang,
+                    "created_at": blog.create_at.isoformat(),
+                    "update_at": blog.update_at.isoformat()
+                }
+            )
+
 
     return results
 
