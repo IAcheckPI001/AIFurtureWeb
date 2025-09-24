@@ -88,6 +88,7 @@ function Blogs (){
                             <div ref={frameRef} id={styles.frameFilter} className="flex flex-column">
                                 <div style={{marginLeft:"18px"}}>
                                     <h4 style={{marginBottom:"16px"}}>{t("blog_page.filterTitle")}</h4>
+                                    <div id={styles.frameTag}>
                                     {displayOptions
                                     .map((tag) => (
                                         tag !== "etc" ? (
@@ -101,6 +102,7 @@ function Blogs (){
                                             <button onClick={() => setSelectedTag(tag.label)} className={styles.items} key={tag.id}>all</button>
                                         )
                                     ))}
+                                    </div>
                                     {options.length > 10 && (
                                         <button style={{border:"none", background:"none", color:"#3069ba", padding:"8px", cursor:"pointer"}} onClick={() => setShowAll(!showAll)}>
                                             {showAll ? "Show Less" : "Show All"}
@@ -129,15 +131,17 @@ function Blogs (){
                                             <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
                                         </div>
                                         <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
-                                        <h2 style={{marginTop: "6px", marginBottom: "10px"}}>{blog.title}</h2>
+                                        <h2 style={{margin: "0.3em 0 !important"}}>{blog.title}</h2>
                                         <div style={{marginRight:"20px"}}>
                                             <LimitText style={{fontSize:"16px"}} text={blog.blog_content} limit={250}/>
                                         </div>
                                         <div>
                                             {blog.imgURLs.length > 0 && (
                                                 <div className="flex flex-wrap">
-                                                    {blog.imgURLs.map((image, idx) => (
-                                                        <img key={idx} className={styles.imgUpload} style={{height:"100px", maxWidth:"70%", maxHeight:"70%", marginLeft:"20px", marginTop:"15px"}} 
+                                                    {blog.imgURLs
+                                                    .slice(0, 3)
+                                                    .map((image, idx) => (
+                                                        <img key={idx} className={styles.imgUpload} style={{height:"100px", maxWidth:"70%", maxHeight:"70%", marginLeft:"20px", marginTop:"15px", borderRadius:"5px"}} 
                                                         src={image} 
                                                         alt={idx}/>
                                                     ))}

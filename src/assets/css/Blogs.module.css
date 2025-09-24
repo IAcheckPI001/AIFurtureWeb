@@ -39,6 +39,15 @@
     z-index: 100;
 }
 
+#frameTag {
+    max-height: 50vh;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    scrollbar-width: thin;
+    scrollbar-color: #545e5903;
+    scroll-behavior: smooth;
+}
+
 #filterIco:hover{
     background-color: rgb(223, 223, 223);
     transition: all 0.2s ease-in-out;
@@ -52,6 +61,7 @@
     border: 1px solid white;
     margin: 4px 4px;
 }
+
 
 .items:hover {
     border: 1px solid #dfdfdf;
