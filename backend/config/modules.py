@@ -178,6 +178,8 @@ def seed_blogs_from_url():
 
         for blog in data:
             try:
+                current_datetime = datetime.now(timezone.utc)
+                date = current_datetime.date()
                 exist_user = db.query(Users).filter_by(id=blog["user_id"]).first()
                 if not exist_user:
                     new_user = Users(
@@ -185,18 +187,19 @@ def seed_blogs_from_url():
                         nickname = blog["nickname"],
                         avatar_img = blog["avatar_img"],
                         session_key = blog["session_key"],
-                        create_at = blog["create_at"]
+                        create_at = date
                     )
                     db.add(new_user)
                 exists = db.query(Blogs).filter_by(public_id=blog["public_id"]).first()
                 if not exists:
+            
                     new_blog = Blogs(
                         title = blog["title"],
                         blog_content=blog["blog_content"],
                         cover_img=blog["cover_img"],
                         public_id = blog["public_id"],
-                        create_at = blog["create_at"],
-                        update_at = blog["update_at"],
+                        create_at = date,
+                        update_at = date,
                         lang = blog["lang"],
                         user_id = blog["user_id"]
                     )
@@ -206,8 +209,8 @@ def seed_blogs_from_url():
                         "blog_content": blog["blog_content"],
                         "cover_img": blog["cover_img"],
                         "public_id": blog["public_id"],
-                        "create_at": blog["create_at"],
-                        "update_at": blog["update_at"],
+                        "create_at": date,
+                        "update_at": date,
                         "lang": blog["lang"],
                         "user_id": blog["user_id"]
                     }
