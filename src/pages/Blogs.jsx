@@ -131,7 +131,7 @@ function Blogs (){
                                             <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
                                         </div>
                                         <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
-                                        <h2 style={{margin: "0.3em 0 !important"}}>{blog.title}</h2>
+                                        <h2 style={{margin: ".3em 0 !important"}}>{blog.title}</h2>
                                         <div style={{marginRight:"20px"}}>
                                             <LimitText style={{fontSize:"16px"}} text={blog.blog_content} limit={250}/>
                                         </div>

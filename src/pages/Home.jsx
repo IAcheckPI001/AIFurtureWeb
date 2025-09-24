@@ -55,7 +55,7 @@ function Home (){
                                 <img className="img_user" src={blog.avatar_img} alt={blog.title} />
                                 <span className={styles.idBlog}>{blog.nickname}</span>
                             </div>
-                            <h3 style={{marginTop:"8px", marginBottom:"5px"}}>{blog.title}</h3>
+                            <h3 style={{margin:".3em 0!important"}}>{blog.title}</h3>
                             <span style={{fontSize:"14px", fontWeight:600}}>{new Date(blog.created_at).toLocaleString()}</span>
                             <p style={{margin:"8px 0",fontSize:"16px"}} className={styles.description}>
                                 <LimitText text = {blog.blog_content} limit = {150} />
