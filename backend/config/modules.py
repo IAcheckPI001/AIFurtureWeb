@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
+from http.client import HTTPException
 
 Base = declarative_base()
 
@@ -214,6 +215,18 @@ def seed_blogs_from_url():
                         "lang": blog["lang"],
                         "user_id": blog["user_id"]
                     }
+                    try:
+                        if (len(blog["tags"]) > 0):
+                            tags = db.query(Tags).filter(Tags.tag_id.in_(blog["tags"])).all()
+                            if len(tags) != len(blog["tags"]):
+                                raise HTTPException(status_code=400, detail="One or more tags not found")
+                        else:
+                            etc_tag = db.query(Tags).filter(Tags.tag_content == "etc").first()
+                            tags = [etc_tag] if etc_tag else []
+                    except:
+                        raise HTTPException(status_code=400, detail="One or more tags not found")
+                    
+                    new_blog.tags = tags
                     db.add(new_blog)
                     db.flush()
                     es_cloud.index(
