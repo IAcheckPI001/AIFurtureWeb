@@ -128,7 +128,7 @@ function Blogs (){
                                             <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={blog.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
                                             <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
                                         </div>
-                                        <p className={styles.createDate}>{new Date(blog.created_at).toLocaleString()}</p>
+                                        <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
                                         <h2 style={{marginTop: "6px", marginBottom: "10px"}}>{blog.title}</h2>
                                         <div style={{marginRight:"20px"}}>
                                             <LimitText style={{fontSize:"16px"}} text={blog.blog_content} limit={250}/>
