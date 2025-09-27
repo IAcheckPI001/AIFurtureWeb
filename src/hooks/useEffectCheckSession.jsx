@@ -21,6 +21,6 @@ function useEffectCheckSession(){
             });
         }, []);
 
-    return { data };
+    return { data, loading, error };
 }
 export default useEffectCheckSession;

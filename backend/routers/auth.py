@@ -163,4 +163,4 @@ async def get_current_user(request: Request, db: Session = Depends(create_db)):
     if not session:
         raise HTTPException(status_code=401, detail="Session expired")
 
-    return session.user
+    return session

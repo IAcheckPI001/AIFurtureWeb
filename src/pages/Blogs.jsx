@@ -392,7 +392,9 @@ function Blogs (){
         setAvatar(null);
     };
 
-    const {data: ss_user} = useEffectCheckSession();
+    const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
+    if (loadSession) return <p>Loading...</p>;
+    if (errorSession) return <p>Error: {errorSession.message}</p>;
 
     return (
         <div className="width-100 container">

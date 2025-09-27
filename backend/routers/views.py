@@ -51,7 +51,7 @@ client = OpenAI(
 
 
 @views.get("/check-session")
-async def get_session(user = Depends(get_current_user)):
+def get_session(user = Depends(get_current_user)):
     if user:
         return {"nickname": user.nickname, "avatar_img": user.avatar_img}
     return None
