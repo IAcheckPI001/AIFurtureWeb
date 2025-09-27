@@ -237,7 +237,8 @@ function Blogs (){
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            const check = checkAccount(user_id, passkey);
+            const check = await checkAccount(user_id, passkey);
+            console.log(check);
             if (check.msg === "notUser") {
                 setCheckUser("Tài khoản không tồn tại!");
             }else if (check.msg === "success"){
@@ -315,7 +316,7 @@ function Blogs (){
                 throw new Error("Failed to send verification email");
             }
             const data = await response.json();
-            console.log(data)
+            console.log(data);
             return data
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });
