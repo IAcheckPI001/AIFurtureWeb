@@ -25,13 +25,17 @@ email_server = os.getenv("EMAIL_VERIFIED")
         
 @auth.post("/verify_email")
 async def verify_email(request: Request):
-    data  = await request.json() 
-    email = data.get("email")
-    if not isvalidEmail(email):
-        raise HTTPException(status_code=400, detail="Invalid email address")
-    code = generate_verification_code()
-    email_notice(email_server, email, code)
-    return {"code": code}
+    try:
+        data  = await request.json() 
+        email = data.get("email")
+        if not isvalidEmail(email):
+            raise HTTPException(status_code=400, detail="Invalid email address")
+        code = generate_verification_code()
+        email_notice(email_server, email, code)
+        return {"code": code}
+    except Exception as e:
+        print("verify_email error:", e)
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 @auth.post("/check_email")
 async def check_email(request: Request, db: Session = Depends(create_db)):
