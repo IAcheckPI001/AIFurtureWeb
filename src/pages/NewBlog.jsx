@@ -243,7 +243,7 @@ function NewBlog (){
             }else if (check.msg === "loginFailed"){
                 setCheckUser("Sai thông tin đăng nhập!");
             }else if (check.msg === "verify"){
-                if(!codeVerify.trim()){
+                if(codeVerify === ""){
                     verifyCode(check.ss_verify);
                     setTimeLeft(30);
                     setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
@@ -253,7 +253,7 @@ function NewBlog (){
                     frameCode.style.display = "flex";
                     frameInput.style.border = "1px solid #6e9db1";
                 }else{
-                    if (codeVerify === codeInput){
+                    if (codeVerify.code === codeInput){
                         setCheckUser("Sai thông tin đăng nhập!");
                     }
                 }
