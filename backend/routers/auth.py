@@ -139,7 +139,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
 
 
 @auth.post("/logout")
-def check_account(request: Request, response: Response, db: Session = Depends(create_db)):
+def logout(request: Request, response: Response, db: Session = Depends(create_db)):
     ss_key = request.cookies.get("ss_key")
     if not ss_key:
         raise HTTPException(status_code=401, detail="Not logged in")
