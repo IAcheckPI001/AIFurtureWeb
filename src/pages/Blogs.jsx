@@ -238,23 +238,23 @@ function Blogs (){
         }
         else{
             const check = await checkAccount(user_id, passkey);
-            if (check["msg"] === "notUser") {
+            if (check.msg === "notUser") {
                 setCheckUser("Tài khoản không tồn tại!");
-            }else if (check["msg"] === "success"){
+            }else if (check.msg === "success"){
                 setNotif({ message: t("newBlog.success"), type: "success" });
                 setCodeVerify("");
                 setTimeout(() => {
                     setNotif(null);
                     navigate("/blogs");
                 }, 3000);
-            }else if (check["msg"] === "conflict"){
+            }else if (check.msg === "conflict"){
                 setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
                 setTimeout(() => {
                     setNotif(null);
                 }, 3000);
-            }else if (check["msg"] === "loginFailed"){
+            }else if (check.msg === "loginFailed"){
                 setCheckUser("Sai thông tin đăng nhập!");
-            }else if (check["msg"] === "verify"){
+            }else if (check.msg === "verify"){
                 if (codeVerify === ""){
                     verifyCode(email);
                     setTimeLeft(30);
