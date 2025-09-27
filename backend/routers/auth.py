@@ -152,6 +152,7 @@ def check_account(request: Request, response: Response, db: Session = Depends(cr
 
     return {"msg": "LoggedOut"}
 
+
 async def get_current_user(request: Request, db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
     if not session_id:
@@ -163,9 +164,3 @@ async def get_current_user(request: Request, db: Session = Depends(create_db)):
         raise HTTPException(status_code=401, detail="Session expired")
 
     return session.user
-
-@auth.get("/check-session")
-async def get_session(user = Depends(get_current_user)):
-    if user:
-        return {"nickname": user.nickname, "avatar_img": user.avatar_img}
-    return None

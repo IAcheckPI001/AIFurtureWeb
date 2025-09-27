@@ -4,6 +4,7 @@ import os
 import time
 import uuid
 import asyncio
+from routers.auth import get_current_user
 from utils.checkInputs import isNicknameKey, isvalidEmail
 from config import modules
 from config.conn import cloudinary 
@@ -48,6 +49,12 @@ client = OpenAI(
   api_key=OpenAI_API_KEY
 )
 
+
+@views.get("/check-session")
+async def get_session(user = Depends(get_current_user)):
+    if user:
+        return {"nickname": user.nickname, "avatar_img": user.avatar_img}
+    return None
 
 @views.get("/intro-stream")
 async def homePage():
