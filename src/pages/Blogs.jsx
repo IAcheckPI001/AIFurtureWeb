@@ -307,7 +307,6 @@ function Blogs (){
         try {
             const response = await fetch(`${API_URL}/check_account`, {
                 method: "POST",
-                credentials: "include", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({"user_key": user_id, "passkey": passkey}),
             });
