@@ -34,7 +34,7 @@ async def verify_email(request: Request):
     return {"code": code}
 
 @auth.post("/check_email")
-async def check_account(request: Request, db: Session = Depends(create_db)):
+async def check_email(request: Request, db: Session = Depends(create_db)):
     data = await request.json()
     user_key = data.get("email")
     if isvalidEmail(user_key):

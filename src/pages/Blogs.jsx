@@ -142,7 +142,7 @@ function Blogs (){
     }
 
     const resetCode = () => {
-        if(!user_id.trim()){
+        if(!user_id.trim() || !passkey.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }else{
@@ -232,7 +232,7 @@ function Blogs (){
 
     const login = async () => {
         setCheckUser("")
-        if(!user_id.trim() && !passkey.trim()){
+        if(!user_id.trim() || !passkey.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }
@@ -303,20 +303,19 @@ function Blogs (){
         }
     }
 
-    const checkAccount = async (user_key, passkey) =>{
+    const checkAccount = async (user_id, passkey) =>{
         try {
             const response = await fetch(`${API_URL}/check_account`, {
                 method: "POST",
                 credentials: "include", 
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"user_key": user_key, "passkey": passkey}),
+                body: JSON.stringify({"user_key": user_id, "passkey": passkey}),
             });
 
             if (!response.ok) {
                 throw new Error("Failed to send verification email");
             }
             const data = await response.json();
-            console.log(data);
             return data
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });
