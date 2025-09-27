@@ -254,7 +254,7 @@ function NewBlog (){
                     frameInput.style.border = "1px solid #6e9db1";
                 }else{
                     if (codeVerify === codeInput){
-                        
+                        setCheckUser("Sai thông tin đăng nhập!");
                     }
                 }
             }
@@ -454,8 +454,6 @@ function NewBlog (){
     async function deleteImage(public_id) {
         await cloudinary.uploader.destroy(public_id);
     }
-
-    const {data: ss_user} = useEffectCheckSession();
 
 
     return( 

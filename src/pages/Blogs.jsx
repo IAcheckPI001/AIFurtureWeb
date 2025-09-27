@@ -266,12 +266,7 @@ function Blogs (){
                     frameInput.style.border = "1px solid #6e9db1";
                 }else{
                     if (codeInput === codeVerify.code){
-                        setNotif({ message: t("newBlog.success"), type: "success" });
-                        setCodeVerify("");
-                        setTimeout(() => {
-                            setNotif(null);
-                            navigate("/blogs");
-                        }, 3000);
+                        setCheckUser("Sai thông tin đăng nhập!");
                     }else{
                         setCodeInput("");
                         const frameCode = document.getElementById("verifyCode");
