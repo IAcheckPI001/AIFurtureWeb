@@ -50,8 +50,10 @@ class Users(Base):
     __tablename__ = 'users'
     id = Column(Unicode(255), primary_key=True, nullable=False)
     nickname = Column(Unicode(30), unique=True, nullable=False)
+    passkey = Column(Unicode(255), unique=True, nullable=False)
     avatar_img = Column(Unicode(1000), nullable=True)
-    session_key = Column(Unicode(255), unique=True, nullable=False)
+    session_key = Column(Unicode(255), unique=True, nullable=True)
+    login_failed = Column(Integer, nullable=False, default=0)
     create_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
     blogs = relationship("Blogs", back_populates="author", cascade="all, delete-orphan")
@@ -188,6 +190,8 @@ def seed_blogs_from_url():
                         nickname = blog["nickname"],
                         avatar_img = blog["avatar_img"],
                         session_key = blog["session_key"],
+                        passkey = blog["passkey"],
+                        login_failed = blog["login_failed"],
                         create_at = date
                     )
                     db.add(new_user)

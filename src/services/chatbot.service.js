@@ -7,6 +7,10 @@ export const getChats = () => {
     return apiFetch.get("/chats");
 };
 
+export const checkSession = () => {
+    return apiFetch.get("/check-session");
+};
+
 export const getBlogs = () => {
     return apiFetch.get("/blogs");
 };

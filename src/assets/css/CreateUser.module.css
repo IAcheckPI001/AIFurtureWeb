@@ -1,0 +1,119 @@
+
+
+
+.closeFrame:hover {
+    background-color: #dfdfdf;
+    transition: all 0.2s ease-in-out;
+}
+
+.closeFrame {
+    cursor: pointer;
+}
+
+#frameAccount{
+    width: 60%;
+    background-color: #dfdfdf;
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #dfdfdf;
+    cursor: pointer;
+}
+
+#newAccount {
+    background: none;
+    margin-top: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.label {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.inputNickname{
+    width: 83%;
+    height: 16px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    margin-right: 20px;
+    padding: 13px 14px 13px 10px
+}
+
+.inputEmail {
+    width: 88%;
+    height: 16px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    padding: 13px 14px 13px 10px
+}
+
+.inputNickname::placeholder{
+    font-size: 16px;
+}
+.inputEmail::placeholder{
+    font-size: 16px;
+}
+
+.inputCode {
+    width: 8vw;
+    height: 34px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    padding-left: 12px;
+}
+
+#submit{
+    width: auto;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    background-color: black;
+    font-size: 15px;
+    cursor: pointer;
+    color: white;
+}
+
+
+.imgUpload{
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    border-radius: 100%;
+}
+
+.imgUpload:hover{
+    background-color: #dfdfdf;
+    transition: all 0.2s ease-in;
+}
+
+.iconScale {
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    border-radius: 100%;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.iconScale:hover{
+    border: 1px solid #dfdfdf;
+    transition: all 0.3s ease-in-out;
+}
+
+#btnSaveScale {
+    border: none;
+    height: auto;
+    width: 100%;
+    padding: 8px;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#btnSaveScale:hover {
+    background-color: #dfdfdf;
+    transition: all 0.3s ease-in-out;
+}

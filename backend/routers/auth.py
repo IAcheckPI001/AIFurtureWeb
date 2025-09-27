@@ -3,6 +3,7 @@
 
 
 import os
+import uuid
 from config.database import create_db
 from utils.encrypt import create_sha256_hash
 import config.modules as modules
@@ -12,8 +13,10 @@ from utils.emailService import generate_verification_code, email_notice
 from datetime import datetime, timezone
 from http.client import HTTPException
 
-from fastapi import APIRouter, Request
+from flask import session
+from fastapi import APIRouter, Request, Depends, Response
 from dotenv import load_dotenv
+from sqlalchemy.orm import Session
 
 auth = APIRouter()
 
@@ -29,3 +32,140 @@ async def verify_email(request: Request):
     code = generate_verification_code()
     email_notice(email_server, email, code)
     return {"code": code}
+
+@auth.post("/check_email")
+async def check_account(request: Request, db: Session = Depends(create_db)):
+    data = await request.json()
+    user_key = data.get("email")
+    if isvalidEmail(user_key):
+        try:
+            user = db.query(modules.Users).filter(modules.Users.id == user_key).first()
+            if not user:
+                return {"msg": True}
+        except Exception as err:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Login failed session")
+    return False
+
+
+@auth.post("/check_account")
+async def check_account(response: Response, request: Request, db: Session = Depends(create_db)):
+    data = await request.json()
+    user_key = data.get("user_key")
+    hashed_pass = create_sha256_hash(data.get("passkey"))
+    if isvalidEmail(user_key):
+        try:
+            user = db.query(modules.Users).filter(modules.Users.id == user_key).first()
+            if user:
+                auth = db.query(modules.Users).filter(modules.Users.passkey == hashed_pass).first()
+                if auth:
+                    if user.session_key is None:
+                        ss_key = str(uuid.uuid4())
+                        user.login_failed = 0
+                        user.session_key = ss_key
+                        response.set_cookie(
+                            key="ss_key",
+                            value= ss_key,
+                            httponly=True,
+                            secure=True,
+                            samesite="strict"
+                        )
+                        db.commit()
+                        db.refresh(user)
+                        return {"msg": "success"}
+                    else:
+                        response.set_cookie(
+                            key="ss_key",
+                            value= None,
+                            httponly=True,
+                            secure=True,
+                            samesite="strict"
+                        )
+                        return {"msg": "conflict"}
+                else:
+                    user.login_failed += 1
+                    db.commit()
+                    db.refresh(user)
+                    if user.login_failed > 3:
+                        return {"msg": "verify"}
+            else:
+                return {"msg": "notUser"}
+        except Exception as err:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Login failed session")
+    else:
+        try:
+            user = db.query(modules.Users).filter(modules.Users.nickname == user_key).first()
+            if user:
+                auth = db.query(modules.Users).filter(modules.Users.passkey == hashed_pass).first()
+                if auth:
+                    if user.session_key is None:
+                        ss_key = str(uuid.uuid4())
+                        user.login_failed = 0
+                        user.session_key = ss_key
+                        response.set_cookie(
+                            key="ss_key",
+                            value= ss_key,
+                            httponly=True,
+                            secure=True,
+                            samesite="strict"
+                        )
+                        db.commit()
+                        db.refresh(user)
+                        return {"msg": "success"}
+                    else:
+                        response.set_cookie(
+                            key="ss_key",
+                            value= None,
+                            httponly=True,
+                            secure=True,
+                            samesite="strict"
+                        )
+                        return {"msg": "conflict"}
+                else:
+                    user.login_failed += 1
+                    db.commit()
+                    db.refresh(user)
+                    if user.login_failed > 3:
+                        return {"msg": "verify"}
+                    return {"msg": "loginFailed"}
+            else:
+                return {"msg": "notUser"}
+        except Exception as err:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Login failed session")
+    return None
+
+
+
+@auth.post("/logout")
+def check_account(request: Request, response: Response, db: Session = Depends(create_db)):
+    ss_key = request.cookies.get("ss_key")
+    if not ss_key:
+        raise HTTPException(status_code=401, detail="Not logged in")
+    user = db.query(modules.Users).filter(modules.Users.session_key == ss_key).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    user.session_key = None
+    db.commit()
+    response.delete_cookie("ss_key")
+
+    return {"msg": "LoggedOut"}
+
+async def get_current_user(request: Request, db: Session = Depends(create_db)):
+    session_id = request.cookies.get("ss_key")
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Not logged in")
+
+    # Look up session in DB
+    session = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
+    if not session:
+        raise HTTPException(status_code=401, detail="Session expired")
+
+    return session.user
+
+@auth.get("/check-session")
+async def get_session(user = Depends(get_current_user)):
+    if user:
+        return {"nickname": user.nickname, "avatar_img": user.avatar_img}
+    return None

@@ -4,6 +4,7 @@ import os
 import time
 import uuid
 import asyncio
+from utils.checkInputs import isNicknameKey, isvalidEmail
 from config import modules
 from config.conn import cloudinary 
 from config.database import create_db
@@ -47,6 +48,7 @@ client = OpenAI(
   api_key=OpenAI_API_KEY
 )
 
+
 @views.get("/intro-stream")
 async def homePage():
     intro_text = "We are working hard to bring you a great experience. Stay tuned!"
@@ -59,18 +61,6 @@ async def homePage():
     
     return StreamingResponse(generate_sse(), media_type="text/event-stream")
 
-@views.post("/check_account")
-async def check_account(request: Request, db: Session = Depends(create_db)):
-    data = await request.json()
-    email = data.get("email")
-    try:
-        user = db.query(modules.Users).filter(modules.Users.id == email).first()
-        if user:
-            return {"nickname": user.nickname, "avatar_img" : user.avatar_img, "create_at": user.create_at}
-        
-    except Exception as err:
-        print(err)
-    return None
 
 @views.get("/get_nickname")
 def getListNickname(db: Session = Depends(create_db)):
@@ -81,146 +71,122 @@ def getListNickname(db: Session = Depends(create_db)):
     
     return users
 
-@views.post("/create_blog")
-async def create_blog(request: Request, db: Session = Depends(create_db)):
+@views.post("/create_user")
+async def create_user(request: Request, db: Session = Depends(create_db)):
     data = await request.json()
     email = data.get("email")
     nickname = data.get("nickname")
     user_img = data.get("avatar_img")
-    title = data.get("title")
-    tags_id = data.get("tags")
+    passkey = data.get("passkey")
 
-    content = data.get("content")
-    imgURLs = data.get("imgURLs", [])
-    check_account = data.get("checkAccount")
-
-    current_datetime = datetime.now(timezone.utc)
-    date = current_datetime.date()
-
-    try:
-        detected = detect_langs(content)
-        if detected:
-            language = detected[0].lang
-        else:
-            language = None
-    except LangDetectException: # type: ignore
-        language = None
-
-    if check_account == 0:
+    if isvalidEmail(email) and isNicknameKey(nickname): 
         try:
-            ss_key = generate_csrf_token()
+            current_datetime = datetime.now(timezone.utc)
+            date = current_datetime.date()
             new_user = modules.Users(
                 id = email,
                 nickname = nickname,
+                passkey = passkey,
                 avatar_img = user_img,
-                session_key = ss_key,
+                session_key = None,
+                login_failed = 0,
                 create_at = date
             )
-            
-            new_blog = modules.Blogs(
-                title = title,
-                blog_content=content,
-                cover_img=imgURLs,
-                public_id = str(uuid.uuid4()),
-                create_at = date,
-                update_at = date,
-                lang = language,
-                user_id = email
-            )
-
-            blog_idx = {
-                "nickname":nickname,
-                "title": title,
-                "blog_content": content,
-                "cover_img": imgURLs,
-                "public_id": str(uuid.uuid4()),
-                "create_at": date,
-                "update_at": date,
-                "lang": language,
-                "user_id": email
-            }
-
-            
-            try:
-                if (len(tags_id) > 0):
-                    tags = db.query(modules.Tags).filter(modules.Tags.tag_id.in_(tags_id)).all()
-                    if len(tags) != len(tags_id):
-                        raise HTTPException(status_code=400, detail="One or more tags not found")
-                else:
-                    etc_tag = db.query(modules.Tags).filter(modules.Tags.tag_content == "etc").first()
-                    tags = [etc_tag] if etc_tag else []
-            except:
-                raise HTTPException(status_code=400, detail="One or more tags not found")
-
-            new_blog.tags = tags
-
-            db.add(new_user)   
-            db.add(new_blog)
-
-            loop = asyncio.get_event_loop()
-            res = await loop.run_in_executor(
-                None,
-                lambda: es_cloud.index(
-                    index=index_name,
-                    id=new_blog.blog_id,
-                    document=blog_idx
-                )
-            )
-
+            db.add(new_user)  
             db.commit()
             db.refresh(new_user)
-            db.refresh(new_blog)
         except SQLAlchemyError as e:
             db.rollback()  
             print("Unexpected error:", e)
     else:
-        try:
-            new_blog = modules.Blogs(
-                title = title,
-                blog_content=content,
-                cover_img=imgURLs,
-                public_id = str(uuid.uuid4()),
-                create_at = date,
-                update_at = date,
-                lang = language,
-                user_id = email
-            )
-
-            blog_idx = {
-                "nickname":nickname,
-                "title": title,
-                "blog_content": content,
-                "cover_img": imgURLs,
-                "public_id": str(uuid.uuid4()),
-                "create_at": date,
-                "update_at": date,
-                "lang": language,
-                "user_id": email
-            }
+        db.rollback()
+        print("Nickname or email is invalid!")
+        return None
 
 
-            tags = db.query(modules.Tags).filter(modules.Tags.tag_id.in_(tags_id)).all()
-            if len(tags) != len(tags_id):
-                raise HTTPException(status_code=400, detail="One or more tags not found")
+@views.post("/create_blog")
+async def create_blog(request: Request, db: Session = Depends(create_db)):
 
-            new_blog.tags = tags
+    session_id = request.cookies.get("ss_key")
+    if not session_id:
+        return {"msg": "login"}
+    else:
+        data = await request.json()
+        title = data.get("title")
+        tags_id = data.get("tags")
+        email = data.get("email")
+        nickname = data.get("nickname")
+        content = data.get("content")
+        imgURLs = data.get("imgURLs", [])
 
-            db.add(new_blog)
-            loop = asyncio.get_event_loop()
-            res = await loop.run_in_executor(
-                None,
-                lambda: es_cloud.index(
-                    index=index_name,
-                    id=new_blog.blog_id,
-                    document=blog_idx
+        user = db.query(modules.Users).filter(modules.Users.id == email).first()
+        if user.session_key == session_id:
+            current_datetime = datetime.now(timezone.utc)
+            date = current_datetime.date()
+
+            try:
+                detected = detect_langs(content)
+                if detected:
+                    language = detected[0].lang
+                else:
+                    language = None
+            except LangDetectException:
+                language = None
+
+            try:
+                new_blog = modules.Blogs(
+                    title = title,
+                    blog_content=content,
+                    cover_img=imgURLs,
+                    public_id = str(uuid.uuid4()),
+                    create_at = date,
+                    update_at = date,
+                    lang = language,
+                    user_id = email
                 )
-            )
 
-            db.commit()
-            db.refresh(new_blog)
-        except SQLAlchemyError as e:
-            db.rollback()  
-            print("Unexpected error:", e)
+                blog_idx = {
+                    "nickname":nickname,
+                    "title": title,
+                    "blog_content": content,
+                    "cover_img": imgURLs,
+                    "public_id": str(uuid.uuid4()),
+                    "create_at": date,
+                    "update_at": date,
+                    "lang": language,
+                    "user_id": email
+                }
+                
+                try:
+                    if (len(tags_id) > 0):
+                        tags = db.query(modules.Tags).filter(modules.Tags.tag_id.in_(tags_id)).all()
+                        if len(tags) != len(tags_id):
+                            raise HTTPException(status_code=400, detail="One or more tags not found")
+                    else:
+                        etc_tag = db.query(modules.Tags).filter(modules.Tags.tag_content == "etc").first()
+                        tags = [etc_tag] if etc_tag else []
+                except:
+                    raise HTTPException(status_code=400, detail="One or more tags not found")
+
+                new_blog.tags = tags
+
+                db.add(new_blog)
+
+                loop = asyncio.get_event_loop()
+                await loop.run_in_executor(
+                    None,
+                    lambda: es_cloud.index(
+                        index=index_name,
+                        id=new_blog.blog_id,
+                        document=blog_idx
+                    )
+                )
+
+                db.commit()
+                db.refresh(new_blog)
+            except SQLAlchemyError as e:
+                db.rollback()  
+                print("Unexpected error:", e)
 
 
 @views.post("/create_contact")
@@ -270,9 +236,8 @@ async def upload_image(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
-
 @views.get("/blogs")
-def get_blogs(db: Session = Depends(create_db)):
+def get_blogs(user = Depends(get_current_user), db: Session = Depends(create_db)):
     blogs = (
         db.query(modules.Blogs).all()
     )

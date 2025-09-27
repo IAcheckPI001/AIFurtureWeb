@@ -29,32 +29,32 @@ function NewBlog (){
     const MAX_NICKNAME_LENGTH = 22;
     const MAX_EMAIL_LENGTH = 40;
     const MAX_TITLE_LENGTH = 60;
-    const MAX_CONTENT_BLOG = 100000;
+    const MAX_PASSKEY_LENGTH = 50;
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
+    const [userKey, setUserKey] = useState("");
+    const [passkey, setPasskey] = useState("");
     const [codeInput, setCodeInput] = useState("");
     const [codeVerify, setCode] = useState("");
     const [uploadAvatar, setAvatar] = useState(null);
     const [scaleShow, setScaleFrame] = useState(false);
 
-    const [account, setAccount] = useState(null);
-
     const navigate = useNavigate();
     const { t } = useTranslation();
     const quillRef = useRef(null);
-    const frameRef = useRef(null);
     const [notif, setNotif] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [scale, setScale] = useState(1);
     const [existNickname, setCheckNickname] = useState(false);
     const editorRef = useRef(null);
     const [zoomImage, setZoomImage] = useState(null);
-    const [selectedImages, setSelectedImages] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [timeLeft, setTimeLeft] = useState(0);
+    const [eventCheck, setCheckUser] = useState("");
+    const [eventAuth, setEventAuth] = useState(false);
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -114,22 +114,50 @@ function NewBlog (){
 
     const closeFrame = () => {
         setIsOpen(!isOpen);
-        setCodeInput("");
+        setCheckUser("");
+        setCode("");
     }
-    
-    const createBlog = async () => {
-        if(!nickname.trim() || !email.trim()){
-            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+
+    const handleAuth = () => {
+        setEventAuth(!eventAuth);
+        setCheckUser("");
+        setCode("");
+    }
+
+    const checkEmail = async (email) => {
+        try{
+            const response = await fetch(`${API_URL}/check_email`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({"email": email}),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to send verification email");
+            }
+            const data = await response.json();
+
+            return data
+        }catch (err) {
+            setNotif({ message: t("contact_page.error"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }
-        else{
-            const check = await checkAccount(email);
-            if (check === null) {
-                try {
-                    if (nicknameList.includes(nickname)) {
-                        setCheckNickname(true);
-                    }else{
-                        setCheckNickname(false);
+    }
+
+    const createUser = async () => {
+        if (!nickname.trim() || !email.trim() || !passkey.trim()){
+            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+        }else{
+            try {
+                const createInfor = document.getElementById("uploadUser");
+                createInfor.style.display = "flex";
+                if (nicknameList.includes(nickname)) {
+                    setCheckNickname(true);
+                }else{
+                    setCheckNickname(false);
+                    const check = await checkEmail(email);
+                    if (check){
                         if (codeVerify === ""){
                             verifyCode(email);
                             setTimeLeft(30);
@@ -141,25 +169,20 @@ function NewBlog (){
                             frameInput.style.border = "1px solid #6e9db1";
                         }else{
                             if (codeInput === codeVerify.code){
-                                const { html, uploadedUrls } = await uploadImages(content);
                                 const urls = await upload_avatar();
                                 const data = {
                                     "email":  email,
                                     "nickname": nickname,
+                                    "passkey": passkey,
                                     "avatar_img": urls.trim == "" ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
-                                    "title": title,
-                                    "tags": selectedTags.map(tag => tag.value),
-                                    "content": html,
-                                    "imgURLs": uploadedUrls,
-                                    "checkAccount": 0
                                 };
 
-                                sendMessage(data);
+                                createNewUser(data);
+                                setEventAuth(false);
                                 setNotif({ message: t("newBlog.success"), type: "success" });
                                 setCode("");
                                 setTimeout(() => {
                                     setNotif(null);
-                                    navigate("/blogs");
                                 }, 3000);
                             }else{
                                 setCodeInput("");
@@ -167,68 +190,83 @@ function NewBlog (){
                                 frameCode.style.border = "1px solid #ff9595";
                             }
                         }
-                        
+                    }else{
+                        setCheckUser("Email đã được sử dụng!");
                     }
-                    
-                }catch (error) {
-                    const { html, uploadedUrls } = await uploadImages(content);
-                    if (uploadedUrls && uploadedUrls.length > 0) {
-                        for (let img of uploadedUrls) {
-                            await deleteImage(img.public_id);
-                        }
-                    }
-                    // res.status(500).json({ error: "Server error" });
-                    setNotif({ message: t("contact_page.error"), type: "error" });
-                    setTimeout(() => setNotif(null), 4000);
                 }
-
-            }else{
-                setNotif({ message: "Tài khoản người dùng đã tồn tại, lưu blog với tài khoản đó hoặc tạo tài khoản mới?", type: "warning" });
+                
+            }catch (error) {
+                const { html, uploadedUrls } = await uploadImages(content);
+                if (uploadedUrls && uploadedUrls.length > 0) {
+                    for (let img of uploadedUrls) {
+                        await deleteImage(img.public_id);
+                    }
+                }
+                // res.status(500).json({ error: "Server error" });
+                setNotif({ message: t("contact_page.error"), type: "error" });
                 setTimeout(() => setNotif(null), 4000);
             }
         }
     }
-
-    const createBlogwithAccount = async () => {
-        const { html, uploadedUrls } = await uploadImages(content);
-        const data = {
-            "email":  email,
-            "nickname": nickname,
-            "title": title,
-            "tags": selectedTags.map(tag => tag.value),
-            "content": html,
-            "imgURLs": uploadedUrls,
-            "checkAccount": 1
-        };
-
-        try {
-            sendMessage(data);
-            setNotif({ message: t("newBlog.success"), type: "success" });
-            setCode("");
-            setTimeout(() => {
-                setNotif(null);
-                navigate("/blogs");
-            }, 3000);
-        } catch (error) {
-            const { html, uploadedUrls } = await uploadImages(content);
-            if (uploadedUrls && uploadedUrls.length > 0) {
-                for (let img of uploadedUrls) {
-                    await deleteImage(img.public_id);
+    
+    const createBlog = async () => {
+        if(!userKey.trim() || !passkey.trim()){
+            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+        }
+        else{
+            const check = await checkAccount(userKey, passkey);
+            if (check["msg"] === "notUser") {
+                setCheckUser("Tài khoản không tồn tại!");
+            }else if (check["msg"] === "success"){
+                const { html, uploadedUrls } = await uploadImages(content);
+                const data = {
+                    "email":email,
+                    "nickname": nickname,
+                    "title": title,
+                    "tags": selectedTags.map(tag => tag.value),
+                    "content": html,
+                    "imgURLs": uploadedUrls,
+                };
+                sendMessage(data);
+                setNotif({ message: t("newBlog.success"), type: "success" });
+                setCode("");
+                setTimeout(() => {
+                    setNotif(null);
+                    navigate("/blogs");
+                }, 3000);
+            }else if (check["msg"] === "conflict"){
+                setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
+                setTimeout(() => {
+                    setNotif(null);
+                }, 3000);
+            }else if (check["msg"] === "loginFailed"){
+                setCheckUser("Sai thông tin đăng nhập!");
+            }else if (check["msg"] === "verify"){
+                if(!codeVerify.trim()){
+                    verifyCode(email);
+                    setTimeLeft(30);
+                    setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                    setTimeout(() => setNotif(null), 4000);
+                    const frameCode = document.getElementById("codeFrame");
+                    const frameInput = document.getElementById("verifyCode");
+                    frameCode.style.display = "flex";
+                    frameInput.style.border = "1px solid #6e9db1";
+                }else{
+                    if (codeVerify === codeInput){
+                        
+                    }
                 }
             }
-            // res.status(500).json({ error: "Server error" });
-            setNotif({ message: t("contact_page.error"), type: "error" });
-            setTimeout(() => setNotif(null), 4000);
         }
     }
 
-
-    const checkAccount = async (email) =>{
+    const checkAccount = async (user_key, passkey) =>{
         try {
             const response = await fetch(`${API_URL}/check_account`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"email": email}),
+                body: JSON.stringify({"user_key": user_key, "passkey": passkey}),
             });
 
             if (!response.ok) {
@@ -236,7 +274,6 @@ function NewBlog (){
             }
             const data = await response.json();
 
-            setAccount(data);
             return data
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });
@@ -249,7 +286,7 @@ function NewBlog (){
             const response = await fetch(`${API_URL}/verify_email`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"email": email}),
+                body: JSON.stringify({"email": data}),
             });
 
             if (!response.ok) {
@@ -275,12 +312,21 @@ function NewBlog (){
         }
     }
 
+    const createNewUser = async (data) =>{
+        try {
+            const response = await fetch(`${API_URL}/create_user`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+        }catch (err) {
+            console.log("Error sending message: ", err);
+        }
+    }
+
 
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
-        setSelectedImages(prev => {
-            return file.length > 0 ? [file[file.length - 1]] : [];
-        });
         
         if (file){
             setAvatar({
@@ -409,6 +455,8 @@ function NewBlog (){
         await cloudinary.uploader.destroy(public_id);
     }
 
+    const {data: ss_user} = useEffectCheckSession();
+
 
     return( 
     
@@ -450,15 +498,15 @@ function NewBlog (){
                         </div>
                     </div>
                 )}
-                <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
-                    <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
-                        <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
-                            src={closeIcon} 
-                            alt=""
-                            onClick={closeFrame} />
-                    </div>
-                    <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("newBlog.createUser")}</h1>
-                    {nickname ? (
+                {eventAuth ? (
+                    <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
+                        <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
+                            <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
+                                src={closeIcon} 
+                                alt=""
+                                onClick={closeFrame} />
+                        </div>
+                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("newBlog.createUser")}</h1>
                         <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
                             <div className="relative">
                                 <img
@@ -479,81 +527,53 @@ function NewBlog (){
                                     />
                                 </label>
                             </div>
-                            <p style={{marginLeft:"15px", fontSize:"18px", marginTop:"8px"}}>{nickname}</p>
+                            <p style={{marginLeft:"15px", fontSize:"18px", marginTop:"8px"}}>{nickname || t("newBlog.yourNickname")}</p>
                         </div>
-                    ):(
-                        <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
-                            <div className="relative">
-                                <img
-                                    className="cursor-pointer"
-                                    style={{width:"58px", height:"58px", borderRadius:"100%"}}
-                                    src={uploadAvatar ? uploadAvatar.preview : avatar}
-                                    alt="Your avatar"
-                                    onClick={() => setZoomImage(uploadAvatar.preview)}/>
-                                <label style={{top: "34px", left: "32px"}} className="cursor-pointer flex items-center width-auto absolute">
-                                    <img className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        className="hidden"
-                                        onChange={handleImageChange}
-                                        placeholder="Upload image"
-                                    />
-                                </label>
-                            </div>
-                            <p style={{marginLeft:"15px", fontSize:"18px", marginTop:"8px"}}>{t("newBlog.yourNickname")}</p>
+                        <div className="flex flex-column" style={{margin: "11px 0"}}>
+                            <label className={styles.label} htmlFor="nickname">{t("newBlog.nicknameLabel")}</label>
+                            <input className={styles.inputNickname} 
+                                id="nickname" 
+                                type="text"
+                                value={nickname}
+                                maxLength={MAX_NICKNAME_LENGTH}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= MAX_NICKNAME_LENGTH) {
+                                        setNickname(e.target.value)
+                                    }
+                                }}
+                                />
+                            {existNickname && (
+                                <span style={{color:"#670a0a", fontSize:"14px", marginTop:"5px"}}>{t("newBlog.checkNickname")}</span>
+                            )}
                         </div>
-                    )}
-                    <div className="flex flex-column" style={{margin: "13px 0"}}>
-                        <label className={styles.label} htmlFor="nickname">{t("newBlog.nicknameLabel")}</label>
-                        <input className={styles.inputNickname} 
-                            id="nickname" 
-                            type="text"
-                            value={nickname}
-                            maxLength={MAX_NICKNAME_LENGTH}
-                            onChange={(e) => {
-                                if (e.target.value.length <= MAX_NICKNAME_LENGTH) {
-                                    setNickname(e.target.value)
-                                }
-                            }}
-                            />
-                        {existNickname && (
-                            <span style={{color:"#670a0a", fontSize:"14px", marginTop:"5px"}}>{t("newBlog.checkNickname")}</span>
+                        <div className="flex flex-column" style={{margin: "10px 22px 8px 0"}}>
+                            <label className={styles.label} htmlFor="email">{t("newBlog.emailLabel")}<span style={{color:"red"}}>*</span></label>
+                            <input className={styles.inputEmail} id="email" type="email"
+                                maxLength={MAX_EMAIL_LENGTH}
+                                value={email}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= MAX_EMAIL_LENGTH) {
+                                        setEmail(e.target.value)
+                                    }
+                                }}
+                                placeholder="example@gmail.com" required/>
+                        </div>
+                        {eventCheck.trim() && (
+                            <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
                         )}
-                    </div>
-                    <div className="flex flex-column" style={{margin: "10px 22px 26px 0"}}>
-                        <label className={styles.label} htmlFor="email">{t("newBlog.emailLabel")}<span style={{color:"red"}}>*</span></label>
-                        <input className={styles.inputEmail} id="email" type="email"
-                            maxLength={MAX_EMAIL_LENGTH}
-                            value={email}
-                            onChange={(e) => {
-                                if (e.target.value.length <= MAX_EMAIL_LENGTH) {
-                                    setEmail(e.target.value)
-                                }
-                            }}
-                            placeholder="example@gmail.com" required/>
-                    </div>
-                    {account !== null ? (
-                        <div>
-                            <div style={{width:"89%", border: "1px solid #dfdfdf", marginBottom:"8px"}}></div>
-                            <span style={{fontSize:"14px", color:"rgb(47 47 47)", marginLeft:"3px"}}>{t("newBlog.createDate")}{new Date(account.create_at).toLocaleDateString()}</span>
-                            <button onClick={createBlogwithAccount} id={styles.frameAccount} className="flex height-auto">
-                                <div className="flex items-center">
-                                    <img
-                                    style={{width:"24px", height:"24px", borderRadius:"100%"}}
-                                    src={account.avatar_img || avatar}
-                                    alt={account.nickname}/>
-                                    <p style={{marginLeft:"10px", fontSize:"14px"}}>{account.nickname}</p>
-                                </div>
-                            </button>
-                            <button id={styles.newAccount} className="flex height-auto">
-                                <div className="flex items-center">
-                                    <p style={{fontSize: "14px", color: "#1f507a"}}>{t("newBlog.newUser")}</p>
-                                </div>
-                            </button>
+                        <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
+                            <label className={styles.label} htmlFor="passkey">Password<span style={{color:"red"}}>*</span></label>
+                            <input className={styles.inputEmail} id="passkey" type="password"
+                                maxLength={MAX_PASSKEY_LENGTH}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= MAX_PASSKEY_LENGTH) {
+                                        setPasskey(e.target.value)
+                                    }
+                                }}
+                                placeholder="#########" required/>
                         </div>
-                    ):(
-                        <div id="codeFrame" className="flex flex-column" style={{display:"none"}}>
+                        
+                        <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"18px"}}>
                             <label className={styles.label} htmlFor="verifyCode">{t("newBlog.verifyCode")}<span style={{color:"red"}}>*</span></label>
                             <div className="flex items-center">
                                 <input className={styles.inputCode} id="verifyCode" type="text" placeholder="######" onChange={(e) => setCodeInput(e.target.value)} required/>
@@ -567,12 +587,70 @@ function NewBlog (){
                                 )}
                             </div>
                         </div>
-                    )}
-                
-                    <div className="flex jc-end" style={{margin:"6px 28px 28px 0"}}>
-                        <button id={styles.submit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
+                        <div className="flex jc-space-between" style={{margin:"6px 28px 28px 0"}}>
+                            <span style={{fontSize:"14px", marginLeft:"6px"}}> Bạn muốn quay lại? <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> Đăng nhập</span></span>
+                            <button id={styles.submit} onClick={createUser}>{t("newBlog.btnSubmit")}</button>
+                        </div>
                     </div>
-                </div>
+                ):(
+                    <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
+                        <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
+                            <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
+                                src={closeIcon} 
+                                alt=""
+                                onClick={closeFrame} />
+                        </div>
+                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>Login</h1>
+                        
+                        <div className="flex flex-column" style={{margin: "13px 0"}}>
+                            <label className={styles.label} htmlFor="user_key">Username</label>
+                            <input className={styles.inputNickname} 
+                                id="user_key" 
+                                type="text"
+                                maxLength={MAX_EMAIL_LENGTH}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= MAX_EMAIL_LENGTH) {
+                                        setUserKey(e.target.value)
+                                    }
+                                }}
+                                placeholder="Nickname or your email" required
+                                />
+                        </div>
+                        <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
+                            <label className={styles.label} htmlFor="passkey">Password</label>
+                            <input className={styles.inputEmail} id="passkey" type="password"
+                                maxLength={MAX_PASSKEY_LENGTH}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= MAX_PASSKEY_LENGTH) {
+                                        setPasskey(e.target.value)
+                                    }
+                                }}
+                                placeholder="#########" required/>
+                        </div>
+                        <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"16px"}}>
+                            <label className={styles.label} htmlFor="verifyCode">{t("newBlog.verifyCode")}<span style={{color:"red"}}>*</span></label>
+                            <div className="flex items-center">
+                                <input className={styles.inputCode} id="verifyCode" type="text" placeholder="######" onChange={(e) => setCodeInput(e.target.value)} required/>
+                                {timeLeft > 0 ? (
+                                    <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("newBlog.resendCode")}{timeLeft}s</p>
+                                ): (
+                                    <img style={{padding:"8px", borderRadius:"100%", width:"20px", height:"20px", marginLeft:"2px", cursor:"pointer"}}
+                                        onClick={resetCode} src={reloadCode} 
+                                        disabled={timeLeft > 0}>
+                                    </img>
+                                )}
+                            </div>
+                        </div>
+                        {eventCheck.trim() && (
+                            <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
+                        )}
+                        <span style={{fontSize:"14px"}}>Bạn chưa có tài khoản? <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> Tạo tài khoản</span></span>
+                    
+                        <div className="flex jc-end" style={{margin:"6px 28px 28px 0"}}>
+                            <button id={styles.submit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
+                        </div>
+                    </div>
+                )}
             </div>
             )}
             <div className="container width-100 flex jc-center">

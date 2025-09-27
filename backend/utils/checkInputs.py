@@ -13,3 +13,9 @@ def isvalidEmail(email):
             return True
     except:
         return False
+    
+def isNicknameKey(nickname: str) -> bool:
+    pattern = r"^[a-zA-Z0-9._]+$"
+    user_nickname = nickname.strip()
+
+    return re.fullmatch(pattern, user_nickname) is not None
