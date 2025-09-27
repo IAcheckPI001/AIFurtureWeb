@@ -122,7 +122,7 @@ function Blogs (){
         }
     }, [timeLeft]);
 
-    const verifyCode = async (data) =>{
+    const verifyCodeEmail = async (data) =>{
         try {
             const response = await fetch(`${API_URL}/verify_email`, {
                 method: "POST",
@@ -146,7 +146,7 @@ function Blogs (){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }else{
-            verifyCode(email);
+            verifyCodeEmail(email);
             setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
             setTimeout(() => setNotif(null), 4000);
             setTimeLeft(30);
@@ -179,7 +179,7 @@ function Blogs (){
                     const check = await checkEmail(email);
                     if (check){
                         if (codeVerify === ""){
-                            verifyCode(email);
+                            verifyCodeEmail(email);
                             setTimeLeft(30);
                             setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                             setTimeout(() => setNotif(null), 4000);
@@ -257,7 +257,7 @@ function Blogs (){
                 setCheckUser("Sai thông tin đăng nhập!");
             }else if (check.msg === "verify"){
                 if (codeVerify === ""){
-                    verifyCode(email);
+                    verifyCodeEmail(email);
                     setTimeLeft(30);
                     setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                     setTimeout(() => setNotif(null), 4000);
