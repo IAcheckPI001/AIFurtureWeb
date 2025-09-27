@@ -257,7 +257,7 @@ function Blogs (){
                 setCheckUser("Sai thông tin đăng nhập!");
             }else if (check.msg === "verify"){
                 if (codeVerify === ""){
-                    verifyCodeEmail(email);
+                    verifyCodeEmail(check.ss_verify);
                     setTimeLeft(30);
                     setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                     setTimeout(() => setNotif(null), 4000);
