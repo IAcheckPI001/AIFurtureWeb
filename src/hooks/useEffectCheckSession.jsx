@@ -10,7 +10,7 @@ function useEffectCheckSession(){
     const [error, setError] = useState(null);
 
     useEffect(() => {
-            checkSession()
+        checkSession()
             .then((res) => {
                 setData(res.data);
                 setLoading(false);
@@ -19,7 +19,7 @@ function useEffectCheckSession(){
                 setError(err);
                 setLoading(false);
             });
-        }, []);
+    }, []);
 
     return { data, loading, error };
 }

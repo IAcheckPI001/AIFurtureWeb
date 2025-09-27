@@ -152,15 +152,15 @@ def check_account(request: Request, response: Response, db: Session = Depends(cr
 
     return {"msg": "LoggedOut"}
 
-
-async def get_current_user(request: Request, db: Session = Depends(create_db)):
+@auth.get("/check-session")
+def get_current_user(request: Request, db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
     if not session_id:
-        raise HTTPException(status_code=401, detail="Not logged in")
+        return None
 
     # Look up session in DB
     session = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
     if not session:
-        raise HTTPException(status_code=401, detail="Session expired")
+        return None
 
     return session
