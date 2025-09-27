@@ -238,7 +238,6 @@ function Blogs (){
         }
         else{
             const check = await checkAccount(user_id, passkey);
-            console.log(check);
             if (check.msg === "notUser") {
                 setCheckUser("Tài khoản không tồn tại!");
             }else if (check.msg === "success"){
