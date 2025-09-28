@@ -13,7 +13,7 @@ from utils.emailService import generate_verification_code, email_notice
 from datetime import datetime, timezone
 from http.client import HTTPException
 
-from flask import jsonify, make_response
+from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Request, Depends, Response
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
@@ -69,7 +69,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
-                        response = make_response({"msg": "success"})
+                        response = JSONResponse(content = {"msg": "success"})
                         response.set_cookie(
                             "ss_key",
                             value= ss_key,
@@ -104,7 +104,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
-                        response = make_response({"msg": "success"})
+                        response = JSONResponse(content = {"msg": "success"})
                         response.set_cookie(
                             "ss_key",
                             value= ss_key,
@@ -129,7 +129,6 @@ async def check_account(response: Response, request: Request, db: Session = Depe
         except Exception as err:
             db.rollback()
             raise HTTPException(status_code=400, detail="Login failed session")
-    return None
 
 
 
