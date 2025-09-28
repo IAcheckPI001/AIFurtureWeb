@@ -222,6 +222,10 @@ function Blogs (){
                                 setEventAuth(false);
                                 setNotif({ message: t("newBlog.success"), type: "success" });
                                 setCodeVerify("");
+                                setPass("");
+                                setNickname("");
+                                setEmail("");
+                                setCodeInput();
                                 setTimeout(() => {
                                     setNotif(null);
                                 }, 3000);
