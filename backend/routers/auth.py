@@ -152,6 +152,6 @@ def get_current_user(request: Request, db: Session = Depends(create_db)):
 
     session = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
     if session:
-        return {"authenticated": True, "nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session_id}
+        return {"authenticated": True, "nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session.session_key}
 
     return {"authenticated": False}
