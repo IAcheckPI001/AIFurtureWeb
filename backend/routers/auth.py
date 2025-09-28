@@ -69,7 +69,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
-                        response = make_response(jsonify({"success": True}))
+                        response = make_response({"msg": "success"})
                         response.set_cookie(
                             "ss_key",
                             value= ss_key,
@@ -104,7 +104,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
-                        response = make_response(jsonify({"success": True}))
+                        response = make_response({"msg": "success"})
                         response.set_cookie(
                             "ss_key",
                             value= ss_key,
@@ -155,4 +155,4 @@ def get_current_user(request: Request, db: Session = Depends(create_db)):
     if session:
         return {"authenticated": True, "nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session_id}
 
-    return jsonify({"authenticated": False}), 401
+    return {"authenticated": False}

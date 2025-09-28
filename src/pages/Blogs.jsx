@@ -118,6 +118,9 @@ function Blogs (){
         setEventAuth(!eventAuth);
         setCheckUser("");
         setCodeVerify("");
+        setPass("");
+        setCodeVerify("");
+        setCodeInput("");
     }
 
     useEffect(() => {
@@ -209,7 +212,6 @@ function Blogs (){
                             }
                         }else{
                             if (codeInput === codeVerify.code){
-                                
                                 await upload_avatar();
                                 const data = {
                                     "email":  email,
@@ -290,7 +292,7 @@ function Blogs (){
                         frameCode.style.border = "1px solid #ff9595";
                     }
                 }
-            }else{
+            }else if(check.msg === "success"){
                 setNotif({ message: t("newBlog.success"), type: "success" });
                 setCodeVerify("");
                 setTimeout(() => {
