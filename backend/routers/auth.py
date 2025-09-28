@@ -74,7 +74,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         response = JSONResponse(content = {"msg": "success"})
                         response.set_cookie(
                             key="ss_key",
-                            value= user.session_key,
+                            value= ss_key,
                             httponly=True,
                             secure=True,
                             samesite="None"
@@ -110,7 +110,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         response = JSONResponse(content = {"msg": "success"})
                         response.set_cookie(
                             key="ss_key",
-                            value= user.session_key,
+                            value= ss_key,
                             httponly=True,
                             secure=True,
                             samesite="None"
@@ -153,8 +153,8 @@ def get_current_user(request: Request, db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
     if session_id is None:
         return {"authenticated": False}
-    session = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
-    if session:
-        return {"authenticated": True, "nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session.session_key}
+    user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
+    if user:
+        return {"authenticated": True, "nickname": user.nickname, "avatar_img": user.avatar_img, "session_id": session_id}
 
     return {"authenticated": False}
