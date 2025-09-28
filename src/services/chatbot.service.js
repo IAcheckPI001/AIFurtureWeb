@@ -10,7 +10,7 @@ export const getChats = () => {
 export const checkSession = () => {
     return apiFetch.get("/check-session", {
     credentials: "include"
-  });
+  }).then(res => res.json());
 };
 
 export const getBlogs = () => {

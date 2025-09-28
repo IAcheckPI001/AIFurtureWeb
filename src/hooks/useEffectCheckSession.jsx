@@ -11,14 +11,22 @@ function useEffectCheckSession(){
 
     useEffect(() => {
         checkSession()
-            .then((res) => {
-                setData(res.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err);
-                setLoading(false);
+        .then(res => {
+            if (res.authenticated) {
+            setData({
+                nickname: res.nickname,
+                avatar_img: res.avatar_img,
+                session_id: res.session_id
             });
+            } else {
+            setData(null);
+            }
+        })
+        .catch(err => {
+            setError(err);
+            setData(null);
+        })
+        .finally(() => setLoading(false));
     }, []);
 
     return { data, loading, error };

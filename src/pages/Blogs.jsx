@@ -262,13 +262,6 @@ function Blogs (){
             const check = await checkAccount(user_id, passkey);
             if (check.msg === "notUser") {
                 setCheckUser("Tài khoản không tồn tại!");
-            }else if (check.msg === "success"){
-                setNotif({ message: t("newBlog.success"), type: "success" });
-                setCodeVerify("");
-                setTimeout(() => {
-                    setNotif(null);
-                    window.location.reload();
-                }, 3000);
             }else if (check.msg === "conflict"){
                 setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
                 setTimeout(() => {
@@ -297,6 +290,13 @@ function Blogs (){
                         frameCode.style.border = "1px solid #ff9595";
                     }
                 }
+            }else{
+                setNotif({ message: t("newBlog.success"), type: "success" });
+                setCodeVerify("");
+                setTimeout(() => {
+                    setNotif(null);
+                    window.location.reload();
+                }, 3000);
             }
         }
     }

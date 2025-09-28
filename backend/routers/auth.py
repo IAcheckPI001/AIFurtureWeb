@@ -13,7 +13,7 @@ from utils.emailService import generate_verification_code, email_notice
 from datetime import datetime, timezone
 from http.client import HTTPException
 
-from flask import session
+from flask import jsonify, make_response
 from fastapi import APIRouter, Request, Depends, Response
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
@@ -69,6 +69,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
+                        response = make_response(jsonify({"success": True}))
                         response.set_cookie(
                             key="ss_key",
                             value= ss_key,
@@ -78,15 +79,8 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         )
                         db.commit()
                         db.refresh(user)
-                        return {"msg": "success"}
+                        return response
                     else:
-                        response.set_cookie(
-                            key="ss_key",
-                            value= None,
-                            httponly=True,
-                            secure=True,
-                            samesite="strict"
-                        )
                         return {"msg": "conflict"}
                 else:
                     user.login_failed += 1
@@ -110,6 +104,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
+                        response = make_response(jsonify({"success": True}))
                         response.set_cookie(
                             "ss_key",
                             value= ss_key,
@@ -119,15 +114,8 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         )
                         db.commit()
                         db.refresh(user)
-                        return {"msg": "success"}
+                        return response
                     else:
-                        response.set_cookie(
-                            "ss_key",
-                            value= None,
-                            httponly=True,
-                            secure=True,
-                            samesite="None"
-                        )
                         return {"msg": "conflict"}
                 else:
                     user.login_failed += 1
@@ -162,12 +150,9 @@ def logout(request: Request, response: Response, db: Session = Depends(create_db
 @auth.get("/check-session")
 def get_current_user(request: Request, db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
-    if not session_id:
-        return None
 
-    # Look up session in DB
     session = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
-    if not session:
-        return None
+    if session:
+        return jsonify({"authenticated": True, "nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session_id})
 
-    return {"nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session_id}
+    return jsonify({"authenticated": False}), 401
