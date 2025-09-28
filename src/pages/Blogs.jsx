@@ -178,6 +178,7 @@ function Blogs (){
                     setCheckNickname(false);
                     const check = await checkEmail(email);
                     if (check.msg === "notExist"){
+                        setCheckUser("");
                         if (codeVerify === ""){
                             verifyCodeEmail(email);
                             setTimeLeft(30);
@@ -189,6 +190,7 @@ function Blogs (){
                             frameInput.style.border = "1px solid #6e9db1";
                         }else{
                             if (codeInput === codeVerify.code){
+                                
                                 const urls = await upload_avatar();
                                 const data = {
                                     "email":  email,
@@ -211,9 +213,9 @@ function Blogs (){
                             }
                         }
                     }else if (check.msg === "exist"){
-                        setCheckUser("Email đã được sử dụng!")
+                        setCheckUser("Email đã được sử dụng!");
                     }else{
-                        setCheckUser("Lỗi xác thực email! Vui lòng nhập đúng định dạng.")
+                        setCheckUser("Lỗi xác thực email! Vui lòng nhập đúng định dạng.");
                     }
                     
                 }
