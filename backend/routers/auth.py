@@ -111,22 +111,22 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         user.login_failed = 0
                         user.session_key = ss_key
                         response.set_cookie(
-                            key="ss_key",
+                            "ss_key",
                             value= ss_key,
                             httponly=True,
                             secure=True,
-                            samesite="strict"
+                            samesite="None"
                         )
                         db.commit()
                         db.refresh(user)
                         return {"msg": "success"}
                     else:
                         response.set_cookie(
-                            key="ss_key",
+                            "ss_key",
                             value= None,
                             httponly=True,
                             secure=True,
-                            samesite="strict"
+                            samesite="None"
                         )
                         return {"msg": "conflict"}
                 else:
