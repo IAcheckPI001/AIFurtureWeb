@@ -8,9 +8,9 @@ export const getChats = () => {
 };
 
 export const checkSession = () => {
-    return apiFetch.get("/check-session", {
-    credentials: "include"
-  }).then(res => res.json());
+  return apiFetch.get("/check-session", {
+    withCredentials: true 
+  }).then(res => res.data);
 };
 
 export const getBlogs = () => {
