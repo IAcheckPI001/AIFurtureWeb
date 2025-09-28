@@ -135,7 +135,7 @@ function Blogs (){
                 throw new Error("Failed to send verification email");
             }
             const code = await response.json();
-            setCodeVerify(code.code);
+            setCodeVerify(code);
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
@@ -192,9 +192,9 @@ function Blogs (){
                     const check = await checkEmail(email);
                     if (check.msg === "notExist"){
                         setCheckUser("");
-                        if (!codeVerify.trim()){
+                        if (codeVerify === ""){
                             verifyCodeEmail(email);
-                            if (codeVerify.trim()){
+                            if (codeVerify !== ""){
                                 setTimeLeft(30);
                                 setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                                 setTimeout(() => setNotif(null), 4000);
@@ -204,7 +204,7 @@ function Blogs (){
                                 frameInput.style.border = "1px solid #6e9db1";
                             }
                         }else{
-                            if (codeInput === codeVerify.trim()){
+                            if (codeInput === codeVerify.code){
                                 
                                 await upload_avatar();
                                 const data = {
@@ -269,9 +269,9 @@ function Blogs (){
             }else if (check.msg === "loginFailed"){
                 setCheckUser("Sai thông tin đăng nhập!");
             }else if (check.msg === "verify"){
-                if (!codeVerify.trim()){
+                if (codeVerify === ""){
                     verifyCodeEmail(check.ss_verify);
-                    if (codeVerify.trim()){
+                    if (codeVerify !== ""){
                         setTimeLeft(30);
                         setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                         setTimeout(() => setNotif(null), 4000);
@@ -281,7 +281,7 @@ function Blogs (){
                         frameInput.style.border = "1px solid #6e9db1";
                     }
                 }else{
-                    if (codeVerify === codeInput){
+                    if (codeInput === codeVerify.code){
                         setCheckUser("Sai thông tin đăng nhập!");
                     }else{
                         setCodeInput("");
