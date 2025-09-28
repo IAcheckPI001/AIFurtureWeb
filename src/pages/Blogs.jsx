@@ -192,9 +192,9 @@ function Blogs (){
                     const check = await checkEmail(email);
                     if (check.msg === "notExist"){
                         setCheckUser("");
-                        if (!codeVerify){
+                        if (!codeVerify || !codeVerify.code){
                             verifyCodeEmail(email);
-                            if (codeVerify){
+                            if (codeVerify.code){
                                 setTimeLeft(30);
                                 setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                                 setTimeout(() => setNotif(null), 4000);
@@ -269,7 +269,7 @@ function Blogs (){
             }else if (check.msg === "loginFailed"){
                 setCheckUser("Sai thông tin đăng nhập!");
             }else if (check.msg === "verify"){
-                if (codeVerify === ""){
+                if (setCode){
                     verifyCodeEmail(check.ss_verify);
                     setTimeLeft(30);
                     setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
