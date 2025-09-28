@@ -39,8 +39,9 @@ function Blogs (){
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
     const [codeInput, setCodeInput] = useState("");
-    const [codeVerify, setCodeVerify] = useState("");
+    const [codeVerify, setCodeVerify] = useState(null);
     const [uploadAvatar, setAvatar] = useState(null);
+    const [urls, setUrls] = useState(null);
     
     const [scaleShow, setScaleFrame] = useState(false);
     const [scale, setScale] = useState(1);
@@ -106,13 +107,13 @@ function Blogs (){
     const loginUser = () => {
         setCheckAcc(!frameAccount)
         setCheckUser("");
-        setCodeVerify("");
+        setCodeVerify(null);
     }
 
     const handleAuth = () => {
         setEventAuth(!eventAuth);
         setCheckUser("");
-        setCodeVerify("");
+        setCodeVerify(null);
     }
 
     useEffect(() => {
@@ -142,14 +143,26 @@ function Blogs (){
     }
 
     const resetCode = () => {
-        if(!user_id.trim() || !passkey.trim() || !nickname.trim() || !email.trim()){
-            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
-            setTimeout(() => setNotif(null), 4000);
+        if (eventAuth){
+            if(!passkey.trim() || !nickname.trim() || !email.trim()){
+                setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+                setTimeout(() => setNotif(null), 4000);
+            }else{
+                verifyCodeEmail(email);
+                setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                setTimeout(() => setNotif(null), 4000);
+                setTimeLeft(30);
+            }
         }else{
-            verifyCodeEmail(user_id || email);
-            setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
-            setTimeout(() => setNotif(null), 4000);
-            setTimeLeft(30);
+            if(!user_id.trim() || !passkey.trim()){
+                setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+                setTimeout(() => setNotif(null), 4000);
+            }else{
+                verifyCodeEmail(user_id);
+                setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                setTimeout(() => setNotif(null), 4000);
+                setTimeLeft(30);
+            }
         }
     }
     
@@ -179,30 +192,32 @@ function Blogs (){
                     const check = await checkEmail(email);
                     if (check.msg === "notExist"){
                         setCheckUser("");
-                        if (codeVerify === ""){
+                        if (!codeVerify){
                             verifyCodeEmail(email);
-                            setTimeLeft(30);
-                            setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
-                            setTimeout(() => setNotif(null), 4000);
-                            const frameCode = document.getElementById("codeFrame");
-                            const frameInput = document.getElementById("verifyCode");
-                            frameCode.style.display = "flex";
-                            frameInput.style.border = "1px solid #6e9db1";
+                            if (codeVerify){
+                                setTimeLeft(30);
+                                setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                                setTimeout(() => setNotif(null), 4000);
+                                const frameCode = document.getElementById("codeFrame");
+                                const frameInput = document.getElementById("verifyCode");
+                                frameCode.style.display = "flex";
+                                frameInput.style.border = "1px solid #6e9db1";
+                            }
                         }else{
                             if (codeInput === codeVerify.code){
                                 
-                                const urls = await upload_avatar();
+                                await upload_avatar();
                                 const data = {
                                     "email":  email,
                                     "nickname": nickname,
                                     "passkey": passkey,
-                                    "avatar_img": urls.trim == "" ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
+                                    "avatar_img": !urls ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
                                 };
 
                                 createNewUser(data);
                                 setEventAuth(false);
                                 setNotif({ message: t("newBlog.success"), type: "success" });
-                                setCodeVerify("");
+                                setCodeVerify(null);
                                 setTimeout(() => {
                                     setNotif(null);
                                 }, 3000);
@@ -221,13 +236,8 @@ function Blogs (){
                 }
                 
             }catch (error) {
-                const { html, uploadedUrls } = await uploadImages(content);
-                if (uploadedUrls && uploadedUrls.length > 0) {
-                    for (let img of uploadedUrls) {
-                        await deleteImage(img.public_id);
-                    }
-                }
-                // res.status(500).json({ error: "Server error" });
+                if (urls)
+                    await deleteImage(urls.public_id);
                 setNotif({ message: t("contact_page.error"), type: "error" });
                 setTimeout(() => setNotif(null), 4000);
             }
@@ -246,7 +256,7 @@ function Blogs (){
                 setCheckUser("Tài khoản không tồn tại!");
             }else if (check.msg === "success"){
                 setNotif({ message: t("newBlog.success"), type: "success" });
-                setCodeVerify("");
+                setCodeVerify(null);
                 setTimeout(() => {
                     setNotif(null);
                     navigate("/blogs");
@@ -374,13 +384,13 @@ function Blogs (){
                 });
 
                 const data = await response.json();
-
-                return data.image_url
-
+                setUrls(data)
             }catch (err){
                 setNotif({ message: t("contact_page.error"), type: "warning" });
                 setTimeout(() => setNotif(null), 4000);
             }
+        }else{
+            setUrls(null);
         }
         
     };
@@ -388,6 +398,11 @@ function Blogs (){
     const removeImage = () => {
         setAvatar(null);
     };
+
+    async function deleteImage(public_id) {
+        await cloudinary.uploader.destroy(public_id);
+    }
+
 
     const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
     if (loadSession) return <p>Loading...</p>;
