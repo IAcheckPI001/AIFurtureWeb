@@ -9,7 +9,7 @@ from utils.checkInputs import isNicknameKey, isvalidEmail
 from config import modules
 from config.conn import cloudinary 
 from config.database import create_db
-from utils.encrypt import generate_csrf_token
+from utils.encrypt import create_sha256_hash, generate_csrf_token
 from datetime import datetime, timezone
 from http.client import HTTPException
 from langdetect import detect_langs
@@ -77,7 +77,7 @@ async def create_user(request: Request, db: Session = Depends(create_db)):
     email = data.get("email")
     nickname = data.get("nickname")
     user_img = data.get("avatar_img")
-    passkey = data.get("passkey")
+    passkey = create_sha256_hash(data.get("passkey"))
 
     if isvalidEmail(email) and isNicknameKey(nickname): 
         try:
@@ -109,7 +109,7 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
     session_id = request.cookies.get("ss_key")
     if not session_id:
-        return {"msg": "login"}
+        return {"msg": "verify"}
     else:
         data = await request.json()
         title = data.get("title")
@@ -184,9 +184,11 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
                 db.commit()
                 db.refresh(new_blog)
+                return {"msg": "success"}
             except SQLAlchemyError as e:
                 db.rollback()  
                 print("Unexpected error:", e)
+    return {"msg": "error"}
 
 
 @views.post("/create_contact")

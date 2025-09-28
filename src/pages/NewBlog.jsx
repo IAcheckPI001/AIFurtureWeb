@@ -219,96 +219,115 @@ function NewBlog (){
             }
         }
     }
-    
-    const createBlog = async () => {
-        if(!userKey.trim() || !passkey.trim()){
-            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
-            setTimeout(() => setNotif(null), 4000);
-        }
-        else{
-            try{
-                const check = await checkAccount(userKey, passkey);
-                if (check.msg === "notUser") {
-                    setCheckUser("Tài khoản không tồn tại!");
-                }else if (check.msg === "success"){
-                    const { html, uploadedUrls } = await uploadImages(content);
-                    const data = {
-                        "email":email,
-                        "nickname": nickname,
-                        "title": title,
-                        "tags": selectedTags.map(tag => tag.value),
-                        "content": html,
-                        "imgURLs": uploadedUrls,
-                    };
-                    try {
-                        sendMessage(data);
-                        setNotif({ message: t("newBlog.success"), type: "success" });
-                        setCode("");
-                        setTimeout(() => {
-                            setNotif(null);
-                            navigate("/blogs");
-                        }, 3000);
-                        
-                    }catch{
-                        if (uploadedUrls && uploadedUrls.length > 0) {
-                            for (let img of uploadedUrls) {
-                                await deleteImage(img.public_id);
-                            }
-                        }
-                        setNotif({ message: t("contact_page.error"), type: "error" });
-                        setTimeout(() => setNotif(null), 4000);
-                    }
 
-                    
-                }else if (check.msg === "conflict"){
-                    setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
-                    setTimeout(() => {
-                        setNotif(null);
-                    }, 3000);
-                }else if (check.msg === "loginFailed"){
-                    setCheckUser("Sai thông tin đăng nhập!");
-                }else if (check.msg === "verify"){
-                    if(codeVerify === ""){
-                        verifyCode(check.ss_verify);
-                        if(codeVerify.code !== ""){
-                            setTimeLeft(30);
-                            setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
-                            setTimeout(() => setNotif(null), 4000);
-                            const frameCode = document.getElementById("codeFrame");
-                            const frameInput = document.getElementById("verifyCode");
-                            frameCode.style.display = "flex";
-                            frameInput.style.border = "1px solid #6e9db1";
-                        }
-                    }else{
-                        if (codeInput === codeVerify.code){
-                            setCheckUser("Sai thông tin đăng nhập!");
-                        }
-                    }
-                }
-            }catch{
-                setNotif({ message: t("contact_page.error"), type: "error" });
-                setTimeout(() => setNotif(null), 4000);
-            }
-        }
-    }
-
-    const checkAccount = async (user_key, passkey) =>{
+    const checkAccount = async (user_id, passkey) =>{
         try {
             const response = await fetch(`${API_URL}/check_account`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"user_key": user_key, "passkey": passkey}),
+                body: JSON.stringify({"user_key": user_id, "passkey": passkey}),
             });
 
             if (!response.ok) {
                 throw new Error("Failed to send verification email");
             }
             const data = await response.json();
-
             return data
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
+        }
+    }
+
+    const login = async () => {
+        setCheckUser("")
+        if(!user_id.trim() || !passkey.trim()){
+            setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+        }
+        else{
+            const check = await checkAccount(user_id, passkey);
+            if (check.msg === "notUser") {
+                setCheckUser("Tài khoản không tồn tại!");
+            }else if (check.msg === "success"){
+                setNotif({ message: t("newBlog.success"), type: "success" });
+                setCode("");
+                setTimeout(() => {
+                    setNotif(null);
+                    navigate("/blogs");
+                }, 3000);
+            }else if (check.msg === "conflict"){
+                setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
+                setTimeout(() => {
+                    setNotif(null);
+                }, 3000);
+            }else if (check.msg === "loginFailed"){
+                setCheckUser("Sai thông tin đăng nhập!");
+            }else if (check.msg === "verify"){
+                if (codeVerify === ""){
+                    verifyCode(check.ss_verify);
+                    if (codeVerify.code !== ""){
+                        setTimeLeft(30);
+                        setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                        setTimeout(() => setNotif(null), 4000);
+                        const frameCode = document.getElementById("codeFrame");
+                        const frameInput = document.getElementById("verifyCode");
+                        frameCode.style.display = "flex";
+                        frameInput.style.border = "1px solid #6e9db1";
+                    }
+                }else{
+                    if (codeInput === codeVerify.code){
+                        setCheckUser("Sai thông tin đăng nhập!");
+                    }else{
+                        setCodeInput("");
+                        const frameCode = document.getElementById("verifyCode");
+                        frameCode.style.border = "1px solid #ff9595";
+                    }
+                }
+            }
+        }
+    }
+
+
+    
+    const createBlog = async () => {
+        if (!content.trim() || !title.trim()){
+            setNotif({ message: t("newBlog.warningEmptyContent"), type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+        }
+        else{
+            try {
+                const data = {
+                    "email":email,
+                    "nickname": nickname,
+                    "title": title,
+                    "tags": selectedTags.map(tag => tag.value),
+                    "content": html,
+                    "imgURLs": uploadedUrls,
+                };
+                const notif = sendMessage(data);
+                if (notif.msg === "success"){
+                    setNotif({ message: t("newBlog.success"), type: "success" });
+                    setCode("");
+                    setTimeout(() => {
+                        setNotif(null);
+                        navigate("/blogs");
+                    }, 3000);
+                } else if (notif.msg === "verify"){
+                    setIsOpen(true);
+                }else {
+                    setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
+                    setTimeout(() => setNotif(null), 4000);
+                }
+            }catch{
+                if (uploadedUrls && uploadedUrls.length > 0) {
+                    for (let img of uploadedUrls) {
+                        await deleteImage(img.public_id);
+                    }
+                }
+                setNotif({ message: t("contact_page.error"), type: "error" });
+                setTimeout(() => setNotif(null), 4000);
+            }
         }
     }
 
@@ -339,6 +358,8 @@ function NewBlog (){
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
+            const notif = await response.json();
+            return notif
         }catch (err) {
             console.log("Error sending message: ", err);
         }
@@ -679,7 +700,7 @@ function NewBlog (){
                         <span style={{fontSize:"14px"}}>Bạn chưa có tài khoản? <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> Tạo tài khoản</span></span>
                     
                         <div className="flex jc-end" style={{margin:"6px 28px 28px 0"}}>
-                            <button id={styles.submit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
+                            <button id={styles.submit} onClick={login}>{t("newBlog.btnSubmit")}</button>
                         </div>
                     </div>
                 )}
@@ -722,7 +743,7 @@ function NewBlog (){
                             required/>
                     </div>
                     <div className="flex jc-end" style={{margin:"18px 0px 25px 0px"}}>
-                        <button id={styles.submit} onClick={createAccount}>{t("newBlog.btnSubmit")}</button>
+                        <button id={styles.submit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
                     </div>
                 </div>
                 <div id={styles.blogframe} className="width-100 flex flex-column">
