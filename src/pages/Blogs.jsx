@@ -99,6 +99,10 @@ function Blogs (){
         }
     }
 
+    const menuOption = () => {
+        console.log("Login success");
+    }
+
     const closeFrame = () => {
         setIsOpen(!isOpen);
         setCodeInput("");
@@ -259,7 +263,7 @@ function Blogs (){
                 setCodeVerify("");
                 setTimeout(() => {
                     setNotif(null);
-                    navigate("/blogs");
+                    window.location.reload();
                 }, 3000);
             }else if (check.msg === "conflict"){
                 setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
@@ -654,7 +658,7 @@ function Blogs (){
                     </div>
                     {ss_user ? (
                         <div className="flex items-center">
-                            <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={ss_user.avatar_img} alt={ss_user.nickname} />
+                            <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                         </div>
                     ):(
                         <div className="flex items-center">
