@@ -142,11 +142,11 @@ function Blogs (){
     }
 
     const resetCode = () => {
-        if(!user_id.trim() || !passkey.trim()){
+        if(!user_id.trim() || !passkey.trim() || !nickname.trim() || !email.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }else{
-            verifyCodeEmail(email);
+            verifyCodeEmail(user_id || email);
             setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
             setTimeout(() => setNotif(null), 4000);
             setTimeLeft(30);
@@ -269,7 +269,7 @@ function Blogs (){
                     frameCode.style.display = "flex";
                     frameInput.style.border = "1px solid #6e9db1";
                 }else{
-                    if (codeInput === codeVerify.code){
+                    if (codeVerify.code === codeInput){
                         setCheckUser("Sai thông tin đăng nhập!");
                     }else{
                         setCodeInput("");
