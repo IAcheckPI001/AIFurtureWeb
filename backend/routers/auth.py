@@ -151,7 +151,8 @@ def logout(request: Request, response: Response, db: Session = Depends(create_db
 @auth.get("/check-session")
 def get_current_user(request: Request, db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
-
+    if session_id is None:
+        return {"authenticated": False}
     session = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
     if session:
         return {"authenticated": True, "nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session.session_key}
