@@ -194,7 +194,7 @@ function Blogs (){
                         setCheckUser("");
                         if (codeVerify === ""){
                             verifyCodeEmail(email);
-                            if (codeVerify !== ""){
+                            if (codeVerify.code !== ""){
                                 setTimeLeft(30);
                                 setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                                 setTimeout(() => setNotif(null), 4000);
@@ -271,7 +271,7 @@ function Blogs (){
             }else if (check.msg === "verify"){
                 if (codeVerify === ""){
                     verifyCodeEmail(check.ss_verify);
-                    if (codeVerify !== ""){
+                    if (codeVerify.code !== ""){
                         setTimeLeft(30);
                         setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                         setTimeout(() => setNotif(null), 4000);

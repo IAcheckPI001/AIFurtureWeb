@@ -38,7 +38,7 @@ function NewBlog (){
     const [userKey, setUserKey] = useState("");
     const [passkey, setPasskey] = useState("");
     const [codeInput, setCodeInput] = useState("");
-    const [codeVerify, setCode] = useState(null);
+    const [codeVerify, setCode] = useState("");
     const [urls, setUrls] = useState(null);
 
     const [uploadAvatar, setAvatar] = useState(null);
@@ -71,7 +71,7 @@ function NewBlog (){
             setTimeout(() => setNotif(null), 4000);
         }else{
             verifyCode(email);
-            if(codeVerify){
+            if(codeVerify.code !== ""){
                 setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                 setTimeout(() => setNotif(null), 4000);
                 setTimeLeft(30);
@@ -119,13 +119,13 @@ function NewBlog (){
     const closeFrame = () => {
         setIsOpen(!isOpen);
         setCheckUser("");
-        setCode(null);
+        setCode("");
     }
 
     const handleAuth = () => {
         setEventAuth(!eventAuth);
         setCheckUser("");
-        setCode(null);
+        setCode("");
     }
 
     const checkEmail = async (email) => {
@@ -162,9 +162,9 @@ function NewBlog (){
                     setCheckNickname(false);
                     const check = await checkEmail(email);
                     if (check){
-                        if (!codeVerify){
+                        if (codeVerify === ""){
                             verifyCode(email);
-                            if(codeVerify){
+                            if(codeVerify.code !== ""){
                                 setTimeLeft(30);
                                 setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                                 setTimeout(() => setNotif(null), 4000);
@@ -187,7 +187,7 @@ function NewBlog (){
                                     createNewUser(data);
                                     setEventAuth(false);
                                     setNotif({ message: t("newBlog.success"), type: "success" });
-                                    setCode(null);
+                                    setCode("");
                                     setTimeout(() => {
                                         setNotif(null);
                                     }, 3000);
@@ -243,7 +243,7 @@ function NewBlog (){
                     try {
                         sendMessage(data);
                         setNotif({ message: t("newBlog.success"), type: "success" });
-                        setCode(null);
+                        setCode("");
                         setTimeout(() => {
                             setNotif(null);
                             navigate("/blogs");
@@ -270,7 +270,7 @@ function NewBlog (){
                 }else if (check.msg === "verify"){
                     if(codeVerify === ""){
                         verifyCode(check.ss_verify);
-                        if(!codeVerify){
+                        if(codeVerify.code !== ""){
                             setTimeLeft(30);
                             setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
                             setTimeout(() => setNotif(null), 4000);
@@ -280,7 +280,7 @@ function NewBlog (){
                             frameInput.style.border = "1px solid #6e9db1";
                         }
                     }else{
-                        if (codeVerify.code === codeInput){
+                        if (codeInput === codeVerify.code){
                             setCheckUser("Sai thông tin đăng nhập!");
                         }
                     }
@@ -328,7 +328,7 @@ function NewBlog (){
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
-            setCode(null)
+            setCode("")
         }
     }
 
