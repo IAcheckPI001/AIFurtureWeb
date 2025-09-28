@@ -12,12 +12,12 @@ function useEffectCheckSession(){
     useEffect(() => {
         checkSession()
         .then(res => {
-            const res = res.data;
-            if (res.authenticated) {
+            const data = res.data;
+            if (data.authenticated) {
             setData({
-                nickname: res.nickname,
-                avatar_img: res.avatar_img,
-                session_id: res.session_id
+                nickname: data.nickname,
+                avatar_img: data.avatar_img,
+                session_id: data.session_id
             });
             } else {
                 setData(null);
