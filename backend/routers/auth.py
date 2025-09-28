@@ -44,8 +44,10 @@ async def check_email(request: Request, db: Session = Depends(create_db)):
     if isvalidEmail(user_key):
         try:
             user = db.query(modules.Users).filter(modules.Users.id == user_key).first()
-            if not user:
-                return {"msg": True}
+            if user:
+                return {"msg": "exist"}
+            else:
+                return {"msg": "notExist"}
         except Exception as err:
             db.rollback()
             raise HTTPException(status_code=400, detail="Login failed session")
@@ -168,4 +170,4 @@ def get_current_user(request: Request, db: Session = Depends(create_db)):
     if not session:
         return None
 
-    return session
+    return {"nickname": session.nickname, "avatar_img": session.avatar_img, "session_id": session_id}

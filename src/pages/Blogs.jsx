@@ -177,7 +177,7 @@ function Blogs (){
                 }else{
                     setCheckNickname(false);
                     const check = await checkEmail(email);
-                    if (check){
+                    if (check.msg === "notExist"){
                         if (codeVerify === ""){
                             verifyCodeEmail(email);
                             setTimeLeft(30);
@@ -210,8 +210,10 @@ function Blogs (){
                                 frameCode.style.border = "1px solid #ff9595";
                             }
                         }
-                    }else{
+                    }else if (check.msg === "exist"){
                         setCheckUser("Email đã được sử dụng!")
+                    }else{
+                        setCheckUser("Lỗi xác thực email! Vui lòng nhập đúng định dạng.")
                     }
                     
                 }
