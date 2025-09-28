@@ -71,11 +71,11 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         user.session_key = ss_key
                         response = make_response(jsonify({"success": True}))
                         response.set_cookie(
-                            key="ss_key",
+                            "ss_key",
                             value= ss_key,
                             httponly=True,
                             secure=True,
-                            samesite="strict"
+                            samesite="None"
                         )
                         db.commit()
                         db.refresh(user)

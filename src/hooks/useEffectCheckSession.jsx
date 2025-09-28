@@ -19,7 +19,7 @@ function useEffectCheckSession(){
                 session_id: res.session_id
             });
             } else {
-            setData(null);
+                setData(null);
             }
         })
         .catch(err => {
