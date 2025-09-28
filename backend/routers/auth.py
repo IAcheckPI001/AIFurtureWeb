@@ -69,6 +69,8 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
+                        db.commit()
+                        db.refresh(user)
                         response = JSONResponse(content = {"msg": "success"})
                         response.set_cookie(
                             key="ss_key",
@@ -77,8 +79,6 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                             secure=True,
                             samesite="None"
                         )
-                        db.commit()
-                        db.refresh(user)
                         return response
                     else:
                         return {"msg": "conflict"}
@@ -104,6 +104,9 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         ss_key = str(uuid.uuid4())
                         user.login_failed = 0
                         user.session_key = ss_key
+                        db.commit()
+                        db.refresh(user)
+
                         response = JSONResponse(content = {"msg": "success"})
                         response.set_cookie(
                             key="ss_key",
@@ -112,8 +115,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                             secure=True,
                             samesite="None"
                         )
-                        db.commit()
-                        db.refresh(user)
+                        
                         return response
                     else:
                         return {"msg": "conflict"}
