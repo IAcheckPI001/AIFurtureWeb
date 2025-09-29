@@ -146,7 +146,7 @@ function NewBlog (){
     }
 
     const createUser = async () => {
-        if (!nickname.trim() || !email.trim() || !passkey.trim() || !passkeyConfirm.trim()){
+        if (!nickname.trim() || !email.trim() || !passkey.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }else{
