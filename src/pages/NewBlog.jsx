@@ -261,6 +261,7 @@ function NewBlog (){
                 }else if(check.msg === "success"){
                     setNotif({ message: t("newBlog.success"), type: "success" });
                     setCode("");
+                    useEffectCheckSession();
                     setTimeout(() => {
                         setNotif(null);
                         setIsOpen(false);
