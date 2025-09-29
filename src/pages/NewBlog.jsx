@@ -23,7 +23,7 @@ import reloadCode from "../assets/icon/reload.png";
 import Notification from "../components/notification/Notification.jsx";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
-import { checkAccount } from "../services/chatbot.service.js";
+import { checkAccount, checkSession } from "../services/chatbot.service.js";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
 import validatePassword from "../auth/checkPass.jsx";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -144,6 +144,10 @@ function NewBlog (){
         }
     }
 
+    const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
+    if (loadSession) return <p>Loading...</p>;
+    if (errorSession) return <p>Error: {errorSession.message}</p>;
+
     const createUser = async () => {
         if (!nickname.trim() || !email.trim() || !passkey.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
@@ -259,17 +263,18 @@ function NewBlog (){
                         }
                     }
                 }else if(check.msg === "success"){
-                    const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
-                    if (loadSession) return <p>Loading...</p>;
-                    if (errorSession) return <p>Error: {errorSession.message}</p>;
-                    if (ss_user){
-                        setNotif({ message: t("newBlog.success"), type: "success" });
-                        setTimeout(() => {
-                            setNotif(null);
-                            setIsOpen(false);
-                        }, 3000);
-                        setCode("");
-                    }
+                    checkSession().then((ss_user) => {
+                        if (ss_user.authenticated) {
+                            setNotif({ message: t("newBlog.success"), type: "success" });
+                            setTimeout(() => {
+                                setNotif(null);
+                                setIsOpen(false);
+                            }, 3000);
+                            setCode("");
+                        }
+                    }).catch((err) => {
+                        console.error("Session check failed", err);
+                    });
                     
                 }
             }catch(Error){
@@ -279,9 +284,6 @@ function NewBlog (){
         }
     }
     
-    const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
-    if (loadSession) return <p>Loading...</p>;
-    if (errorSession) return <p>Error: {errorSession.message}</p>;
 
 
     const createBlog = async () => {

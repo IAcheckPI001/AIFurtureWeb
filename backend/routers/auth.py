@@ -142,7 +142,6 @@ async def logout(request: Request, db: Session = Depends(create_db)):
         return {"msg": "verify"}
     user = db.query(modules.Users).filter(modules.Users.session_key == ss_key).first()
     if not user:
-        response.delete_cookie("ss_key")
         return {"msg": "verify"}
     user.session_key = None
     db.commit()
