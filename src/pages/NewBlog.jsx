@@ -195,10 +195,6 @@ function NewBlog (){
                                     frameCode.style.border = "1px solid #ff9595";
                                 }
                             }
-                        }else if(!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial){
-                            setCheckUser("Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$");
-                        }else if(!checkPass.lengthOk){
-                            setCheckUser("Mật khẩu cần tối thiểu 8 ký tự!");
                         }
                         
                     }else if (check.msg === "exist"){
@@ -605,7 +601,7 @@ function NewBlog (){
                         {eventCheck.trim() && (
                             <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
                         )}
-                        <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
+                        <div className="flex flex-column" style={{margin: "10px 22px 6px 0"}}>
                             <label className={styles.label} htmlFor="passkey">Password<span style={{color:"red"}}>*</span></label>
                             <input className={styles.inputEmail} id="passkey" type="password"
                                 maxLength={MAX_PASSKEY_LENGTH}
@@ -616,18 +612,26 @@ function NewBlog (){
                                 }}
                                 placeholder="#########" required/>
                         </div>
-                        {eventCheck ? (
-                            <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
-                        ):(
-                            <ul>
-                                <li>
+                        <ul style={{margin:"0", paddingLeft:"26px", marginBottom:"14px"}}>
+                            {!checkPass.lengthOk ?(
+                                    <li style={{margin:"0"}}>
                                     <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
                                 </li>
-                                <li>
+                            ):(
+                                <li style={{margin:"0"}}>
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                </li>
+                            )}
+                            {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
+                                <li style={{margin:"0"}}>
                                     <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
                                 </li>
-                            </ul>
-                        )}
+                            ):(
+                                <li style={{margin:"0"}}>
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                </li>
+                            )}
+                        </ul>
                         
                         <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"18px"}}>
                             <label className={styles.label} htmlFor="verifyCode">{t("newBlog.verifyCode")}<span style={{color:"red"}}>*</span></label>
