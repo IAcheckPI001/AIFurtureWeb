@@ -263,15 +263,16 @@ function NewBlog (){
                         }
                     }
                 }else if(check.msg === "success"){
-                    const {html, uploadedUrls} = await uploadImages();
-                    const data = {
-                        "title": title,
-                        "tags": selectedTags.map(tag => tag.value),
-                        "content": html,
-                        "imgURLs": uploadedUrls,
-                    };
+
                     try {
-                        sendMessage(data);
+                        const {html, uploadedUrls} = await uploadImages(content);
+                        const data = {
+                            "title": title,
+                            "tags": selectedTags.map(tag => tag.value),
+                            "content": html,
+                            "imgURLs": uploadedUrls,
+                        };
+                        await sendMessage(data);
                         setNotif({ message: t("newBlog.success"), type: "success" });
                         setCode("");
                         setTimeout(() => {
@@ -455,10 +456,10 @@ function NewBlog (){
 
 
 
-    const uploadImages = async (data) => {
+    const uploadImages = async (html) => {
         const uploadedUrls = [];
         const div = document.createElement("div");
-        div.innerHTML = data;
+        div.innerHTML = html;
 
         const imageUrls = div.querySelectorAll("img");
 
