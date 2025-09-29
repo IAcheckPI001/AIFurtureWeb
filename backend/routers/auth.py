@@ -93,7 +93,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                 return {"msg": "notUser"}
         except Exception as err:
             db.rollback()
-            raise HTTPException(status_code=400, detail="Login failed session")
+            return {"msg": "error"}
     else:
         try:
             user = db.query(modules.Users).filter(modules.Users.nickname == user_key).first()
@@ -130,7 +130,8 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                 return {"msg": "notUser"}
         except Exception as err:
             db.rollback()
-            raise HTTPException(status_code=400, detail="Login failed session")
+            return {"msg": "error"}
+        
 
 
 
