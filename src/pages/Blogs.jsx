@@ -297,7 +297,7 @@ function Blogs (){
                 setCodeVerify("");
                 setTimeout(() => {
                     setNotif(null);
-                    window.location.reload();
+                    // window.location.reload();
                 }, 3000);
             }
         }
