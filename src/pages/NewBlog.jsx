@@ -304,7 +304,7 @@ function NewBlog (){
         }
         else{
             if (ss_user){
-                const {html, uploadedUrls} = await uploadImages();
+                const {html, uploadedUrls} = await uploadImages(content);
                 const data = {
                     "title": title,
                     "tags": selectedTags.map(tag => tag.value),
@@ -455,10 +455,10 @@ function NewBlog (){
 
 
 
-    const uploadImages = async (html) => {
+    const uploadImages = async (data) => {
         const uploadedUrls = [];
         const div = document.createElement("div");
-        div.innerHTML = html;
+        div.innerHTML = data;
 
         const imageUrls = div.querySelectorAll("img");
 
