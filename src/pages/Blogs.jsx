@@ -18,6 +18,7 @@ import reloadCode from "../assets/icon/reload.png";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
+import { checkAccount } from "../services/chatbot.service.js";
 import axios from "axios";
 import Notification from "../components/notification/Notification.jsx";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -261,44 +262,49 @@ function Blogs (){
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            const check = await checkAccount(user_id, passkey);
-            if (check.msg === "notUser") {
-                setCheckUser("Tài khoản không tồn tại!");
-            }else if (check.msg === "conflict"){
-                setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
-                setTimeout(() => {
-                    setNotif(null);
-                }, 3000);
-            }else if (check.msg === "loginFailed"){
-                setCheckUser("Sai thông tin đăng nhập!");
-            }else if (check.msg === "verify"){
-                if (codeVerify === ""){
-                    verifyCodeEmail(check.ss_verify);
-                    if (codeVerify.code !== ""){
-                        setTimeLeft(30);
-                        setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
-                        setTimeout(() => setNotif(null), 4000);
-                        const frameCode = document.getElementById("codeFrame");
-                        const frameInput = document.getElementById("verifyCode");
-                        frameCode.style.display = "flex";
-                        frameInput.style.border = "1px solid #6e9db1";
-                    }
-                }else{
-                    if (codeInput === codeVerify.code){
-                        setCheckUser("Sai thông tin đăng nhập!");
+            try{
+                const check = await checkAccount(user_id, passkey);
+                if (check.msg === "notUser") {
+                    setCheckUser("Tài khoản không tồn tại!");
+                }else if (check.msg === "conflict"){
+                    setNotif({ message: "Tài khoản đang được đăng nhập nơi khác!", type: "warning" });
+                    setTimeout(() => {
+                        setNotif(null);
+                    }, 3000);
+                }else if (check.msg === "loginFailed"){
+                    setCheckUser("Sai thông tin đăng nhập!");
+                }else if (check.msg === "verify"){
+                    if (codeVerify === ""){
+                        verifyCodeEmail(check.ss_verify);
+                        if (codeVerify.code !== ""){
+                            setTimeLeft(30);
+                            setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                            setTimeout(() => setNotif(null), 4000);
+                            const frameCode = document.getElementById("codeFrame");
+                            const frameInput = document.getElementById("verifyCode");
+                            frameCode.style.display = "flex";
+                            frameInput.style.border = "1px solid #6e9db1";
+                        }
                     }else{
-                        setCodeInput("");
-                        const frameCode = document.getElementById("verifyCode");
-                        frameCode.style.border = "1px solid #ff9595";
+                        if (codeInput === codeVerify.code){
+                            setCheckUser("Sai thông tin đăng nhập!");
+                        }else{
+                            setCodeInput("");
+                            const frameCode = document.getElementById("verifyCode");
+                            frameCode.style.border = "1px solid #ff9595";
+                        }
                     }
+                }else if(check.msg === "success"){
+                    setNotif({ message: t("newBlog.success"), type: "success" });
+                    setCodeVerify("");
+                    setTimeout(() => {
+                        setNotif(null);
+                        // window.location.reload();
+                    }, 3000);
                 }
-            }else if(check.msg === "success"){
-                setNotif({ message: t("newBlog.success"), type: "success" });
-                setCodeVerify("");
-                setTimeout(() => {
-                    setNotif(null);
-                    // window.location.reload();
-                }, 3000);
+            }catch(Error){
+                setNotif({ message: t("contact_page.error"), type: "warning" });
+                setTimeout(() => setNotif(null), 4000);
             }
         }
     }
@@ -316,25 +322,6 @@ function Blogs (){
             }
             const data = await response.json();
 
-            return data
-        }catch (err) {
-            setNotif({ message: t("contact_page.error"), type: "warning" });
-            setTimeout(() => setNotif(null), 4000);
-        }
-    }
-
-    const checkAccount = async (user_id, passkey) =>{
-        try {
-            const response = await fetch(`${API_URL}/check_account`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"user_key": user_id, "passkey": passkey}),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to send verification email");
-            }
-            const data = await response.json();
             return data
         }catch (err) {
             setNotif({ message: t("contact_page.error"), type: "warning" });

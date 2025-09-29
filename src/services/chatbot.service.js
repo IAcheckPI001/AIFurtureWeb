@@ -7,9 +7,15 @@ export const getChats = () => {
     return apiFetch.get("/chats");
 };
 
-export const checkSession = () => {
-  return apiFetch.get("/check-session");
+export const checkSession = async  () => {
+  const res = await apiFetch.get("/check-session");
+  return res.data;
 };
+
+export const checkAccount = async (user_id, passkey) =>{
+    const res = await apiFetch.post("/check_account", { user_id, passkey });
+    return res.data;
+}
 
 export const getBlogs = () => {
     return apiFetch.get("/blogs");

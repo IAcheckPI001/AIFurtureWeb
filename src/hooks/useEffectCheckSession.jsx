@@ -11,8 +11,7 @@ function useEffectCheckSession(){
 
     useEffect(() => {
         checkSession()
-        .then(res => {
-            const data = res.data;
+        .then((data) => {
             if (data.authenticated) {
             setData({
                 nickname: data.nickname,
@@ -25,7 +24,6 @@ function useEffectCheckSession(){
         })
         .catch(err => {
             setError(err);
-            setData(null);
         })
         .finally(() => setLoading(false));
     }, []);
