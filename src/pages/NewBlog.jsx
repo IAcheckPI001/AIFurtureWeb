@@ -1,7 +1,7 @@
 
 
 import { useState, useRef, useEffect } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import CreatableSelect from "react-select/creatable";
 import AvatarEditor from "react-avatar-editor";
@@ -284,15 +284,15 @@ function NewBlog (){
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            if (ss_user){
-                const {html, uploadedUrls} = await uploadImages();
-                const data = {
-                    "title": title,
-                    "tags": selectedTags.map(tag => tag.value),
-                    "content": html,
-                    "imgURLs": uploadedUrls,
-                };
+            if (ss_user.authenticated){
                 try {
+                    const {html, uploadedUrls} = await uploadImages();
+                    const data = {
+                        "title": title,
+                        "tags": selectedTags.map(tag => tag.value),
+                        "content": html,
+                        "imgURLs": uploadedUrls,
+                    };
                     const notif = sendMessage(data);
                     if (notif.msg === "success"){
                         setNotif({ message: t("newBlog.success"), type: "success" });
@@ -314,7 +314,7 @@ function NewBlog (){
                     setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
                     setTimeout(() => setNotif(null), 4000);
                 }
-            }else if(!ss_user){
+            }else if(!ss_user.authenticated){
                 setIsOpen(true);
             }
         }
