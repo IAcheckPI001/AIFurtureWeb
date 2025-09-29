@@ -221,13 +221,13 @@ function Blogs (){
                                 };
 
                                 createNewUser(data);
-                                setEventAuth(false);
-                                setNotif({ message: t("newBlog.success"), type: "success" });
                                 setCodeVerify("");
                                 setPass("");
                                 setNickname("");
                                 setEmail("");
                                 setCodeInput();
+                                setEventAuth(false);
+                                setNotif({ message: t("newBlog.success"), type: "success" });
                                 setTimeout(() => {
                                     setNotif(null);
                                 }, 3000);
