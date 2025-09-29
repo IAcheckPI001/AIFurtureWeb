@@ -311,7 +311,8 @@ function NewBlog (){
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            if (ss_user.session_id !== ""){
+            const ss_user = await checkSession(); 
+            if (ss_user.authenticated){
                 try {
                     const {html, uploadedUrls} = await uploadImages(content);
                     const data = {
