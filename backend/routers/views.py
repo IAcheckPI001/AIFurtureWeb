@@ -109,7 +109,7 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
     session_id = request.cookies.get("ss_key")
     if session_id is None:
-        return {"msg": "verify"}
+        raise HTTPException(status_code=404, detail="Not found session!") 
     user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
     if user:
         data = await request.json()
@@ -180,11 +180,10 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
 
             db.commit()
             db.refresh(new_blog)
-            return {"msg": "success"}
         except SQLAlchemyError as e:
-            db.rollback()  
-            return {"msg": "error"}
-    return {"msg": "verify"}
+            db.rollback() 
+            raise HTTPException(status_code=404, detail="Create blog failed!") 
+
 
 
 @views.post("/create_contact")

@@ -285,32 +285,27 @@ function NewBlog (){
         }
         else{
             if (ss_user){
+                const {html, uploadedUrls} = await uploadImages();
+                const data = {
+                    "title": title,
+                    "tags": selectedTags.map(tag => tag.value),
+                    "content": html,
+                    "imgURLs": uploadedUrls,
+                };
                 try {
-                    const {html, uploadedUrls} = await uploadImages();
-                    const data = {
-                        "title": title,
-                        "tags": selectedTags.map(tag => tag.value),
-                        "content": html,
-                        "imgURLs": uploadedUrls,
-                    };
-                    const notif = sendMessage(data);
-                    if (notif.msg === "success"){
-                        setNotif({ message: t("newBlog.success"), type: "success" });
-                        setCode("");
-                        setTimeout(() => {
-                            setNotif(null);
-                            navigate("/blogs");
-                        }, 3000);
-                    }else if (notif.msg ==="error"){
-                        if (uploadedUrls && uploadedUrls.length > 0) {
-                            for (let img of uploadedUrls) {
-                                await deleteImage(img.public_id);
-                            }
-                        }
-                        setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
-                        setTimeout(() => setNotif(null), 4000);
-                    }
+                    sendMessage(data);
+                    setNotif({ message: t("newBlog.success"), type: "success" });
+                    setCode("");
+                    setTimeout(() => {
+                        setNotif(null);
+                        navigate("/blogs");
+                    }, 3000);
                 } catch (error) {
+                    if (uploadedUrls && uploadedUrls.length > 0) {
+                        for (let img of uploadedUrls) {
+                            await deleteImage(img.public_id);
+                        }
+                    }
                     setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
                     setTimeout(() => setNotif(null), 4000);
                 }
