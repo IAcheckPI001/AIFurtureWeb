@@ -239,7 +239,7 @@ async def upload_image(file: UploadFile = File(...)):
         return {"error": str(e)}
 
 @views.get("/blogs")
-def get_blogs(user = Depends(get_current_user), db: Session = Depends(create_db)):
+def get_blogs(db: Session = Depends(create_db)):
     blogs = (
         db.query(modules.Blogs).all()
     )

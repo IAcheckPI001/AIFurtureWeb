@@ -150,7 +150,7 @@ def logout(request: Request, response: Response, db: Session = Depends(create_db
     return {"msg": "LoggedOut"}
 
 @auth.get("/check-session")
-def get_current_user(request: Request, db: Session = Depends(create_db)):
+async def get_current_user(request: Request, db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
     if session_id is None:
         return {"authenticated": False}

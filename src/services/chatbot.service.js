@@ -12,8 +12,8 @@ export const checkSession = async  () => {
   return res.data;
 };
 
-export const checkAccount = async (user_id, passkey) =>{
-    const res = await apiFetch.post("/check_account", { user_id, passkey });
+export const checkAccount = async (user_key, passkey) =>{
+    const res = await apiFetch.post("/check_account", { user_key, passkey });
     return res.data;
 }
 
