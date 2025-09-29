@@ -662,17 +662,9 @@ function Blogs (){
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
                                 <div id={styles.frameUser} className="flex flex-column">
-                                    <div style={{marginLeft:"18px"}}>
-                                        <div style={{margin: "18px 10px !important"}}>
-                                            <div className="flex items-center">
-                                                <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={ss_user.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
-                                            <span className="nameID" style={{fontSize:"16px"}}>{ss_user.nickname}</span>
-                                        </div>
-                                        </div>
-                                        <div id={styles.frameTag}>
-                                            <button className={styles.btnOption} onClick={deleteSession}>Log out</button>
-                                        </div>
-                                    </div>
+                                    <button className={styles.btnOption}>Blogs</button>
+                                    <button className={styles.btnOption}>Services</button>
+                                    <button className={styles.btnOption} onClick={deleteSession}>Log out</button>
                                 </div>
                             )}
                         </div>
