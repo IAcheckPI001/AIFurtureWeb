@@ -71,7 +71,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         user.session_key = ss_key
                         db.commit()
                         db.refresh(user)
-                        response = JSONResponse({"msg": "success"})
+                        response = JSONResponse(content={"msg": "success"})
                         response.set_cookie(
                             key="ss_key",
                             value= user.session_key,
@@ -107,7 +107,7 @@ async def check_account(response: Response, request: Request, db: Session = Depe
                         db.commit()
                         db.refresh(user)
 
-                        response = JSONResponse({"msg": "success"})
+                        response = JSONResponse(content={"msg": "success"})
                         response.set_cookie(
                             key="ss_key",
                             value= user.session_key,
