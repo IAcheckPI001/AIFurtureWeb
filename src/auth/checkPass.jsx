@@ -13,10 +13,8 @@ function validatePassword(passkey, minLength = 8, allowedSpecials = "#.,!@#$%^&*
 
     const lengthOk = passkey.length >= minLength;
 
-    if (hasUpper, hasLower, hasDigit, hasSpecial, lengthOk){
-        return true
-    }
 
-    return false
+    return {hasUpper, hasLower, hasDigit, hasSpecial, lengthOk, valid: hasUpper && hasLower && hasNumber && hasSpecial && lengthOk};
 }
 
+export default validatePassword;

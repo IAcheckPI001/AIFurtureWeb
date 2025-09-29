@@ -25,6 +25,7 @@ import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import { checkAccount } from "../services/chatbot.service.js";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
+import validatePassword from "../auth/checkPass.jsx";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function NewBlog (){
@@ -39,7 +40,6 @@ function NewBlog (){
     const [email, setEmail] = useState("");
     const [userKey, setUserKey] = useState("");
     const [passkey, setPasskey] = useState("");
-    const [passkeyConfirm, setPasskeyConfirm] = useState("");
     const [codeInput, setCodeInput] = useState("");
     const [codeVerify, setCode] = useState("");
     const [urls, setUrls] = useState(null);
@@ -60,6 +60,7 @@ function NewBlog (){
     const [eventCheck, setCheckUser] = useState("");
     const [eventAuth, setEventAuth] = useState(false);
     const [scaleShow, setScaleFrame] = useState(false);
+    const checkPass = validatePassword(passkey)
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -154,53 +155,50 @@ function NewBlog (){
                     setCheckNickname(false);
                     const check = await checkEmail(email);
                     if (check.msg === "notExist"){
-                        if(passkey !== passkeyConfirm){
-                            setCheckUser("Mật khẩu không trùng khớp!")
-                        }else{
-                            if(validatePassword(passkey)){
-                                setCheckUser("");
-                                if (codeVerify === ""){
-                                    verifyCode(email);
-                                    if (codeVerify.code !== ""){
-                                        setTimeLeft(30);
-                                        setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
-                                        setTimeout(() => setNotif(null), 4000);
-                                        const frameCode = document.getElementById("codeFrame");
-                                        const frameInput = document.getElementById("verifyCode");
-                                        frameCode.style.display = "flex";
-                                        frameInput.style.border = "1px solid #6e9db1";
-                                    }
-                                }else{
-                                    if (codeInput === codeVerify.code){
-                                        await upload_avatar();
-                                        const data = {
-                                            "email":  email,
-                                            "nickname": nickname,
-                                            "passkey": passkey,
-                                            "avatar_img": !urls ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
-                                        };
-
-                                        createNewUser(data);
-                                        setCode("");
-                                        setPasskey("");
-                                        setPasskeyConfirm("");
-                                        setNickname("");
-                                        setEmail("");
-                                        setCodeInput();
-                                        setEventAuth(false);
-                                        setNotif({ message: t("newBlog.success"), type: "success" });
-                                        setTimeout(() => {
-                                            setNotif(null);
-                                        }, 3000);
-                                    }else{
-                                        setCodeInput("");
-                                        const frameCode = document.getElementById("verifyCode");
-                                        frameCode.style.border = "1px solid #ff9595";
-                                    }
+                        if(checkPass.valid){
+                            setCheckUser("");
+                            if (codeVerify === ""){
+                                verifyCode(email);
+                                if (codeVerify.code !== ""){
+                                    setTimeLeft(30);
+                                    setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                                    setTimeout(() => setNotif(null), 4000);
+                                    const frameCode = document.getElementById("codeFrame");
+                                    const frameInput = document.getElementById("verifyCode");
+                                    frameCode.style.display = "flex";
+                                    frameInput.style.border = "1px solid #6e9db1";
                                 }
                             }else{
-                                setCheckUser("Mật khẩu cần tối thiểu 8 ký tự và có 1 Ký tự in hoa, ký tự số và 1 ký tự đặc biệt #.,!");
+                                if (codeInput === codeVerify.code){
+                                    await upload_avatar();
+                                    const data = {
+                                        "email":  email,
+                                        "nickname": nickname,
+                                        "passkey": passkey,
+                                        "avatar_img": !urls ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
+                                    };
+
+                                    createNewUser(data);
+                                    setCode("");
+                                    setPasskey("");
+                                    setNickname("");
+                                    setEmail("");
+                                    setCodeInput();
+                                    setEventAuth(false);
+                                    setNotif({ message: t("newBlog.success"), type: "success" });
+                                    setTimeout(() => {
+                                        setNotif(null);
+                                    }, 3000);
+                                }else{
+                                    setCodeInput("");
+                                    const frameCode = document.getElementById("verifyCode");
+                                    frameCode.style.border = "1px solid #ff9595";
+                                }
                             }
+                        }else if(!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial){
+                            setCheckUser("Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$");
+                        }else if(!checkPass.lengthOk){
+                            setCheckUser("Mật khẩu cần tối thiểu 8 ký tự!");
                         }
                         
                     }else if (check.msg === "exist"){
@@ -618,21 +616,17 @@ function NewBlog (){
                                 }}
                                 placeholder="#########" required/>
                         </div>
-                        <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
-                            <label className={styles.label} htmlFor="passkeyConfirm">Password Confirm<span style={{color:"red"}}>*</span></label>
-                            <input className={styles.inputEmail} id="passkeyConfirm" type="password"
-                                maxLength={MAX_PASSKEY_LENGTH}
-                                onChange={(e) => {
-                                    if (e.target.value.length <= MAX_PASSKEY_LENGTH) {
-                                        setPasskeyConfirm(e.target.value)
-                                    }
-                                }}
-                                placeholder="#########" required/>
-                        </div>     
                         {eventCheck ? (
                             <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
                         ):(
-                            <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự và có 1 Ký tự in hoa, ký tự số và 1 ký tự đặc biệt #.,!</span>
+                            <ul>
+                                <li>
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                </li>
+                                <li>
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                </li>
+                            </ul>
                         )}
                         
                         <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"18px"}}>
