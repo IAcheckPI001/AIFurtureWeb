@@ -136,16 +136,18 @@ async def check_account(response: Response, request: Request, db: Session = Depe
 
 
 @auth.get("/logout")
-def logout(request: Request, db: Session = Depends(create_db)):
+async def logout(request: Request, db: Session = Depends(create_db)):
     ss_key = request.cookies.get("ss_key")
     if not ss_key:
-        raise HTTPException(status_code=401, detail="Not logged in")
+        return {"msg": "verify"}
     user = db.query(modules.Users).filter(modules.Users.session_key == ss_key).first()
     if not user:
-        raise HTTPException(status_code=401, detail="Invalid session")
+        response.delete_cookie("ss_key")
+        return {"msg": "verify"}
     user.session_key = None
     db.commit()
-    response = JSONResponse(content={"msg": "LoggedOut"})
+    db.refresh(user)
+    response = JSONResponse(content={"msg": "loggedOut"})
     response.delete_cookie("ss_key")
 
     return response

@@ -251,6 +251,16 @@ function Blogs (){
         }
     }
 
+    const deleteSession = async () => {
+        const check = await logout();
+        if (check.msg === "loggedOut"){
+            window.location.reload();
+        }else if(check.msg === "verify"){
+            setNotif({ message: "Phiên đăng nhập hết hạn!", type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+        }
+    }
+
     const login = async () => {
         setCheckUser("")
         if(!user_id.trim() || !passkey.trim()){
@@ -402,6 +412,8 @@ function Blogs (){
     const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
     if (loadSession) return <p>Loading...</p>;
     if (errorSession) return <p>Error: {errorSession.message}</p>;
+
+
 
     return (
         <div className="width-100 container">
@@ -649,11 +661,16 @@ function Blogs (){
                         <div className="flex items-center relative">
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
-                                <div id={styles.frameFilter} className="flex flex-column">
+                                <div id={styles.frameUser} className="flex flex-column">
                                     <div style={{marginLeft:"18px"}}>
-                                        <h4 style={{marginBottom:"16px"}}>{t("blog_page.filterTitle")}</h4>
+                                        <div style={{margin: "18px 10px !important"}}>
+                                            <div className="flex items-center">
+                                                <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={ss_user.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
+                                            <span className="nameID" style={{fontSize:"16px"}}>{ss_user.nickname}</span>
+                                        </div>
+                                        </div>
                                         <div id={styles.frameTag}>
-                                            <button onClick={logout}>Log out</button>
+                                            <button className={styles.btnOption} onClick={deleteSession}>Log out</button>
                                         </div>
                                     </div>
                                 </div>

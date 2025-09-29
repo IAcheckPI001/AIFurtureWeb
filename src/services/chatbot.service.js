@@ -7,7 +7,7 @@ export const getChats = () => {
     return apiFetch.get("/chats");
 };
 
-export const checkSession = async  () => {
+export const checkSession = async () => {
   const res = await apiFetch.get("/check-session");
   return res.data;
 };
@@ -17,8 +17,8 @@ export const checkAccount = async (user_key, passkey) =>{
     return res.data;
 }
 
-export const logout = () =>{
-    const res = apiFetch.get("/logout");
+export const logout = async () =>{
+    const res = await apiFetch.get("/logout");
     return res.data;
 }
 
