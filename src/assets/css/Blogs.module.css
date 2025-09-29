@@ -45,7 +45,6 @@
     top: 58px;
     width: 200px;
     height: auto;
-    padding: 14px 0;
     background-color: #fff;
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -54,16 +53,17 @@
 
 .btnOption {
     width: 100%;
-    padding: 8px;
     background: none;
     display: flex;
-    padding-left: 22px;
-    font-size: 15px;
+    padding: 10px 8px 10px 22px;
+    font-size: 16px;
+    border-bottom: 1px solid #f4f4f4;
+    cursor: pointer;
 }
 
 .btnOption:hover{
-    background-color: #dfdfdf;
-    transition: all 0.2s ease-in;
+    background-color: #eeeeee;
+    transition: all .3s ease-in-out;
 }
 
 #frameTag {

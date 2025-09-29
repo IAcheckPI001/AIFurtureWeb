@@ -33,6 +33,7 @@ function Blogs (){
     const { t } = useTranslation();
 
     const frameRef = useRef(null);
+    const frameRefUser = useRef(null);
 
     const [searchTerm, setSearchTerm] = useState("");
     const [user_id, setUserKey] = useState("");
@@ -65,6 +66,9 @@ function Blogs (){
         const handleClickOutside = (event) => {
             if (frameRef.current && !frameRef.current.contains(event.target)) {
                 setIsOpen(false);
+            }
+            if (frameRefUser.current && !frameRefUser.current.contains(event.target)) {
+                setOptionUser(false);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -661,7 +665,7 @@ function Blogs (){
                         <div className="flex items-center relative">
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
-                                <div id={styles.frameUser} className="flex flex-column">
+                                <div ref={frameRefUser} id={styles.frameUser} className="flex flex-column">
                                     <button className={styles.btnOption}>Blogs</button>
                                     <button className={styles.btnOption}>Services</button>
                                     <button className={styles.btnOption} onClick={deleteSession}>Log out</button>
