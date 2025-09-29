@@ -263,28 +263,35 @@ function NewBlog (){
                         }
                     }
                 }else if(check.msg === "success"){
-
                     try {
-                        const {html, uploadedUrls} = await uploadImages(content);
-                        const data = {
-                            "title": title,
-                            "tags": selectedTags.map(tag => tag.value),
-                            "content": html,
-                            "imgURLs": uploadedUrls,
-                        };
-                        await sendMessage(data);
-                        setNotif({ message: t("newBlog.success"), type: "success" });
-                        setCode("");
-                        setTimeout(() => {
-                            setNotif(null);
-                            navigate("/blogs");
-                        }, 3000);
-                    } catch (error) {
-                        if (uploadedUrls && uploadedUrls.length > 0) {
-                            for (let img of uploadedUrls) {
-                                await deleteImage(img.public_id);
+                        const ss_user = await checkSession(); 
+                        if (ss_user.authenticated) {
+                            try {
+                                const {html, uploadedUrls} = await uploadImages(content);
+                                const data = {
+                                    "title": title,
+                                    "tags": selectedTags.map(tag => tag.value),
+                                    "content": html,
+                                    "imgURLs": uploadedUrls,
+                                };
+                                await sendMessage(data);
+                                setNotif({ message: t("newBlog.success"), type: "success" });
+                                setCode("");
+                                setTimeout(() => {
+                                    setNotif(null);
+                                    navigate("/blogs");
+                                }, 3000);
+                            } catch (error) {
+                                if (uploadedUrls && uploadedUrls.length > 0) {
+                                    for (let img of uploadedUrls) {
+                                        await deleteImage(img.public_id);
+                                    }
+                                }
+                                setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
+                                setTimeout(() => setNotif(null), 4000);
                             }
                         }
+                    } catch (error) {
                         setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
                         setTimeout(() => setNotif(null), 4000);
                     }
@@ -304,15 +311,15 @@ function NewBlog (){
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            if (ss_user){
-                const {html, uploadedUrls} = await uploadImages(content);
-                const data = {
-                    "title": title,
-                    "tags": selectedTags.map(tag => tag.value),
-                    "content": html,
-                    "imgURLs": uploadedUrls,
-                };
+            if (ss_user.session_id !== ""){
                 try {
+                    const {html, uploadedUrls} = await uploadImages(content);
+                    const data = {
+                        "title": title,
+                        "tags": selectedTags.map(tag => tag.value),
+                        "content": html,
+                        "imgURLs": uploadedUrls,
+                    };
                     sendMessage(data);
                     setNotif({ message: t("newBlog.success"), type: "success" });
                     setCode("");
@@ -329,7 +336,7 @@ function NewBlog (){
                     setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
                     setTimeout(() => setNotif(null), 4000);
                 }
-            }else if(!ss_user){
+            }else{
                 setIsOpen(true);
             }
         }
@@ -363,8 +370,6 @@ function NewBlog (){
                 credentials: "include",
                 body: JSON.stringify(data),
             });
-            const notif = await response.json();
-            return notif
         }catch (err) {
             console.log("Error sending message: ", err);
         }
@@ -764,7 +769,7 @@ function NewBlog (){
                     </div>
                     <div className="flex flex-column" style={{marginTop: "20px", width:"50vw", marginBottom:"50px"}}>
                         <ReactQuill ref={quillRef} modules={modules} style={{margin:"5px 0"}} 
-                            onChange={(value) => normalizeContent(value)}
+                            onChange={normalizeContent}
                             id={styles.contentFrame} 
                             placeholder={t("newBlog.placeholderContent")} 
                             required/>
