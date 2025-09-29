@@ -19,6 +19,7 @@ import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
 import { checkAccount, logout } from "../services/chatbot.service.js";
+import validatePassword from "../auth/checkPass.jsx";
 import axios from "axios";
 import Notification from "../components/notification/Notification.jsx";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -59,6 +60,8 @@ function Blogs (){
     const [timeLeft, setTimeLeft] = useState(0);
     const [existNickname, setCheckNickname] = useState(false);
     const [eventAuth, setEventAuth] = useState(false);
+    const checkPass = validatePassword(passkey);
+
 
     const handleIconClick = () => setIsOpen(!isOpen);
 
@@ -199,44 +202,49 @@ function Blogs (){
                     setCheckNickname(false);
                     const check = await checkEmail(email);
                     if (check.msg === "notExist"){
-                        setCheckUser("");
-                        if (codeVerify === ""){
-                            verifyCodeEmail(email);
-                            if (codeVerify.code !== ""){
-                                setTimeLeft(30);
-                                setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
-                                setTimeout(() => setNotif(null), 4000);
-                                const frameCode = document.getElementById("codeFrame");
-                                const frameInput = document.getElementById("verifyCode");
-                                frameCode.style.display = "flex";
-                                frameInput.style.border = "1px solid #6e9db1";
+                        if(checkPass.valid){
+                            setCheckUser("");
+                            if (codeVerify === ""){
+                                verifyCodeEmail(email);
+                                if (codeVerify.code !== ""){
+                                    setTimeLeft(30);
+                                    setNotif({ message: t("contact_page.waitCheck"), type: "waitCheck" });
+                                    setTimeout(() => setNotif(null), 4000);
+                                    const frameCode = document.getElementById("codeFrame");
+                                    const frameInput = document.getElementById("verifyCode");
+                                    frameCode.style.display = "flex";
+                                    frameInput.style.border = "1px solid #6e9db1";
+                                }
+                            }else{
+                                if (codeInput === codeVerify.code){
+                                    await upload_avatar();
+                                    const data = {
+                                        "email":  email,
+                                        "nickname": nickname,
+                                        "passkey": passkey,
+                                        "avatar_img": !urls ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
+                                    };
+
+                                    createNewUser(data);
+                                    setCodeVerify("");
+                                    setPass("");
+                                    setNickname("");
+                                    setEmail("");
+                                    setCodeInput();
+                                    setEventAuth(false);
+                                    setNotif({ message: t("newBlog.success"), type: "success" });
+                                    setTimeout(() => {
+                                        setNotif(null);
+                                    }, 3000);
+                                }else{
+                                    setCodeInput("");
+                                    const frameCode = document.getElementById("verifyCode");
+                                    frameCode.style.border = "1px solid #ff9595";
+                                }
                             }
                         }else{
-                            if (codeInput === codeVerify.code){
-                                await upload_avatar();
-                                const data = {
-                                    "email":  email,
-                                    "nickname": nickname,
-                                    "passkey": passkey,
-                                    "avatar_img": !urls ? "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627287/avatar_default_ccdqc5.png": urls,
-                                };
-
-                                createNewUser(data);
-                                setCodeVerify("");
-                                setPass("");
-                                setNickname("");
-                                setEmail("");
-                                setCodeInput();
-                                setEventAuth(false);
-                                setNotif({ message: t("newBlog.success"), type: "success" });
-                                setTimeout(() => {
-                                    setNotif(null);
-                                }, 3000);
-                            }else{
-                                setCodeInput("");
-                                const frameCode = document.getElementById("verifyCode");
-                                frameCode.style.border = "1px solid #ff9595";
-                            }
+                            setNotif({ message: "Mật khẩu chưa đúng địng dạng!", type: "warning" });
+                            setTimeout(() => setNotif(null), 4000);
                         }
                     }else if (check.msg === "exist"){
                         setCheckUser("Email đã được sử dụng!");
@@ -532,6 +540,26 @@ function Blogs (){
                                     }}
                                     placeholder="#########" required/>
                             </div>
+                            <ul style={{margin:"0", paddingLeft:"26px", marginBottom:"14px"}}>
+                                {!checkPass.lengthOk ?(
+                                    <li style={{margin:"0"}}>
+                                        <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                    </li>
+                                ):(
+                                    <li style={{margin:"0"}}>
+                                        <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                    </li>
+                                )}
+                                {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
+                                    <li style={{margin:"0"}}>
+                                        <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                    </li>
+                                ):(
+                                    <li style={{margin:"0"}}>
+                                        <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                    </li>
+                                )}
+                            </ul>
                     
                             <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"18px"}}>
                                 <label className={styles.label} htmlFor="verifyCode">{t("newBlog.verifyCode")}<span style={{color:"red"}}>*</span></label>
