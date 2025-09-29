@@ -263,19 +263,30 @@ function NewBlog (){
                         }
                     }
                 }else if(check.msg === "success"){
-                    checkSession().then((ss_user) => {
-                        if (ss_user.authenticated) {
-                            setNotif({ message: t("newBlog.success"), type: "success" });
-                            setTimeout(() => {
-                                setNotif(null);
-                                setIsOpen(false);
-                            }, 3000);
-                            setCode("");
+                    const {html, uploadedUrls} = await uploadImages();
+                    const data = {
+                        "title": title,
+                        "tags": selectedTags.map(tag => tag.value),
+                        "content": html,
+                        "imgURLs": uploadedUrls,
+                    };
+                    try {
+                        sendMessage(data);
+                        setNotif({ message: t("newBlog.success"), type: "success" });
+                        setCode("");
+                        setTimeout(() => {
+                            setNotif(null);
+                            navigate("/blogs");
+                        }, 3000);
+                    } catch (error) {
+                        if (uploadedUrls && uploadedUrls.length > 0) {
+                            for (let img of uploadedUrls) {
+                                await deleteImage(img.public_id);
+                            }
                         }
-                    }).catch((err) => {
-                        console.error("Session check failed", err);
-                    });
-                    
+                        setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
+                        setTimeout(() => setNotif(null), 4000);
+                    }
                 }
             }catch(Error){
                 setNotif({ message: t("contact_page.error"), type: "warning" });
