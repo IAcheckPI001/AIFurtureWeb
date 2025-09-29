@@ -24,6 +24,7 @@ import Notification from "../components/notification/Notification.jsx";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import { checkAccount } from "../services/chatbot.service.js";
+import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function NewBlog (){
@@ -270,43 +271,49 @@ function NewBlog (){
             }
         }
     }
-    
+    const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
+    if (loadSession) return <p>Loading...</p>;
+    if (errorSession) return <p>Error: {errorSession.message}</p>;
+
+
     const createBlog = async () => {
         if (!content.trim() || !title.trim()){
             setNotif({ message: t("newBlog.warningEmptyContent"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            const {html, uploadedUrls} = await uploadImages();
-            const data = {
-                "title": title,
-                "tags": selectedTags.map(tag => tag.value),
-                "content": html,
-                "imgURLs": uploadedUrls,
-            };
-            try {
-                const notif = sendMessage(data);
-                if (notif.msg === "success"){
-                    setNotif({ message: t("newBlog.success"), type: "success" });
-                    setCode("");
-                    setTimeout(() => {
-                        setNotif(null);
-                        navigate("/blogs");
-                    }, 3000);
-                } else if (notif.msg === "verify"){
-                    setIsOpen(true);
-                }else if (notif.msg ==="error"){
-                    if (uploadedUrls && uploadedUrls.length > 0) {
-                        for (let img of uploadedUrls) {
-                            await deleteImage(img.public_id);
+            if (ss_user){
+                const {html, uploadedUrls} = await uploadImages();
+                const data = {
+                    "title": title,
+                    "tags": selectedTags.map(tag => tag.value),
+                    "content": html,
+                    "imgURLs": uploadedUrls,
+                };
+                try {
+                    const notif = sendMessage(data);
+                    if (notif.msg === "success"){
+                        setNotif({ message: t("newBlog.success"), type: "success" });
+                        setCode("");
+                        setTimeout(() => {
+                            setNotif(null);
+                            navigate("/blogs");
+                        }, 3000);
+                    }else if (notif.msg ==="error"){
+                        if (uploadedUrls && uploadedUrls.length > 0) {
+                            for (let img of uploadedUrls) {
+                                await deleteImage(img.public_id);
+                            }
                         }
+                        setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
+                        setTimeout(() => setNotif(null), 4000);
                     }
+                } catch (error) {
                     setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
                     setTimeout(() => setNotif(null), 4000);
                 }
-            }catch{
-                setNotif({ message: t("contact_page.error"), type: "error" });
-                setTimeout(() => setNotif(null), 4000);
+            }else if(!ss_user){
+                setIsOpen(true);
             }
         }
     }
