@@ -284,7 +284,7 @@ function NewBlog (){
             setTimeout(() => setNotif(null), 4000);
         }
         else{
-            if (ss_user.authenticated){
+            if (ss_user){
                 try {
                     const {html, uploadedUrls} = await uploadImages();
                     const data = {
@@ -314,7 +314,7 @@ function NewBlog (){
                     setNotif({ message: "Hệ thống blog đang được cập nhật!", type: "error" });
                     setTimeout(() => setNotif(null), 4000);
                 }
-            }else if(!ss_user.authenticated){
+            }else if(!ss_user){
                 setIsOpen(true);
             }
         }
