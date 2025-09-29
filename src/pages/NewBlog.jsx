@@ -60,7 +60,8 @@ function NewBlog (){
     const [eventCheck, setCheckUser] = useState("");
     const [eventAuth, setEventAuth] = useState(false);
     const [scaleShow, setScaleFrame] = useState(false);
-    const checkPass = validatePassword(passkey)
+    const checkPass = validatePassword(passkey);
+    const [typeColor, setTypeColor] = useState(false);
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -121,6 +122,7 @@ function NewBlog (){
         setEventAuth(!eventAuth);
         setCheckUser("");
         setCode("");
+        
     }
 
     const checkEmail = async (email) => {
@@ -157,6 +159,7 @@ function NewBlog (){
                     if (check.msg === "notExist"){
                         if(checkPass.valid){
                             setCheckUser("");
+                            setTypeColor(false);
                             if (codeVerify === ""){
                                 verifyCode(email);
                                 if (codeVerify.code !== ""){
@@ -195,6 +198,10 @@ function NewBlog (){
                                     frameCode.style.border = "1px solid #ff9595";
                                 }
                             }
+                        }else if (!checkPass.lengthOk){
+                            setTypeColor(true);
+                        }else if (!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial){
+                            setTypeColor(true);
                         }
                         
                     }else if (check.msg === "exist"){
@@ -614,8 +621,8 @@ function NewBlog (){
                         </div>
                         <ul style={{margin:"0", paddingLeft:"26px", marginBottom:"14px"}}>
                             {!checkPass.lengthOk ?(
-                                    <li style={{margin:"0"}}>
-                                    <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                <li style={{margin:"0"}}>
+                                    <span id="typeLength" style={{fontSize:"14px", color: typeColor ? "red" : "#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
                                 </li>
                             ):(
                                 <li style={{margin:"0"}}>
@@ -624,7 +631,7 @@ function NewBlog (){
                             )}
                             {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
                                 <li style={{margin:"0"}}>
-                                    <span style={{fontSize:"14px", color:"#2d2d2dff"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                    <span id="typeFormat" style={{fontSize:"14px", color: typeColor ? "red" : "#2d2d2dff"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
                                 </li>
                             ):(
                                 <li style={{margin:"0"}}>
