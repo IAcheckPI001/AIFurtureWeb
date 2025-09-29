@@ -18,7 +18,7 @@ import reloadCode from "../assets/icon/reload.png";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
-import { checkAccount } from "../services/chatbot.service.js";
+import { checkAccount, logout } from "../services/chatbot.service.js";
 import axios from "axios";
 import Notification from "../components/notification/Notification.jsx";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -49,6 +49,7 @@ function Blogs (){
     const editorRef = useRef(null);
     const [showAll, setShowAll] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [optionUser, setOptionUser] = useState(false);
     const [selectedTag, setSelectedTag] = useState(null);
     const [results, setResults] = useState([]);
     const [notif, setNotif] = useState(null);
@@ -101,12 +102,7 @@ function Blogs (){
     }
 
     const menuOption = () => {
-        console.log("Login success");
-    }
-
-    const closeFrame = () => {
-        setIsOpen(!isOpen);
-        setCodeInput("");
+        setOptionUser(!optionUser);
     }
 
     const loginUser = () => {
@@ -299,7 +295,7 @@ function Blogs (){
                     setCodeVerify("");
                     setTimeout(() => {
                         setNotif(null);
-                        // window.location.reload();
+                        window.location.reload();
                     }, 3000);
                 }
             }catch(Error){
@@ -650,9 +646,20 @@ function Blogs (){
                         <Link className={styles.btnCreateBlog} to="/create-blog"> {t("blog_page.btnBlog")}</Link>
                     </div>
                     {ss_user ? (
-                        <div className="flex items-center">
+                        <div className="flex items-center relative">
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
+                            {optionUser && (
+                                <div id={styles.frameFilter} className="flex flex-column">
+                                    <div style={{marginLeft:"18px"}}>
+                                        <h4 style={{marginBottom:"16px"}}>{t("blog_page.filterTitle")}</h4>
+                                        <div id={styles.frameTag}>
+                                            <button onClick={logout}>Log out</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
+                        
                     ):(
                         <div className="flex items-center">
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={avatar} alt="login" />

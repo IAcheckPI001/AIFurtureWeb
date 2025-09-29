@@ -17,6 +17,11 @@ export const checkAccount = async (user_key, passkey) =>{
     return res.data;
 }
 
+export const logout = () =>{
+    const res = apiFetch.get("/logout");
+    return res.data;
+}
+
 export const getBlogs = () => {
     return apiFetch.get("/blogs");
 };

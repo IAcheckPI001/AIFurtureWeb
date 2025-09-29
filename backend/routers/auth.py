@@ -135,8 +135,8 @@ async def check_account(response: Response, request: Request, db: Session = Depe
 
 
 
-@auth.post("/logout")
-def logout(request: Request, response: Response, db: Session = Depends(create_db)):
+@auth.get("/logout")
+def logout(request: Request, db: Session = Depends(create_db)):
     ss_key = request.cookies.get("ss_key")
     if not ss_key:
         raise HTTPException(status_code=401, detail="Not logged in")
@@ -145,9 +145,10 @@ def logout(request: Request, response: Response, db: Session = Depends(create_db
         raise HTTPException(status_code=401, detail="Invalid session")
     user.session_key = None
     db.commit()
+    response = JSONResponse(content={"msg": "LoggedOut"})
     response.delete_cookie("ss_key")
 
-    return {"msg": "LoggedOut"}
+    return response
 
 @auth.get("/check-session")
 async def get_current_user(request: Request, db: Session = Depends(create_db)):
