@@ -50,7 +50,7 @@ class Users(Base):
     __tablename__ = 'users'
     id = Column(Unicode(255), primary_key=True, nullable=False)
     nickname = Column(Unicode(30), unique=True, nullable=False)
-    passkey = Column(Unicode(255), unique=True, nullable=False)
+    passkey = Column(Unicode(255), nullable=False)
     avatar_img = Column(Unicode(1000), nullable=True)
     session_key = Column(Unicode(255), unique=True, nullable=True)
     login_failed = Column(Integer, nullable=False, default=0)
