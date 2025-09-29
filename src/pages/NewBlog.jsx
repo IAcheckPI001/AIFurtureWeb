@@ -259,13 +259,18 @@ function NewBlog (){
                         }
                     }
                 }else if(check.msg === "success"){
-                    setNotif({ message: t("newBlog.success"), type: "success" });
-                    setCode("");
-                    useEffectCheckSession();
-                    setTimeout(() => {
-                        setNotif(null);
-                        setIsOpen(false);
-                    }, 3000);
+                    const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
+                    if (loadSession) return <p>Loading...</p>;
+                    if (errorSession) return <p>Error: {errorSession.message}</p>;
+                    if (ss_user){
+                        setNotif({ message: t("newBlog.success"), type: "success" });
+                        setTimeout(() => {
+                            setNotif(null);
+                            setIsOpen(false);
+                        }, 3000);
+                        setCode("");
+                    }
+                    
                 }
             }catch(Error){
                 setNotif({ message: t("contact_page.error"), type: "warning" });
