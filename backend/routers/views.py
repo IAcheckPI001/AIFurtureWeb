@@ -348,20 +348,8 @@ def get_blog(public_id: str, request: Request, db: Session = Depends(create_db))
     if not blog:
         raise HTTPException(status_code=404, detail="Blog not found")
     
-    # if "language" in request.cookies:
-    #     return request.cookies["language"]
-    # accept_lang = request.headers.get("Accept-Language")
-    # user_lang = accept_lang.split(",")[0][:2]
 
     translated_content = ""
-    # if blog_obj.language != user_lang:
-    #     prompt = f"Translate this from {blog_obj.language} to {user_lang}: {blog_obj.blog_content}"
-
-    #     response = client.chat.completions.create(
-    #         model="gpt-4o-mini",
-    #         messages=[{"role": "user", "content": prompt}]
-    #     )
-    #     translated_content = response.choices[0].message.content
     return {
             "nickname": blog.author.nickname,
             "avatar_img": blog.author.avatar_img,
