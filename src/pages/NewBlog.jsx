@@ -118,9 +118,6 @@ function NewBlog (){
 
     const handleAuth = () => {
         setEventAuth(!eventAuth);
-        setCheckUser("");
-        setCode("");
-        
     }
 
     const checkEmail = async (email) => {
@@ -569,9 +566,9 @@ function NewBlog (){
                             <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                 src={closeIcon} 
                                 alt=""
-                                onClick={closeFrame} />
+                                onClick={loginUser} />
                         </div>
-                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("newBlog.createUser")}</h1>
+                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createUser.signUpbtn")}</h1>
                         <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
                             <div className="relative">
                                 <img
@@ -608,7 +605,7 @@ function NewBlog (){
                                 }}
                                 />
                             {existNickname && (
-                                <span style={{color:"#670a0a", fontSize:"14px", marginTop:"5px"}}>{t("newBlog.checkNickname")}</span>
+                                <span style={{fontSize:"14px", color:"#670a0a"}}>{t("createUser.existNickname")}</span>
                             )}
                         </div>
                         <div className="flex flex-column" style={{margin: "10px 22px 8px 0"}}>
@@ -626,8 +623,8 @@ function NewBlog (){
                         {eventCheck.trim() && (
                             <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
                         )}
-                        <div className="flex flex-column" style={{margin: "10px 22px 6px 0"}}>
-                            <label className={styles.label} htmlFor="passkey">Password<span style={{color:"red"}}>*</span></label>
+                        <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
+                            <label className={styles.label} htmlFor="passkey">{t("createUser.passLabel")}<span style={{color:"red"}}>*</span></label>
                             <input className={styles.inputEmail} id="passkey" type="password"
                                 maxLength={MAX_PASSKEY_LENGTH}
                                 onChange={(e) => {
@@ -640,30 +637,30 @@ function NewBlog (){
                         <ul style={{margin:"0", paddingLeft:"26px", marginBottom:"14px"}}>
                             {!checkPass.lengthOk ?(
                                 <li style={{margin:"0"}}>
-                                    <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                    <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff"}}>{t("createUser.checkLengthPass")}</span>
                                 </li>
                             ):(
                                 <li style={{margin:"0"}}>
-                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>Mật khẩu cần tối thiểu 8 ký tự</span>
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>{t("createUser.checkLengthPass")}</span>
                                 </li>
                             )}
                             {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
                                 <li style={{margin:"0"}}>
-                                    <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                    <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff"}}>{t("createUser.checkFormatPass")}</span>
                                 </li>
                             ):(
                                 <li style={{margin:"0"}}>
-                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>Chứa tối thiểu 1 ký tự in hoa, số và 1 ký tự đặc biệt #,.$</span>
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>{t("createUser.checkFormatPass")}</span>
                                 </li>
                             )}
                         </ul>
-                        
+                
                         <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"18px"}}>
-                            <label className={styles.label} htmlFor="verifyCode">{t("newBlog.verifyCode")}<span style={{color:"red"}}>*</span></label>
+                            <label className={styles.label} htmlFor="verifyCode">{t("createUser.verifyCode")}<span style={{color:"red"}}>*</span></label>
                             <div className="flex items-center">
                                 <input className={styles.inputCode} id="verifyCode" type="text" placeholder="######" onChange={(e) => setCodeInput(e.target.value)} required/>
                                 {timeLeft > 0 ? (
-                                    <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("newBlog.resendCode")}{timeLeft}s</p>
+                                    <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("createUser.resendCode")} {timeLeft}s</p>
                                 ): (
                                     <img style={{padding:"8px", borderRadius:"100%", width:"20px", height:"20px", marginLeft:"2px", cursor:"pointer"}}
                                         onClick={resetCode} src={reloadCode} 
@@ -671,10 +668,14 @@ function NewBlog (){
                                     </img>
                                 )}
                             </div>
+                            {eventCheck.trim() && (
+                                <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
+                            )}
                         </div>
+                        
                         <div className="flex jc-space-between" style={{margin:"6px 28px 28px 0"}}>
-                            <span style={{fontSize:"14px", marginLeft:"6px"}}> Bạn muốn quay lại? <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> Đăng nhập</span></span>
-                            <button id={styles.submit} onClick={createUser}>{t("newBlog.btnSubmit")}</button>
+                            <span style={{fontSize:"14px", marginLeft:"6px"}}>{t("createUser.loginLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createUser.loginbtn")}</span></span>
+                            <button id={styles.submit} onClick={createUser}>{t("createUser.btnSignUp")}</button>
                         </div>
                     </div>
                 ):(
@@ -683,12 +684,12 @@ function NewBlog (){
                             <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                 src={closeIcon} 
                                 alt=""
-                                onClick={closeFrame} />
+                                onClick={loginUser} />
                         </div>
-                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>Login</h1>
+                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.loginTitle")}</h1>
                         
                         <div className="flex flex-column" style={{margin: "13px 0"}}>
-                            <label className={styles.label} htmlFor="user_key">Username</label>
+                            <label className={styles.label} htmlFor="user_key">{t("createSession.usernameLabel")}</label>
                             <input className={styles.inputNickname} 
                                 id="user_key" 
                                 type="text"
@@ -702,7 +703,7 @@ function NewBlog (){
                                 />
                         </div>
                         <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
-                            <label className={styles.label} htmlFor="passkey">Password</label>
+                            <label className={styles.label} htmlFor="passkey">{t("createSession.passLabel")}</label>
                             <input className={styles.inputEmail} id="passkey" type="password"
                                 maxLength={MAX_PASSKEY_LENGTH}
                                 onChange={(e) => {
@@ -713,11 +714,11 @@ function NewBlog (){
                                 placeholder="#########" required/>
                         </div>
                         <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"16px"}}>
-                            <label className={styles.label} htmlFor="verifyCode">{t("newBlog.verifyCode")}<span style={{color:"red"}}>*</span></label>
+                            <label className={styles.label} htmlFor="verifyCode">{t("createUser.verifyCode")}<span style={{color:"red"}}>*</span></label>
                             <div className="flex items-center">
                                 <input className={styles.inputCode} id="verifyCode" type="text" placeholder="######" onChange={(e) => setCodeInput(e.target.value)} required/>
                                 {timeLeft > 0 ? (
-                                    <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("newBlog.resendCode")}{timeLeft}s</p>
+                                    <p style={{marginLeft:"12px", fontSize:"14px", color:"#606060ff"}}>{t("createUser.resendCode")} {timeLeft}s</p>
                                 ): (
                                     <img style={{padding:"8px", borderRadius:"100%", width:"20px", height:"20px", marginLeft:"2px", cursor:"pointer"}}
                                         onClick={resetCode} src={reloadCode} 
@@ -729,10 +730,10 @@ function NewBlog (){
                         {eventCheck.trim() && (
                             <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
                         )}
-                        <span style={{fontSize:"14px"}}>Bạn chưa có tài khoản? <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> Tạo tài khoản</span></span>
+                        <span style={{fontSize:"14px"}}>{t("createSession.signUpLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createSession.signUpbtn")}</span></span>
                     
                         <div className="flex jc-end" style={{margin:"6px 28px 28px 0"}}>
-                            <button id={styles.submit} onClick={login}>{t("newBlog.btnSubmit")}</button>
+                            <button id={styles.submit} onClick={login}>{t("createSession.loginTitle")}</button>
                         </div>
                     </div>
                 )}

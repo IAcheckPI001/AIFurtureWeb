@@ -67,8 +67,6 @@
     "btnScale": "Save",
     "createDate": "Create date: ",
     "newUser": "New user",
-    "verifyCode": "Code verification",
-    "resendCode": "Resend code in ",
     "btnSubmit": "Submit",
     "titleDefault": "Title blog",
     "descriptionDefault": "What do you think?",
@@ -98,12 +96,34 @@
     "error":"So Sorry! Our service is maintaining and enhancing. Please contact us by email in last page. Thank you!"
   },
   "createUser":{
-    "success": "Create a new user successfully!",
-    "invalidPass": "Password is invalid!"
+    "passLabel": "Password",
+    "checkLengthPass": "At least 8 characters",
+    "checkFormatPass": "Include 1 uppercase, 1 number, and 1 special character (#, . , $)",
+    "createSuccess": "User created successfully!",
+    "existNickname": "Nickname already in use!",
+    "existEmail": "Email already in use!",
+    "notFormatEmail": "Invalid email format! Please enter a valid email",
+    "invalidPass": "Invalid password format!",
+    "warningEmptyAccount": "Required fields (*) cannot be left empty!",
+    "verifyCode": "Code verification",
+    "resendCode": "Resend code in",
+    "btnSignUp": "Sign Up",
+    "loginLabel": "Do you want to go back?",
+    "loginbtn": "Login"
   },
   "createSession":{
-    "success": "Your session has been created successfully!",
-    "warningEmpty": "Please do not forget to enter login information!"
+    "loginTitle":"Login",
+    "usernameLabel": "Username",
+    "passLabel": "Password",
+    "success": "Login session created successfully!",
+    "warningEmpty": "Please do not leave the login information empty!",
+    "warningExpiredSession": "Login session has expired!",
+    "notFoundUser": "Account does not exist!",
+    "conflictSession": "This account is logged in from another device!",
+    "invalidLogin": "Invalid username or password!",
+    "wrongCodeVerify": "Invalid verification code!",
+    "signUpLabel": "Do you want?",
+    "signUpbtn": "Create user"
   }
 
 }
