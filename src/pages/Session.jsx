@@ -70,7 +70,8 @@ function Session (){
         if (e.key === "Enter" && !e.shiftKey){
             e.preventDefault();
             if (searchTerm.trim() === "") return;
-            const res = await axios.get(`${API_URL}/search-ss/?q=${encodeURIComponent(searchTerm)}`, 
+            const res = await axios.get(
+                `${API_URL}/search-ss/?q=${encodeURIComponent(searchTerm)}`, 
                 { withCredentials: true }
             );
             setResults(res.data);
@@ -100,7 +101,6 @@ function Session (){
             <div className={styles.searchInput}>
                 <div className="flex items-center" style={{width: "50vw"}}>
                     <AutoResizeTextarea
-                        value={searchTerm}
                         placeholder= {t("blog_page.placeholderInput")}
                         maxLength={MAX_SEARCH_LENGTH}
                         onChange={(e) => {
