@@ -596,7 +596,6 @@ function NewBlog (){
                             <input className={styles.inputNickname} 
                                 id="nickname" 
                                 type="text"
-                                value={nickname}
                                 maxLength={MAX_NICKNAME_LENGTH}
                                 onChange={(e) => {
                                     if (e.target.value.length <= MAX_NICKNAME_LENGTH) {
