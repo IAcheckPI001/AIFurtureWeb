@@ -120,6 +120,7 @@ function Blogs (){
 
     const handleAuth = () => {
         setEventAuth(!eventAuth);
+        setPass("");
     }
 
     useEffect(() => {
@@ -513,7 +514,6 @@ function Blogs (){
                                 <label className={styles.label} htmlFor="email">{t("newBlog.emailLabel")}<span style={{color:"red"}}>*</span></label>
                                 <input className={styles.inputEmail} id="email" type="email"
                                     maxLength={MAX_EMAIL_LENGTH}
-                                    value={email}
                                     onChange={(e) => {
                                         if (e.target.value.length <= MAX_EMAIL_LENGTH) {
                                             setEmail(e.target.value)
