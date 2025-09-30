@@ -119,8 +119,8 @@ function Blogs (){
     }
 
     const handleAuth = () => {
-        setEventAuth(!eventAuth);
         setPass("");
+        setEventAuth(!eventAuth);
     }
 
     useEffect(() => {
