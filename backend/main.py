@@ -11,7 +11,7 @@ def create_app():
     app = FastAPI() 
 
     origins = [
-        "https://ai-furture-web.vercel.app", 
+        # "https://ai-furture-web.vercel.app", 
         "https://bloggen.space/",             
     ]
 
