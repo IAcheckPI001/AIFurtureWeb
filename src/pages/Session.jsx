@@ -143,7 +143,7 @@ function Session (){
                     <div className="flex items-center" style={{marginRight:"40px"}}>
                         <Link className={styles.btnCreateBlog} to="/create-blog"> {t("blog_page.btnBlog")}</Link>
                     </div>
-                    {ss_user ? (
+                    {ss_user && (
                         <div className="flex items-center relative">
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
@@ -155,7 +155,7 @@ function Session (){
                             )}
                         </div>
                         
-                    )
+                    )}
                 </div>
             </div>
             <div id={styles.blogsFrame}>
