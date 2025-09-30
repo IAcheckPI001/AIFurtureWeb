@@ -160,8 +160,7 @@ function Session (){
             </div>
             <div id={styles.blogsFrame}>
                 <div className="flex flex-column"> 
-                    <h3 style={{marginBottom: "10px"}}>{t("blog_page.titleContent")}</h3>
-                    <span style={{fontSize: "15px", marginLeft:"2px"}}>{t("blog_page.description")}</span>
+                    <h3 style={{marginBottom: "10px"}}>{t("blog_page.titleContentUser")}</h3>
                     <div className="flex flex-column" style={{marginTop:"10px"}}>
                        {(results.length > 0 ? results : filteredBlogs).map((blog) => (
                             <div className={styles.blogContent} key={blog.public_id}>

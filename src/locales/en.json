@@ -49,6 +49,7 @@
     "filterTitle": "Topic",
     "btnBlog": "Create blog",
     "titleContent": "New Blogs",
+    "titleContentUser": "Blogs",
     "description": "Blog realate to AI, security, anything.",
     "warningEmptyAccount": "Please do not forget to enter login information!"
   },
