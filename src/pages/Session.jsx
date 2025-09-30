@@ -15,7 +15,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 
 function Session (){
-
+    
+    const MAX_SEARCH_LENGTH = 1000;
 
     const { t } = useTranslation();
 
