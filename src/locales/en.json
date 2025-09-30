@@ -96,6 +96,14 @@
     "waitCheck": "Code verification was sent to your email. Please check your email and enter code!",
     "warningEmpty":"Please do not pass important informations(*)!",
     "error":"So Sorry! Our service is maintaining and enhancing. Please contact us by email in last page. Thank you!"
+  },
+  "createUser":{
+    "success": "Create a new user successfully!",
+    "invalidPass": "Password is invalid!"
+  },
+  "createSession":{
+    "success": "Your session has been created successfully!",
+    "warningEmpty": "Please do not forget to enter login information!"
   }
 
 }

@@ -70,7 +70,7 @@ function NewBlog (){
     }, [timeLeft]);
 
     const resetCode = () => {
-        if(!nickname.trim() && !email.trim()){
+        if(!nickname.trim() && !email.trim() && !passkey.trim()){
             setNotif({ message: t("newBlog.warningEmptyAccount"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }else{
@@ -99,7 +99,6 @@ function NewBlog (){
     const handleChange = (newValue) => {
         
         const updated = newValue.map(tag => {
-            // assume if "value" is string (not a number/id), it's user-created
             if (typeof tag.value === "string" && isNaN(tag.value)) {
                 return { ...tag, label: "etc", value:1};
             }
@@ -191,7 +190,7 @@ function NewBlog (){
                                     setEmail("");
                                     setCodeInput();
                                     setEventAuth(false);
-                                    setNotif({ message: t("newBlog.success"), type: "success" });
+                                    setNotif({ message: t("createUser.success"), type: "success" });
                                     setTimeout(() => {
                                         setNotif(null);
                                     }, 3000);
@@ -202,7 +201,7 @@ function NewBlog (){
                                 }
                             }
                         }else{
-                            setNotif({ message: "Mật khẩu chưa đúng địng dạng!", type: "warning" });
+                            setNotif({ message: t("createUser.invalidPass"), type: "warning" });
                             setTimeout(() => setNotif(null), 4000);
                         }
                         

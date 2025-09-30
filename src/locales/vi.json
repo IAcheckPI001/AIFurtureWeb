@@ -95,5 +95,14 @@
     "waitCheck": "Mã xác thực đã được gửi tới email của bạn. Vui lòng kiểm tra và nhập mã xác thực!",
     "warningEmpty":"Vui lòng không bỏ trống các thông tin (*)!",
     "error":"Thật sự xin lỗi! Hệ thống dịch vụ của chúng tôi đang được bảo trì và nâng cấp. Bạn có thể liên hệ tới email của công ty ở của trang. Xin cảm ơn!"
+  },
+  "createUser":{
+    "success": "Khởi tạo người dùng thành công!",
+    "invalidPass": "Mật khẩu chưa đúng địng dạng!"
+  },
+  "createSession":{
+    "success": "Phiên đăng nhập được khởi tạo thành công!",
+    "warningEmpty": "Vui lòng không để trống thông tin đăng nhập!"
   }
+
 }
