@@ -517,9 +517,6 @@ function NewBlog (){
         await cloudinary.uploader.destroy(public_id);
     }
 
-    
-
-
     return( 
     
         <div className="width-100 flex">
@@ -566,7 +563,7 @@ function NewBlog (){
                             <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                 src={closeIcon} 
                                 alt=""
-                                onClick={loginUser} />
+                                onClick={closeFrame} />
                         </div>
                         <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.signUpbtn")}</h1>
                         <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
@@ -683,7 +680,7 @@ function NewBlog (){
                             <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                 src={closeIcon} 
                                 alt=""
-                                onClick={loginUser} />
+                                onClick={closeFrame} />
                         </div>
                         <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.loginTitle")}</h1>
                         
