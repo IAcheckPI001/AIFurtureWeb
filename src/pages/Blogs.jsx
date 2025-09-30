@@ -692,7 +692,7 @@ function Blogs (){
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
                                 <div ref={frameRefUser} id={styles.frameUser} className="flex flex-column">
-                                    <button className={styles.btnOption}>Blogs</button>
+                                    <Link to="/manage-blogs"><button className={styles.btnOption}>Blogs</button></Link>
                                     <button className={styles.btnOption}>Services</button>
                                     <button className={styles.btnOption} onClick={deleteSession}>Log out</button>
                                 </div>

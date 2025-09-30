@@ -233,6 +233,34 @@ async def upload_image(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
+@views.get("/manage_blogs")
+def manage_blogs(request: Request, db: Session = Depends(create_db)):
+    session_id = request.cookies.get("ss_key")
+    if session_id is None:
+        return None
+    user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
+    if user:
+        blogs = db.query(modules.Blogs).filter(modules.Blogs.user_id == user.id).all()
+
+        data = []
+        for blog in blogs:
+            
+            unique_tags = [(tag.tag_id, tag.tag_content) for tag in blog.tags]
+            data.append({
+                "nickname": blog.author.nickname,
+                "avatar_img": blog.author.avatar_img,
+                "title": blog.title,
+                "blog_content": blog.blog_content,
+                "imgURLs": blog.cover_img,
+                "tags": [{"id": tag[0], "value": tag[1]} for tag in unique_tags],
+                "public_id": blog.public_id,
+                "language": blog.lang,
+                "created_at": blog.create_at.isoformat(),
+                "update_at": blog.update_at.isoformat(),
+            })
+        return data
+    return None
+
 @views.get("/blogs")
 def get_blogs(db: Session = Depends(create_db)):
     blogs = (
@@ -277,6 +305,37 @@ def get_blogs(db: Session = Depends(create_db)):
 
         
     return [{"value": tag.tag_id, "label": tag.tag_content, "count": tag.blog_count} for tag in tags]
+
+
+@views.get("/get_tags_user")
+def get_blogs(request: Request, db: Session = Depends(create_db)):
+    session_id = request.cookies.get("ss_key")
+    if session_id is None:
+        return None
+    user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
+    if user:
+        tags = (
+            db.query(
+                modules.Tags.tag_id,
+                modules.Tags.tag_content,
+                func.count(modules.blog_tags.c.blog_id).label("blog_count")
+            )
+            .outerjoin(
+                modules.blog_tags, 
+                modules.Tags.tag_id == modules.blog_tags.c.tag_id
+            )
+            .outerjoin(
+                modules.Blogs,
+                (modules.blog_tags.c.blog_id == modules.Blogs.blog_id)
+                & (modules.Blogs.user_id == user.id)
+            )
+            .group_by(modules.Tags.tag_id, modules.Tags.tag_content)
+            .all()
+        )
+
+            
+        return [{"value": tag.tag_id, "label": tag.tag_content, "count": tag.blog_count} for tag in tags]
+    return None
 
 @views.get("/blogs/{public_id}")
 def get_blog(public_id: str, request: Request, db: Session = Depends(create_db)):

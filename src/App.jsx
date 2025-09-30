@@ -13,6 +13,7 @@ import Contact from "./pages/Contact.jsx";
 import NewBlog from "./pages/NewBlog.jsx";
 import BlogID from "./pages/BlogID.jsx";
 import ScrollToTop from "./hooks/scrollToTop.jsx";
+import Session from "./pages/Session.jsx";
 import.meta.env.VITE_API_URL;
 
 function App(){
@@ -25,6 +26,7 @@ function App(){
         <Route path="/services" element={<Services />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/create-blog" element={<NewBlog />} />
+        <Route path="/manage-blogs" element={<Session />} />
         <Route path="/blogs/:public_id" element={<BlogID />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>

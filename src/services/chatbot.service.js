@@ -26,8 +26,16 @@ export const getBlogs = () => {
     return apiFetch.get("/blogs");
 };
 
+export const getBlogsUser = () => {
+    return apiFetch.get("/manage_blogs");
+};
+
 export const getTags = () => {
     return apiFetch.get("/get_tags");
+};
+
+export const getTagsUser = () => {
+    return apiFetch.get("/get_tags_user");
 };
 
 export const getListNickname = () => {
