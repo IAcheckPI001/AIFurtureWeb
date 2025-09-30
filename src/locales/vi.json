@@ -112,6 +112,7 @@
   "createSession":{
     "loginTitle":"Đăng nhập",
     "usernameLabel": "Tên đăng nhập",
+    "placeholderUser": "Tên người dùng hoặc email",
     "passLabel": "Mật khẩu",
     "success": "Phiên đăng nhập được khởi tạo thành công!",
     "warningEmpty": "Vui lòng không để trống thông tin đăng nhập!",

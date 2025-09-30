@@ -114,6 +114,7 @@
   "createSession":{
     "loginTitle":"Login",
     "usernameLabel": "Username",
+    "placeholderUser": "Nickname or your email",
     "passLabel": "Password",
     "success": "Login session created successfully!",
     "warningEmpty": "Please do not leave the login information empty!",

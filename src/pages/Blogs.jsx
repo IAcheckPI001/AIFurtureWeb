@@ -470,7 +470,7 @@ function Blogs (){
                                     alt=""
                                     onClick={loginUser} />
                             </div>
-                            <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createUser.signUpbtn")}</h1>
+                            <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.signUpbtn")}</h1>
                             <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
                                 <div className="relative">
                                     <img
@@ -601,7 +601,7 @@ function Blogs (){
                                             setUserKey(e.target.value)
                                         }
                                     }}
-                                    placeholder="Nickname or your email" required
+                                    placeholder={t("createSession.placeholderUser")} required
                                     />
                             </div>
                             <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
