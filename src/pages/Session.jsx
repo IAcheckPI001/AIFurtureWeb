@@ -155,11 +155,7 @@ function Session (){
                             )}
                         </div>
                         
-                    ):(
-                        <div className="flex items-center">
-                            <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={avatar} alt="login" />
-                        </div>
-                    )}
+                    )
                 </div>
             </div>
             <div id={styles.blogsFrame}>
