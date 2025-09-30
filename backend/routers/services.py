@@ -115,18 +115,23 @@ async def search_blogs(request: Request, q: str = Query(..., min_length=1), db: 
             lambda: es_cloud.search(
                 index=index_name,
                 query={
-                    "bool": {
-                        "must": {
-                            "multi_match": {
-                                "query": q,
-                                "fields": ["title", "blog_content"],
-                                "fuzziness": "AUTO"
-                            }
-                        },
-                        "filter": {
-                            "term": {
-                                "nickname": user.nickname
-                            }
+                    "query": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "multi_match": {
+                                        "query": q,
+                                        "fields": ["title", "blog_content"]
+                                    }
+                                }
+                            ],
+                            "filter": [
+                                {
+                                    "term": {
+                                        "nickname": user.nickname
+                                    }
+                                }
+                            ]
                         }
                     }
                 }

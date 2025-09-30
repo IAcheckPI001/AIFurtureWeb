@@ -5,7 +5,7 @@ import { getTagsUser } from "../services/chatbot.service";
 
 
 
-function useEffectGetTags() {
+function useEffectGetTagsUser() {
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -27,4 +27,4 @@ function useEffectGetTags() {
 
 }
 
-export default useEffectGetTags;
+export default useEffectGetTagsUser;

@@ -6,7 +6,6 @@ import AutoResizeTextarea from "../hooks/AutoResizeTextarea.jsx";
 import useEffectGetBlogsUser from "../hooks/useEffectGetBlogsUser.jsx";
 import LimitText from "../components/LimitText.jsx";
 import filterIcon from "../assets/icon/filterIco.png"
-import avatar from "../assets/image/avatar_default.png";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
 import useEffectGetTagsUser from "../hooks/useEffectGetTagsUser.jsx";
 import { logout } from "../services/chatbot.service.js";
