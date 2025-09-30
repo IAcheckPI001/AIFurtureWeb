@@ -8,7 +8,7 @@ from config.conn import cloudinary
 # from typing import List
 
 # from flask import send_from_directory, abort
-from fastapi import APIRouter, File, UploadFile, Query, Depends
+from fastapi import APIRouter, File, UploadFile, Request, Query, Depends
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
@@ -99,6 +99,64 @@ async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(
 
 
     return results
+
+
+
+@services.get("/search-ss/")
+async def search_blogs(request: Request, q: str = Query(..., min_length=1), db: Session = Depends(create_db)):
+    session_id = request.cookies.get("ss_key")
+    if session_id is None:
+        return None
+    user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
+    if user:
+        loop = asyncio.get_event_loop()
+        res = await loop.run_in_executor(
+            None,
+            lambda: es_cloud.search(
+                index=index_name,
+                query={
+                    "bool": {
+                        "must": {
+                            "multi_match": {
+                                "query": q,
+                                "fields": ["title", "blog_content"],
+                                "fuzziness": "AUTO"
+                            }
+                        },
+                        "filter": {
+                            "term": {
+                                "nickname": user.nickname
+                            }
+                        }
+                    }
+                }
+            )
+        )
+        results = []
+
+        for hit in res["hits"]["hits"]:
+            blog = (
+                db.query(modules.Blogs)
+                .filter(modules.Blogs.public_id == hit["_source"]["public_id"])
+                .first()
+            )
+            if blog:
+                results.append(
+                    {
+                        "nickname": blog.author.nickname,
+                        "avatar_img": blog.author.avatar_img,
+                        "title": blog.title,
+                        "blog_content": blog.blog_content,
+                        "imgURLs": blog.cover_img,
+                        "public_id": blog.public_id,
+                        "lang": blog.lang,
+                        "created_at": blog.create_at.isoformat(),
+                        "update_at": blog.update_at.isoformat()
+                    }
+                )
+
+        return results
+    return None
 
 # DOWNLOAD_FOLDER = os.path.join(os.getcwd(), "downloads")
 # file_path = os.path.join(DOWNLOAD_FOLDER, "ARPSecurityApp.zip")

@@ -9,8 +9,7 @@ import filterIcon from "../assets/icon/filterIco.png"
 import avatar from "../assets/image/avatar_default.png";
 import useEffectGetTagsUser from "../hooks/useEffectGetTagsUser.jsx";
 import { logout } from "../services/chatbot.service.js";
-import validatePassword from "../auth/checkPass.jsx";
-import Notification from "../components/notification/Notification.jsx";
+import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 
@@ -70,7 +69,7 @@ function Session (){
         if (e.key === "Enter" && !e.shiftKey){
             e.preventDefault();
             if (searchTerm.trim() === "") return;
-            const res = await axios.get(`${API_URL}/search?q=${searchTerm}`);
+            const res = await axios.get(`${API_URL}/search-ss?q=${searchTerm}`);
             setResults(res.data);
         }
     }
