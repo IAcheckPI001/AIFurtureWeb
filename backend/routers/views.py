@@ -314,27 +314,14 @@ def get_blogs(request: Request, db: Session = Depends(create_db)):
         return None
     user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
     if user:
-        tags = (
-            db.query(
-                modules.Tags.tag_id,
-                modules.Tags.tag_content,
-                func.count(modules.blog_tags.c.blog_id).label("blog_count")
-            )
-            .outerjoin(
-                modules.blog_tags, 
-                modules.Tags.tag_id == modules.blog_tags.c.tag_id
-            )
-            .outerjoin(
-                modules.Blogs,
-                (modules.blog_tags.c.blog_id == modules.Blogs.blog_id)
-                & (modules.Blogs.user_id == user.id)
-            )
-            .group_by(modules.Tags.tag_id, modules.Tags.tag_content)
+        user_blogs = (
+            db.query(modules.Blogs)
+            .filter(modules.Blogs.user_id == user.id)
             .all()
         )
-
-            
-        return [{"value": tag.tag_id, "label": tag.tag_content, "count": tag.blog_count} for tag in tags]
+        for blog in user_blogs:
+            data = [{"value": tag.tag_id, "label": tag.tag_content, "count": tag.blog_count} for tag in blog.tags]
+        return data
     return None
 
 @views.get("/blogs/{public_id}")

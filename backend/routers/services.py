@@ -103,7 +103,7 @@ async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(
 
 
 @services.get("/search-ss/")
-async def search_blogs(request: Request, q: str = Query(..., min_length=1), db: Session = Depends(create_db)):
+async def search_blogs(request: Request, q: str = Query(..., min_length=1, max_length=255, regex="^[a-zA-Z0-9 ]+$"), db: Session = Depends(create_db)):
     session_id = request.cookies.get("ss_key")
     if session_id is None:
         return None
@@ -114,7 +114,7 @@ async def search_blogs(request: Request, q: str = Query(..., min_length=1), db: 
             None,
             lambda: es_cloud.search(
                 index=index_name,
-                query={
+                query_body = {
                     "query": {
                         "bool": {
                             "must": [

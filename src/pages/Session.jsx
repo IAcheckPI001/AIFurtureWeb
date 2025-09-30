@@ -70,7 +70,9 @@ function Session (){
         if (e.key === "Enter" && !e.shiftKey){
             e.preventDefault();
             if (searchTerm.trim() === "") return;
-            const res = await axios.get(`${API_URL}/search-ss?q=${searchTerm}`);
+            const res = await axios.get(`${API_URL}/search-ss/?q=${encodeURIComponent(searchTerm)}`, 
+                { withCredentials: true }
+            );
             setResults(res.data);
         }
     }
