@@ -11,8 +11,7 @@ def create_app():
     app = FastAPI() 
 
     origins = [
-        # "https://ai-furture-web.vercel.app", 
-        "https://bloggen.space/",             
+        "https://bloggen.space",             
     ]
 
     app.add_middleware(
