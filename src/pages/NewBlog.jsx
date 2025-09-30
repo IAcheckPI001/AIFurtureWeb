@@ -187,7 +187,7 @@ function NewBlog (){
                                     setEmail("");
                                     setCodeInput();
                                     setEventAuth(false);
-                                    setNotif({ message: t("createUser.success"), type: "success" });
+                                    setNotif({ message: t("createUser.createSuccess"), type: "success" });
                                     setTimeout(() => {
                                         setNotif(null);
                                     }, 3000);

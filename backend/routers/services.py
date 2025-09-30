@@ -65,13 +65,15 @@ async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(
         None,
         lambda: es_cloud.search(
             index=index_name,
-            query={
-                "multi_match": {
-                    "query": q,
-                    "fields": ["nickname", "title", "blog_content"],
-                    "fuzziness": "AUTO"
+            body={
+                "query": {
+                    "multi_match": {
+                        "query": q,
+                        "fields": ["nickname", "title", "blog_content"]
+                    }
                 }
-            }
+            },
+            size=25
         )
     )
     results = []
@@ -127,14 +129,15 @@ async def search_blogs_user(request: Request, q: str = Query(..., min_length=1, 
                             ],
                             "filter": [
                                 {
-                                    "term": {
+                                    "match": {
                                         "nickname": user.nickname
                                     }
                                 }
                             ]
                         }
                     }
-                }
+                },
+                size=25
             )
         )
 
