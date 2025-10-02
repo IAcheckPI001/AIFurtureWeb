@@ -170,7 +170,7 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
                 None,
                 lambda: es_cloud.index(
                     index=index_name,
-                    id=new_blog.blog_id,
+                    id=new_blog.public_id,
                     document=blog_idx
                 )
             )

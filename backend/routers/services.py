@@ -82,7 +82,7 @@ async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(
     for hit in res["hits"]["hits"]:
         blog = (
             db.query(modules.Blogs)
-            .filter(modules.Blogs.blog_id == hit["_source"]["id"])
+            .filter(modules.Blogs.blog_id == hit["_source"]["public_id"])
             .first()
         )
         if blog:
@@ -140,14 +140,14 @@ async def search_blogs_user(request: Request, q: str = Query(..., min_length=1, 
             )
         )
 
-        ids = [hit["_source"]["id"] for hit in res["hits"]["hits"]]
+        ids = [hit["_source"]["public_id"] for hit in res["hits"]["hits"]]
         blogs = db.query(modules.Blogs).filter(modules.Blogs.blog_id.in_(ids)).all()
 
         blog_map = {b.blog_id: b for b in blogs}
 
         results = []
         for hit in res["hits"]["hits"]:
-            blog_id = hit["_source"]["id"]
+            blog_id = hit["_source"]["public_id"]
             blog = blog_map.get(blog_id)
             if blog:
                 results.append({
