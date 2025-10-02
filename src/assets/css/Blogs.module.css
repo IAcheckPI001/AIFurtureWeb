@@ -272,7 +272,7 @@
     }
 
     #framebtnCreateBlog {
-        display: none;
+        display: flex;
     }
 
     #userOption {
@@ -286,7 +286,7 @@
     }
 
     #blogsFrame .blogContent{
-        width: 100%;
+        width: 88%;
     }
 }
 
