@@ -741,9 +741,9 @@ function Blogs (){
                                         <div style={{marginRight:"20px"}}>
                                             <LimitText style={{fontSize:"1.2em"}} text={blog.blog_content} limit={limit}/>
                                         </div>
-                                        <div>
+                                        <div id={frameImages} className="flex flex-wrap">
                                             {blog.imgURLs.length > 0 && (
-                                                <div className="flex flex-wrap">
+                                                <>
                                                     {blog.imgURLs
                                                     .slice(0, 3)
                                                     .map((image, idx) => (
@@ -751,7 +751,7 @@ function Blogs (){
                                                         src={image} 
                                                         alt={idx}/>
                                                     ))}
-                                                </div>
+                                                </>
                                             )}
                                         </div>
                                     </div>

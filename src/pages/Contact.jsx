@@ -125,13 +125,13 @@ function Contact (){
 
     return (
         <div className="container width-100 flex jc-center">
-            <div className="flex flex-column" style={{width:"58vw" ,marginTop:"40px"}}>
+            <div id={styles.frameContact} className="flex flex-column">
                 <div className="flex items-center jc-space-between" style={{width:"90%"}}>
-                    <h1 style={{marginBottom:"25px", fontSize:"34px"}}>{t("contact_page.titleContent")}</h1>
+                    <h1 style={{marginBottom:"25px", marginTop:"0", fontSize:"34px"}}>{t("contact_page.titleContent")}</h1>
                 </div>
 
-                <div className="flex jc-space-between" style={{width:"60%"}}>
-                    <div className="flex flex-column jc-start">
+                <div id={styles.frameName} className="flex jc-space-between" style={{width:"60%"}}>
+                    <div className="flex flex-column jc-start" style={{marginBottom:"18px"}}>
                         <label className={styles.label} htmlFor="firstName">{t("contact_page.labelFirstName")}</label>
                         <input className={styles.inputName} id="firstName" 
                         maxLength={MAX_FIRSTNAME_LENGTH}
@@ -156,7 +156,7 @@ function Contact (){
                 </div>
                 
                 <div className="flex">
-                    <div className="flex flex-column" style={{marginTop: "20px", width:"40%"}}>
+                    <div id={styles.frameEmail} className="flex flex-column" style={{marginTop: "20px", width:"40%"}}>
                         <label className={styles.label} htmlFor="email">{t("contact_page.labelEmail")}<span style={{color:"red"}}> *</span></label>
                         <input className={styles.inputEmail} id="email" 
                             maxLength={MAX_EMAIL_LENGTH}
@@ -192,7 +192,7 @@ function Contact (){
                 </div>
                 <div className="flex flex-column" style={{marginTop: "20px"}}>
                     <label className={styles.label} htmlFor="phone">{t("contact_page.labelPhone")}<span style={{color:"red"}}> *</span></label>
-                    <PhoneInput id="phone" 
+                    <PhoneInput id={styles.framePhone}
                         maxLength={MAX_PHONE_LENGTH}
                         country={"vn"}
                         value={phone}
@@ -223,7 +223,7 @@ function Contact (){
                         }} 
                         placeholder={t("contact_page.placeholderMessage")} required></textarea>
                 </div>
-                <div style={{marginTop:"25px", marginBottom:"25px"}}>
+                <div id={frameBtnSubmit} style={{marginTop:"25px", marginBottom:"25px"}}>
                     <button id={styles.submit} onClick={sendContact}> {t("contact_page.btnSubmit")}</button>
                 </div>
             </div>

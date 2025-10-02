@@ -1,4 +1,8 @@
 
+#frameContact {
+    width:"58vw";
+    margin-top:"40px";
+}
 
 .label {
     font-size: 16px;
@@ -80,3 +84,41 @@
     transition: all 0.2s ease-in-out;
 }
 
+@media (max-width: 768px) {
+
+    #frameContact{
+        width: 960px;
+        margin-top: 40px;
+        padding-left: 33px;
+    }
+
+    #frameName {
+        width: 80% !important;
+        flex-wrap: wrap;
+    }
+
+    #frameEmail {
+        width: 94% !important;
+    }
+
+    .inputEmail {
+        width: 350px !important;
+    }
+
+    .inputName {
+        width: 350px !important;
+    }
+
+    #framePhone {
+        width: 276px !important;
+    }
+
+    #frameBtnSubmit {
+        display: flex;
+        justify-content: end;
+        margin-right: 86px;
+        margin-bottom: 0 !important;
+    }
+
+
+}

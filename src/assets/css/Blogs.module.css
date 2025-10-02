@@ -341,4 +341,8 @@
     #blogsFrame .blogContent{
         width: 100%;
     }
+
+    #frameImages {
+        justify-content: center;
+    }
 }
