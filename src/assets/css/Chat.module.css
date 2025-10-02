@@ -42,6 +42,7 @@
 
     #frameSection{
         width: 72vw !important;
+        padding-bottom: 88px;
     }
 
     #chat_img{

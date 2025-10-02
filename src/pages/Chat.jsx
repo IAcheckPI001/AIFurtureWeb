@@ -100,7 +100,7 @@ function Chat() {
                 <div ref={chatRef} className={stylesChat.frameChat} style={{alignItems:"center"}}> 
                     {messages.length > 0 ? (
                         messages.map((message, idx) => (
-                            <div style={{width:"82%"}} className={chatbotStyles.contentUser} ref={idx === messages.length - 1 ? lastMessageRef : null} key={idx}>
+                            <div className={chatbotStyles.contentUser} ref={idx === messages.length - 1 ? lastMessageRef : null} key={idx}>
                             {message.role === "id_users" ? (
                                 <div className="flex jc-end margin-5-0" style={{paddingLeft:"25%", margin:"18px 0"}}>
                                     <div style={{whiteSpace:"normal", borderRadius:"18px", padding:"5px 14px"}} className={chatbotStyles.id_users}>

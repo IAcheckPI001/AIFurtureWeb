@@ -40,6 +40,7 @@
     flex-direction: column;
     justify-content: jc-end;
     padding: 6px 8px;
+    width: 82%;
 }
 
 
@@ -120,4 +121,10 @@
   background-color: #333;
   border-radius: 50%;
   animation: blink 1.2s infinite;
+}
+
+@media (max-width: 768px) {
+    .contentUser{
+        width: 95%;
+    }
 }
