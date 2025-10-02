@@ -271,12 +271,13 @@
         margin-left: 7px;
     }
 
-    #frameFilter {
-        right: 88px;
-    }
 
     #framebtnCreateBlog {
         display: flex;
+    }
+
+    .items {
+        font-size: 1.1em;
     }
 
     #userOption {
@@ -306,9 +307,19 @@
         left: 0;
         width: 88%;
     }
+    
 
     #filterIco {
         margin-left: 7px;
+    }
+
+    #frameFilter {
+        right: 88px;
+        width: 318px;
+    }
+
+    .items {
+        font-size: 1em;
     }
 
     #framebtnCreateBlog {

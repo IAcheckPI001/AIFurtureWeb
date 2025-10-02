@@ -708,7 +708,7 @@ function Blogs (){
             <div id={styles.blogsFrame}>
                 <div className="flex flex-column"> 
                     <h3 style={{marginBottom: "10px"}}>{t("blog_page.titleContent")}</h3>
-                    <span style={{fontSize: "15px", marginLeft:"2px"}}>{t("blog_page.description")}</span>
+                    <span style={{fontSize: "1.23m", marginLeft:"2px"}}>{t("blog_page.description")}</span>
                     <div className="flex flex-column" style={{marginTop:"10px"}}>
                        {(results.length > 0 ? results : filteredBlogs).map((blog) => (
                             <div className={styles.blogContent} key={blog.public_id}>
@@ -719,7 +719,7 @@ function Blogs (){
                                             <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
                                         </div>
                                         <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
-                                        <h2 style={{margin: ".3em 0 !important"}}>{blog.title}</h2>
+                                        <h2 style={{fontSize: "1.63em", margin: ".3em 0 !important"}}>{blog.title}</h2>
                                         <div style={{marginRight:"20px"}}>
                                             <LimitText style={{fontSize:"16px"}} text={blog.blog_content} limit={250}/>
                                         </div>
