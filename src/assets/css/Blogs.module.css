@@ -19,12 +19,18 @@
     top: 53px;
     padding: 7px 0;
     left: 252px;
-    width: 80%;
-    background-color: white;
+    width: 100%;
+    background-color: #fff;
     z-index: 900;
     display: flex;
     justify-content: space-around;
 }
+
+#frameSearch {
+    width: 50vw;
+}
+
+
 
 #frameFilter {
     position: absolute;
@@ -248,4 +254,32 @@
     margin-left: 26px;
     font-size: 13px;
     padding-right: 26px;
+}
+
+
+@media (max-width: 768px) {
+
+    #frameSearch{
+        width: 75vw;
+        margin-left: 41px;
+    }
+
+    #filterIco {
+        margin-left: 7px;
+    }
+
+    #framebtnCreateBlog {
+        display: none;
+    }
+
+    #userOption {
+        margin-right: 20px;
+        margin-left: 24px;
+    }
+
+    #blogsFrame{
+        left: 0;
+        padding: 47px;
+        width: auto;
+    }
 }

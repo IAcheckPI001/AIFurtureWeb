@@ -641,7 +641,7 @@ function Blogs (){
                 </div>
             )}
             <div className={styles.searchInput}>
-                <div className="flex items-center" style={{width: "50vw"}}>
+                <div id={styles.frameSearch} className="flex items-center">
                     <AutoResizeTextarea
                         value={searchTerm}
                         placeholder= {t("blog_page.placeholderInput")}
@@ -684,11 +684,12 @@ function Blogs (){
                     </div>
                 </div>
                 <div className="flex">
-                    <div className="flex items-center" style={{marginRight:"40px"}}>
+                    <div id={styles.framebtnCreateBlog} className="flex items-center" style={{marginRight:"40px"}}>
                         <Link className={styles.btnCreateBlog} to="/create-blog"> {t("blog_page.btnBlog")}</Link>
                     </div>
+                    <div id={styles.userOption} className="flex items-center relative">
                     {ss_user ? (
-                        <div className="flex items-center relative">
+                        <>
                             <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
                                 <div ref={frameRefUser} id={styles.frameUser} className="flex flex-column">
@@ -697,13 +698,11 @@ function Blogs (){
                                     <button className={styles.btnOption} onClick={deleteSession}>Log out</button>
                                 </div>
                             )}
-                        </div>
-                        
+                        </>
                     ):(
-                        <div className="flex items-center">
-                            <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={avatar} alt="login" />
-                        </div>
+                        <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={avatar} alt="login" />
                     )}
+                    </div>
                 </div>
             </div>
             <div id={styles.blogsFrame}>
@@ -714,7 +713,7 @@ function Blogs (){
                        {(results.length > 0 ? results : filteredBlogs).map((blog) => (
                             <div className={styles.blogContent} key={blog.public_id}>
                                 <Link id={styles.createBlog} to={`/blogs/${blog.public_id}`}>
-                                    <div style={{marginLeft:"26px"}}>
+                                    <div style={{marginLeft:"25px", marginRight: "25px"}}>
                                         <div className="flex items-center">
                                             <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={blog.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
                                             <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
