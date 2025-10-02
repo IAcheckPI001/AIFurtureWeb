@@ -293,3 +293,38 @@
         width: 100%;
     }
 }
+
+
+@media (max-width: 1280px) {
+
+    #frameSearch{
+        width: 50vw;
+    }
+
+    .searchInput {
+        left: 150px;
+        width: 78%;
+    }
+
+    #filterIco {
+        margin-left: 7px;
+    }
+
+    #framebtnCreateBlog {
+        display: none;
+    }
+
+    #userOption {
+        margin-right: 20px;
+        margin-left: 24px;
+    }
+
+    #blogsFrame{
+        left: 128px;
+        width: auto;
+    }
+
+    #blogsFrame .blogContent{
+        width: 100%;
+    }
+}
