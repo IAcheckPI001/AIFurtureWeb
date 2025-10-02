@@ -50,7 +50,7 @@ function BlogID (){
 
     return (
         
-        <div id={styles.blogframe} className="width-100 flex container">
+        <div id={styles.blogFrame} className="width-100 flex container">
             <div id={styles.blogContent}>
                 <div className="width-100 flex jc-space-between">
                     <h2 style={{marginTop:"50px"}} className={styles.title} >{blog.title}</h2>

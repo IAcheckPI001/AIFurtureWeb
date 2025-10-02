@@ -1,5 +1,5 @@
 
-#blogframe {
+#blogFrame {
     height: auto;
     background-color: #fcfcfc;
     justify-content: center;
@@ -87,4 +87,32 @@
     background: none;
     flex: 1;
     font-size: 16px;
+}
+
+
+
+
+@media (max-width: 1280px) {
+
+    
+}
+
+
+@media (max-width: 768px) {
+    #blogFrame{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #blogContent{
+        width: 74%;
+        padding: 8px 26px 18px 33px;
+        margin: 35px 25px 30px 27px;
+    }
+
+    #frameActor {
+        margin-top: 0;
+    }
+
 }
