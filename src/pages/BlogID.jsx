@@ -62,7 +62,7 @@ function BlogID (){
                     <SafeContent html={blog.translated_content}/> : <SafeContent html={blog.blog_content}/>
                 }
             </div>
-            <div className="flex flex-column">
+            <div className="flex flex-column items-center">
                 <div id={styles.frameActor} className="flex flex-column relative">
                     <div className="flex width-100">
                         <div className="flex items-center" style={{ margin:"18px 0 0 18px"}}>
