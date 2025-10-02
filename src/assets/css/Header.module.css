@@ -76,28 +76,42 @@
 } 
 
 #menuBar {
-    color: white;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+    background-color: white;
+    right: 18px;
+    top: 34px;
+    border-radius: 5px;
+    list-style: none;
+    padding: 0;
+}
+
+#menuBar li {
+    margin: 0;
+    padding: 4px 38px; 
+}
+
+#menuBar li a {
+    color: black;    
 }
 
 
 #menuBarIcon{
-    position: absolute;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    list-style: none;
-    top: 1px;
+    display: none;
+    height: 25px;
+    align-items: center;
+    margin-right: 18px;
+    border-radius: 3px;
 }
 
-#menuBarIcon li {
-    margin: 0px;
-}
 
 @media screen and (max-width: 767px) {
+    #menuBarIcon{
+        display: flex;
+    }
+    #frameMenu {
+        display: none;
+    }
 
+    #menuBar .styleLink {
+        font-size: 1.2em;
+    }
 }

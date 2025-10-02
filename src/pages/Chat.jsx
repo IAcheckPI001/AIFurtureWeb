@@ -95,7 +95,7 @@ function Chat() {
 
 
     return (
-       <div style={{width: "60vw", paddingBottom:"88px"}}>
+       <div id={stylesChat.frameSection}>
             <div className= "flex flex-column height-100 jc-space-around">
                 <div ref={chatRef} className={stylesChat.frameChat} style={{alignItems:"center"}}> 
                     {messages.length > 0 ? (
@@ -119,7 +119,7 @@ function Chat() {
                     ):(
                         <div className={chatbotStyles.contentUser} style={{height:"100%", width:"88%", justifyContent:"flex-start", marginTop:"150px"}}>
                             <div className="flex jc-space-between">
-                                <div className="flex flex-column margin-0-5" style={{width:"72%"}}>
+                                <div id={stylesChat.framePage} className="flex flex-column margin-0-5">
                                     <h1>{t("chatbot.titleContent")}</h1>
                                     <div className="flex jc-space-between" style={{height: "150px", marginTop:"20px"}}>
                                         <div className="flex flex-column" style={{width: "88%"}}>
@@ -143,7 +143,7 @@ function Chat() {
                                         
                                     </div>
                                 </div>
-                                <div style={{backgroundColor: "white", height: "235px", width: "266px", borderRadius: "15px"}} 
+                                <div id={stylesChat.chat_img} style={{backgroundColor: "white", height: "235px", width: "266px", borderRadius: "15px"}} 
                                     className="flex jc-center items-center">
                                     <img style={{height:"68%", borderRadius:"15px"}} src="https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627288/chatbot_cvoces.png" alt="" />
                                 </div>

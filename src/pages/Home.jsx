@@ -20,17 +20,17 @@ function Home (){
             </section>
 
             <section id = {styles.section1} className="flex flex-column width-100">
-                <div className="flex jc-center" style={{width:"80vw", marginTop: "8px", height: "78%", paddingTop: "37px"}}>
-                    <div className="flex items-center" style={{marginRight: "58px", marginBottom:"50px"}}>
+                <div id={styles.frameSection1} className="flex jc-center" style={{width:"64vw", marginTop: "8px", height: "78%", paddingTop: "37px"}}>
+                    <div id={styles.service_img} className="flex items-center" style={{marginRight: "58px", marginBottom:"50px"}}>
                         <img src="https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758627288/service-back_pdu5kr.png" className={styles.serivceImg} alt="/other-services" />
                     </div>
-                    <div className="flex flex-column" style={{width: "40vw", marginLeft: "8px"}}>
+                    <div id={styles.service_content} className="flex flex-column">
                         <h4 className={styles.sectionName}>{t("service_home.titleContent")}</h4>
                         <h2 className={styles.title}>{t("service_home.target")}</h2>
                         <div className="flex items-center width-100" style={{marginTop:"18px"}}>
                             <p style={{fontSize:"20px"}}>{t("service_home.description")}</p>
                         </div>
-                        <div style={{marginTop:"30px"}}>
+                        <div id={styles.btnService} style={{marginTop:"30px"}}>
                             <Link to="/services">
                                 <button className={styles.buttonService}>{t("service_home.btn")}</button>
                             </Link>

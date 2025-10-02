@@ -66,12 +66,51 @@
     font-size: 15px;
 }
 
+
+#service_content {
+    width: "40vw";
+    margin-left: "8px";
+}
+
+#btnService {
+    margin-top: 30px;
+}
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
   }
 
+  #section1 #frameSection1 {
+    width: 80vw !important;
+  }
+
+  #section1 #service_img{
+    display: none;
+  }
   
+  #section1 #service_content{
+    width: "68vw";
+  }
+
+  #section1 #service_content h4{
+    display: none;
+  }
+
+  #section1 #service_content h2{
+    text-align: center;
+  }
+
+  #section1 #service_content div p{
+    text-align: center;
+  }
+
+  #btnService {
+    display: flex;
+    justify-content: center;
+    margin-top: 42px !important;
+  }
+
 }
 
 .description{

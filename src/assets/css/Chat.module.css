@@ -1,4 +1,8 @@
 
+#frameSection {
+    width: 60vw; 
+    padding-bottom:"88px";
+}
 
 .frameChat {
     display: flex;
@@ -29,10 +33,31 @@
     width: 58vw;
     bottom: 4px;
 }
+#framePage {
+    width: 72%;
+}
 
 
 @media (max-width: 768px) {
 
+    #frameSection{
+        width: 72vw !important;
+    }
 
-  
+    #chat_img{
+        display: none;
+    }
+
+    #framePage {
+        width: 100%;
+    }
+
+    #framePage h1 {
+        font-size: 42px;
+    }
+
+    #frameInput {
+        width: 71%;
+        margin-left: 0 !important;
+    }
 }
