@@ -45,6 +45,8 @@ function Blogs (){
     const [codeVerify, setCodeVerify] = useState("");
     const [uploadAvatar, setAvatar] = useState(null);
     const [urls, setUrls] = useState(null);
+    const [limit, setLimit] = useState(250);
+
     
     const [scaleShow, setScaleFrame] = useState(false);
     const [scale, setScale] = useState(1);
@@ -76,6 +78,21 @@ function Blogs (){
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 640) {
+                setLimit(100);
+            } else if (window.innerWidth <= 1024) {
+                setLimit(180);
+            } else {
+                setLimit(250);
+            }
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     
@@ -721,7 +738,7 @@ function Blogs (){
                                         <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
                                         <h2 style={{fontSize: "1.63em", margin: ".3em 0 !important"}}>{blog.title}</h2>
                                         <div style={{marginRight:"20px"}}>
-                                            <LimitText style={{fontSize:"16px"}} text={blog.blog_content} limit={250}/>
+                                            <LimitText style={{fontSize:"1.2em"}} text={blog.blog_content} limit={limit}/>
                                         </div>
                                         <div>
                                             {blog.imgURLs.length > 0 && (
