@@ -69,11 +69,12 @@ async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(
                 "query": {
                     "multi_match": {
                         "query": q,
-                        "fields": ["nickname", "title", "blog_content"]
+                        "fields": ["nickname", "title", "blog_content"],
+                        "type": "most_fields"
                     }
                 }
             },
-            size=25
+            size=15
         )
     )
     results = []
@@ -81,7 +82,7 @@ async def search_blogs(q: str = Query(..., min_length=1), db: Session = Depends(
     for hit in res["hits"]["hits"]:
         blog = (
             db.query(modules.Blogs)
-            .filter(modules.Blogs.public_id == hit["_source"]["public_id"])
+            .filter(modules.Blogs.blog_id == hit["_source"]["id"])
             .first()
         )
         if blog:
@@ -123,46 +124,43 @@ async def search_blogs_user(request: Request, q: str = Query(..., min_length=1, 
                                 {
                                     "multi_match": {
                                         "query": q,
-                                        "fields": ["title", "blog_content"]
+                                        "fields": ["title", "blog_content"],
+                                        "type": "most_fields"
                                     }
                                 }
                             ],
                             "filter": [
                                 {
-                                    "match": {
-                                        "nickname": user.nickname
-                                    }
+                                    "term": {"nickname": user.nickname}
                                 }
                             ]
                         }
                     }
-                },
-                size=25
+                }
             )
         )
 
-        results = []
+        ids = [hit["_source"]["id"] for hit in res["hits"]["hits"]]
+        blogs = db.query(modules.Blogs).filter(modules.Blogs.blog_id.in_(ids)).all()
 
+        blog_map = {b.blog_id: b for b in blogs}
+
+        results = []
         for hit in res["hits"]["hits"]:
-            blog = (
-                db.query(modules.Blogs)
-                .filter(modules.Blogs.public_id == hit["_source"]["public_id"])
-                .first()
-            )
+            blog_id = hit["_source"]["id"]
+            blog = blog_map.get(blog_id)
             if blog:
-                results.append(
-                    {
-                        "nickname": blog.author.nickname,
-                        "avatar_img": blog.author.avatar_img,
-                        "title": blog.title,
-                        "blog_content": blog.blog_content,
-                        "imgURLs": blog.cover_img,
-                        "public_id": blog.public_id,
-                        "lang": blog.lang,
-                        "created_at": blog.create_at.isoformat(),
-                        "update_at": blog.update_at.isoformat()
-                    }
-                )
+                results.append({
+                    "nickname": blog.author.nickname,
+                    "avatar_img": blog.author.avatar_img,
+                    "title": blog.title,
+                    "blog_content": blog.blog_content,
+                    "imgURLs": blog.cover_img,
+                    "public_id": blog.public_id,
+                    "lang": blog.lang,
+                    "created_at": blog.create_at.isoformat(),
+                    "update_at": blog.update_at.isoformat()
+                })
 
         return results
     return None

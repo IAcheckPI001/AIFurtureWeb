@@ -71,7 +71,7 @@ function Session (){
             e.preventDefault();
             if (searchTerm.trim() === "") return;
             const res = await axios.get(
-                `${API_URL}/search-ss/?q=${encodeURIComponent(searchTerm)}`, 
+                `${API_URL}/search-ss?q=${encodeURIComponent(searchTerm)}`, 
                 { withCredentials: true }
             );
             setResults(res.data);

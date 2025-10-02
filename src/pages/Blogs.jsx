@@ -120,10 +120,11 @@ function Blogs (){
         if (e.key === "Enter" && !e.shiftKey){
             e.preventDefault();
             if (searchTerm.trim() === "") return;
-            const res = await axios.get(`${API_URL}/search?q=${searchTerm}`);
+            const res = await axios.get(`${API_URL}/search?q=${encodeURIComponent(searchTerm)}`);
             setResults(res.data);
         }
     }
+    
 
     const menuOption = () => {
         setOptionUser(!optionUser);

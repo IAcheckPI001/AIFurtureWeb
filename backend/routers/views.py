@@ -146,11 +146,8 @@ async def create_blog(request: Request, db: Session = Depends(create_db)):
                 "nickname":user.nickname,
                 "title": title,
                 "blog_content": content,
-                "cover_img": imgURLs,
                 "public_id": str(uuid.uuid4()),
-                "create_at": date,
-                "update_at": date,
-                "lang": language
+                "create_at": date
             }
             
             try:
