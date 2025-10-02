@@ -82,9 +82,12 @@
   }
 }
 
+
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
+    width: 80%;
   }
 
   #section1 #frameSection1 {

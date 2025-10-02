@@ -220,6 +220,7 @@ video:focus {
   height: 26px;
   width: 26px;
   margin-right: 8px;
+  border-radius: 100%;
 }
 
 .nameID {
