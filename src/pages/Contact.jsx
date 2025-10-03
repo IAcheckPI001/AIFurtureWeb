@@ -223,7 +223,7 @@ function Contact (){
                         }} 
                         placeholder={t("contact_page.placeholderMessage")} required></textarea>
                 </div>
-                <div id={frameBtnSubmit} style={{marginTop:"25px", marginBottom:"25px"}}>
+                <div id={styles.frameBtnSubmit} style={{marginTop:"25px", marginBottom:"25px"}}>
                     <button id={styles.submit} onClick={sendContact}> {t("contact_page.btnSubmit")}</button>
                 </div>
             </div>
