@@ -32,7 +32,7 @@ async def chat(request: Request, db: Session = Depends(create_db)):
         try:
             with client.chat.completions.stream(
                 model="gpt-4.1-mini",
-                messages=[{"role": "system", "content": "Answer the user using the following documents only:\n" + "\n".join(Infor)},
+                messages=[{"role": "system", "content": "Answer the user using natural the following documents only:\n" + "\n".join(Infor)},
                           {"role": "user", "content": user_message}]
             ) as stream:
                 for event in stream:

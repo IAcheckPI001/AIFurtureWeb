@@ -741,7 +741,7 @@ function Blogs (){
                                         <div style={{marginRight:"20px"}}>
                                             <LimitText style={{fontSize:"1.2em"}} text={blog.blog_content} limit={limit}/>
                                         </div>
-                                        <div id={frameImages} className="flex flex-wrap">
+                                        <div id={styles.frameImages} className="flex flex-wrap">
                                             {blog.imgURLs.length > 0 && (
                                                 <>
                                                     {blog.imgURLs
