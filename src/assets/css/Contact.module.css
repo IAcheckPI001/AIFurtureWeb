@@ -1,7 +1,7 @@
 
 #frameContact {
-    width:"58vw";
-    margin-top:"40px";
+    width:58vw;
+    margin-top:40px;
 }
 
 .label {
@@ -87,7 +87,7 @@
 @media (max-width: 768px) {
 
     #frameContact{
-        width: 960px;
+        width: 940px;
         margin-top: 40px;
         padding-left: 33px;
     }
