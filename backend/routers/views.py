@@ -237,15 +237,13 @@ def manage_blogs(request: Request, db: Session = Depends(create_db)):
         return None
     user = db.query(modules.Users).filter(modules.Users.session_key == session_id).first()
     if user:
-        blogs = db.query(modules.Blogs).filter(modules.Blogs.user_id == user.id).all()
-
         data = []
-        for blog in blogs:
+        for blog in user.blogs:
             
             unique_tags = [(tag.tag_id, tag.tag_content) for tag in blog.tags]
             data.append({
-                "nickname": blog.author.nickname,
-                "avatar_img": blog.author.avatar_img,
+                "nickname": user.nickname,
+                "avatar_img": user.avatar_img,
                 "title": blog.title,
                 "blog_content": blog.blog_content,
                 "imgURLs": blog.cover_img,
