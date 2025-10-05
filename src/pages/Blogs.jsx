@@ -730,32 +730,35 @@ function Blogs (){
                     <div className="flex flex-column" style={{marginTop:"10px"}}>
                        {(results.length > 0 ? results : filteredBlogs).map((blog) => (
                             <div className={styles.blogContent} key={blog.public_id}>
-                                <Link id={styles.createBlog} to={`/blogs/${blog.public_id}`}>
-                                    <div style={{marginLeft:"25px", marginRight: "25px"}}>
-                                        <div className="flex items-center">
-                                            <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={blog.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
-                                            <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
+                                <div style={{border: "1px solid var(--color-border)"}} className={styles.content}>
+                                    <Link id={styles.createBlog} to={`/blogs/${blog.public_id}`}>
+                                        <div style={{marginLeft:"25px", marginRight: "25px"}}>
+                                            <div className="flex items-center">
+                                                <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={blog.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
+                                                <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
+                                            </div>
+                                            <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
+                                            <h2 style={{fontSize: "1.63em", margin: ".3em 0 !important"}}>{blog.title}</h2>
+                                            <div style={{marginRight:"20px"}}>
+                                                <LimitText style={{fontSize:"1.2em"}} text={blog.blog_content} limit={limit}/>
+                                            </div>
+                            
                                         </div>
-                                        <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
-                                        <h2 style={{fontSize: "1.63em", margin: ".3em 0 !important"}}>{blog.title}</h2>
-                                        <div style={{marginRight:"20px"}}>
-                                            <LimitText style={{fontSize:"1.2em"}} text={blog.blog_content} limit={limit}/>
-                                        </div>
-                                        <div id={styles.frameImages} className="flex flex-wrap">
-                                            {blog.imgURLs.length > 0 && (
-                                                <>
-                                                    {blog.imgURLs
-                                                    .slice(0, 3)
-                                                    .map((image, idx) => (
-                                                        <img key={idx} className={styles.imgUpload} style={{height:"100px", maxWidth:"70%", maxHeight:"70%", marginLeft:"20px", marginTop:"15px", borderRadius:"5px"}} 
-                                                        src={image} 
-                                                        alt={idx}/>
-                                                    ))}
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                </div>
+                                <div className={styles.frameImages}>
+                                    {blog.imgURLs.length > 0 && (
+                                        <>
+                                            {blog.imgURLs
+                                            .slice(0, 3)
+                                            .map((image, idx) => (
+                                                <img key={idx} className={styles.imgUpload} style={{height:"100px", maxWidth:"70%", maxHeight:"70%", marginLeft:"20px", marginTop:"15px", borderRadius:"5px"}} 
+                                                src={image} 
+                                                alt={idx}/>
+                                            ))}
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         ))}    
                     </div>
