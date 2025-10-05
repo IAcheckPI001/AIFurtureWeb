@@ -738,7 +738,7 @@ function Blogs (){
                                                 <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={blog.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
                                                 <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
                                                 <div className="flex">
-                                                    <img style={{borderRadius:"100%", width:"18px", height:"18px"}} className="img_user" src={calendar} alt="" />
+                                                    <img style={{width:"16px", height:"16px", marginRight:"6px"}} src={calendar} alt="date_created" />
                                                     <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
                                                 </div>
                                             </div>
@@ -750,6 +750,7 @@ function Blogs (){
                                     </Link>
                                     
                                 </div>
+                                <span style={{fontSize: "1em", margin: ".33em 0 !important"}}>Danh sách ảnh</span>
                                 <div className={styles.frameImages}>
                                     {blog.imgURLs.length > 0 && (
                                         <>

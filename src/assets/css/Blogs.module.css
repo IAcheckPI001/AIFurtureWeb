@@ -249,10 +249,8 @@
 }
 
 .createDate{
-    margin: 0px;
-    margin-left: 3px;
-    font-size: 14px;
-    margin-top: 8px;
+    margin-top: 4px;
+    font-size: .9em;
     color: #474747;
 }
 
