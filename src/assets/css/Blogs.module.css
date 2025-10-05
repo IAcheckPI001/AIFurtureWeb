@@ -102,6 +102,10 @@
 }
 
 #createBlog{
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    align-items: center;
     border-radius: 15px;
     font-size: 15px;
     color: black;
@@ -124,8 +128,10 @@
 }
 
 .frameImages {
+    height: auto;
+    margin-right: 12px;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
 
@@ -251,11 +257,23 @@
 }
 
 .blogContent {
-    width: 59vw;
+    width: 49vw;
     margin-top: 8px;
     margin-bottom: 24px;
     border-radius: 15px;
     height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.imgUpload {
+    height: 100px; 
+    max-width: 70%; 
+    max-height: 70%; 
+    margin-left: 20px; 
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 
@@ -325,6 +343,11 @@
     #frameFilter {
         right: 88px;
         width: 318px;
+    }
+
+    
+    #createBlog{
+        flex-wrap: wrap;
     }
 
     .items {
