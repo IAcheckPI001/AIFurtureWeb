@@ -750,7 +750,7 @@ function Blogs (){
                                     </Link>
                                     
                                 </div>
-                                <span style={{fontSize: "1em", margin: ".33em 0 !important"}}>Danh sách ảnh</span>
+                                <span style={{fontSize: ".9em", margin: ".33em 0 !important"}}>Danh sách ảnh</span>
                                 <div className={styles.frameImages}>
                                     {blog.imgURLs.length > 0 && (
                                         <>
