@@ -757,7 +757,7 @@ function Blogs (){
                                             {blog.imgURLs
                                             .slice(0, 3)
                                             .map((image, idx) => (
-                                                <img key={idx} className={styles.imgUpload} 
+                                                <img key={idx} className={styles.imgUpload}  
                                                 src={image} 
                                                 alt={idx}
                                                 onClick={() => setZoomImage(image)}/>
