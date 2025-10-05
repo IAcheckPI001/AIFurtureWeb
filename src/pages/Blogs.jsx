@@ -46,6 +46,7 @@ function Blogs (){
     const [uploadAvatar, setAvatar] = useState(null);
     const [urls, setUrls] = useState(null);
     const [limit, setLimit] = useState(250);
+    const [zoomImage, setZoomImage] = useState(null);
 
     
     const [scaleShow, setScaleFrame] = useState(false);
@@ -742,7 +743,6 @@ function Blogs (){
                                             <div style={{marginRight:"20px"}}>
                                                 <LimitText style={{fontSize:"1.2em"}} text={blog.blog_content} limit={limit}/>
                                             </div>
-                            
                                         </div>
                                     </Link>
                                 </div>
@@ -754,7 +754,8 @@ function Blogs (){
                                             .map((image, idx) => (
                                                 <img key={idx} className={styles.imgUpload} style={{height:"100px", maxWidth:"70%", maxHeight:"70%", marginLeft:"20px", marginTop:"15px", borderRadius:"5px"}} 
                                                 src={image} 
-                                                alt={idx}/>
+                                                alt={idx}
+                                                onClick={() => setZoomImage(image)}/>
                                             ))}
                                         </>
                                     )}
@@ -764,6 +765,17 @@ function Blogs (){
                     </div>
                 </div>
             </div>
+            {zoomImage && (
+            <div className="fixed inset-0 width-100 flex jc-center"
+                style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                onClick={() => setZoomImage(null)}>
+                <img
+                    style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                    src={zoomImage}
+                    alt="Zoom"
+                />
+            </div>
+            )}
         </div>
     );
 }
