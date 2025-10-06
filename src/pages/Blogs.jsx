@@ -782,19 +782,21 @@ function Blogs (){
                     </div>
                 </div>
             </div>
-            {(results.length > 0 || zoomIndex ? results : filteredBlogs).map((blog) => (
-                <div className="fixed inset-0 width-100 flex jc-center items-center"
-                    style={{backgroundColor:"#00000085", zIndex:"1001"}}
-                    onClick={() => setZoomIndex(null)}>
-                    <img style={{width:"32px", height:"32px"}} src={arrow_left} onClick={() => handlePrev(blog.imgURLs.length)} alt="image_before" />
-                    <img
-                        style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
-                        src={blog.imgURLs[zoomIndex]}
-                        alt="Zoom"
-                    />
-                    <img style={{width:"32px", height:"32px"}} src={arrow_right} onClick={() => handleNext(blog.imgURLs.length)} alt="image_before" />
-                </div>
-            ))}
+            {zoomIndex && (
+                (results.length > 0 ? results : filteredBlogs).map((blog) => (
+                    <div className="fixed inset-0 width-100 flex jc-center items-center"
+                        style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                        onClick={() => setZoomIndex(null)}>
+                        <img style={{width:"32px", height:"32px"}} src={arrow_left} onClick={() => handlePrev(blog.imgURLs.length)} alt="image_before" />
+                        <img
+                            style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                            src={blog.imgURLs[zoomIndex]}
+                            alt="Zoom"
+                        />
+                        <img style={{width:"32px", height:"32px"}} src={arrow_right} onClick={() => handleNext(blog.imgURLs.length)} alt="image_before" />
+                    </div>
+                ))
+            )}
             {zoomImage && (
                 <div className="fixed inset-0 width-100 flex jc-center"
                     style={{backgroundColor:"#00000085", zIndex:"1001"}}
