@@ -269,6 +269,7 @@ def get_blogs(db: Session = Depends(create_db)):
         data.append({
             "nickname": blog.author.nickname,
             "avatar_img": blog.author.avatar_img,
+            "blog_id": blog.blog_id,
             "title": blog.title,
             "blog_content": blog.blog_content,
             "imgURLs": blog.cover_img,

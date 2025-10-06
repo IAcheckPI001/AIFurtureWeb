@@ -49,6 +49,7 @@ function Blogs (){
     const [urls, setUrls] = useState(null);
     const [limit, setLimit] = useState(250);
     const [zoomImage, setZoomImage] = useState(null);
+    const [selectedBlog, setSelectedBlog] = useState(null);
     const [zoomIndex, setZoomIndex] = useState(null);
 
     
@@ -439,21 +440,25 @@ function Blogs (){
         await cloudinary.uploader.destroy(public_id);
     }
 
-    const handleZoom = (index) => {
+    const handleZoom = (blog, index) => {
+        setSelectedBlog(blog);
         setZoomIndex(index);
     };
 
     const handleClose = () => {
-        handleClose(null);
+        setSelectedBlog(null);
+        setZoomIndex(null);
     };
 
-    const handleNext = (length) => {
-        setZoomIndex((prev) => (prev + 1) % length);
+    const handleNext = () => {
+        if (!selectedBlog) return;
+        setZoomIndex((prev) => (prev + 1) % selectedBlog.imgURLs.length);
     };
 
-    const handlePrev = (length) => {
+    const handlePrev = () => {
+        if (!selectedBlog) return;
         setZoomIndex((prev) =>
-            prev === 0 ? length - 1 : prev - 1
+            prev === 0 ? selectedBlog.imgURLs.length - 1 : prev - 1
         );
     };
 
@@ -781,7 +786,7 @@ function Blogs (){
                                             <img key={idx} className={styles.imgUpload}  
                                             src={image} 
                                             alt={`blog-image-${idx}`}
-                                            onClick={() => handleZoom(idx)}/>
+                                            onClick={() => handleZoom(blog, idx)}/>
                                         ))}
                                     </div>
                                 </>
@@ -791,34 +796,33 @@ function Blogs (){
                     </div>
                 </div>
             </div>
-            {zoomIndex !== null && (
-                (results.length > 0 ? results : filteredBlogs).map((blog) => (
-                    <div className="fixed inset-0 width-100 flex jc-center items-center"
-                        style={{backgroundColor:"#00000085", zIndex:"1001"}}
-                        onClick={handleClose}>
-                        <div className="flex jc-center items-center">
-                            <img style={{width:"32px", height:"32px"}} src={arrow_left} 
-                                onClick={(e) => {
-                                    e.stopPropagation(); 
-                                    handlePrev(blog.imgURLs.length);
-                                }} 
-                                alt="image_before" 
-                            />
-                            <img
-                                style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
-                                src={blog.imgURLs[zoomIndex]}
-                                alt="Zoom"
-                            />
-                            <img style={{width:"32px", height:"32px"}} src={arrow_right} 
-                                onClick={(e) => {
-                                    e.stopPropagation(); 
-                                    handleNext(blog.imgURLs.length);
-                                }} 
-                                alt="image_next" 
-                            />
-                        </div>
-                    </div>
-                ))
+            {selectedBlog && zoomIndex !== null && (
+            <div className="fixed inset-0 width-100 flex jc-center items-center"
+                style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                onClick={handleClose}>
+                <div className="flex jc-center items-center">
+                    <img style={{width:"32px", height:"32px"}} src={arrow_left} 
+                        onClick={(e) => {
+                            e.stopPropagation(); 
+                            handlePrev();
+                        }} 
+                        alt="image_before" 
+                    />
+                    <img
+                        style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                        src={selectedBlog.imgURLs[zoomIndex]}
+                        onClick={(e) => e.stopPropagation()}
+                        alt="Zoom"
+                    />
+                    <img style={{width:"32px", height:"32px"}} src={arrow_right} 
+                        onClick={(e) => {   
+                            e.stopPropagation(); 
+                            handleNext();
+                        }} 
+                        alt="image_next" 
+                    />
+                </div>
+            </div>
             )}
             {zoomImage && (
                 <div className="fixed inset-0 width-100 flex jc-center"
