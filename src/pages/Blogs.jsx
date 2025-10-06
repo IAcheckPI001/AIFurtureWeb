@@ -446,7 +446,7 @@ function Blogs (){
 
     const handlePrev = (length) => {
         setZoomIndex((prev) =>
-        prev === 0 ? length - 1 : prev - 1
+            prev === 0 ? length - 1 : prev - 1
         );
     };
 
@@ -772,7 +772,7 @@ function Blogs (){
                                             <img key={idx} className={styles.imgUpload}  
                                             src={image} 
                                             alt={idx}
-                                            onClick={() => setZoomIndex(idx + 1)}/>
+                                            onClick={() => setZoomIndex(idx)}/>
                                         ))}
                                     </div>
                                 </>
