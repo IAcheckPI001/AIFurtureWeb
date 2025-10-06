@@ -51,6 +51,7 @@
     "titleContent": "New Blogs",
     "titleContentUser": "Blogs",
     "description": "Blog realate to AI, security, anything.",
+    "labelListImage": "List of imgages",
     "warningEmptyAccount": "Please do not forget to enter login information!"
   },
   "newBlog": {

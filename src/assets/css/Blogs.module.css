@@ -285,9 +285,16 @@
 .btnArrowLeft, .btnArrowRight {
     border-radius: 100%;
     cursor: pointer;
-    border: 1px solid #00000085;
+    border: 1px solid #7a7a7a;
     padding: 2px;
+}
+
+.btnArrowLeft {
     padding-right: 4px;
+}
+
+.btnArrowRight {
+    padding-left: 4px;
 }
 
 .btnArrowLeft, .btnArrowRight:hover {
@@ -392,5 +399,6 @@
     #imgZoom {
         padding: 0 !important; 
         max-width: 84% !important; 
+        margin: 0 10px;
     }
 }

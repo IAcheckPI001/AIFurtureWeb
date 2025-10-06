@@ -778,7 +778,7 @@ function Blogs (){
                                 </div>
                                 {blog.imgURLs.length > 0 && (
                                 <>
-                                    <span style={{fontSize: ".8em", margin: "12px 0 0 10px", fontWeight:"600"}}>Danh sách ảnh</span>
+                                    <span style={{fontSize: ".8em", margin: "12px 0 0 10px", fontWeight:"600"}}>{t("blog_page.labelListImage")}</span>
                                     <div className={styles.frameImages}>
                                         {blog.imgURLs
                                         .slice(0, 2)
@@ -800,7 +800,7 @@ function Blogs (){
             <div className="fixed inset-0 width-100 flex jc-center items-center"
                 style={{backgroundColor:"#00000085", zIndex:"1001"}}
                 onClick={handleClose}>
-                <div className="flex jc-center items-center">
+                <div className="flex jc-center items-center" style={{width: "88%"}}>
                     <img class={styles.btnArrowLeft} style={{width:"32px", height:"32px"}} src={arrow_left} 
                         onClick={(e) => {
                             e.stopPropagation(); 

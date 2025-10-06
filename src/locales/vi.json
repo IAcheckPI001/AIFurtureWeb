@@ -50,7 +50,9 @@
     "btnBlog": "Tạo blog",
     "titleContent": "Các bài blog mới",
     "titleContentUser": "Danh sách blog",
-    "description": "Blog các chủ đề liên quan AI, an toàn mạng, và các chủ đề khác"
+    "description": "Blog các chủ đề liên quan AI, an toàn mạng, và các chủ đề khác",
+    "labelListImage": "Danh sách ảnh",
+    "warningEmptyAccount": "Please do not forget to enter login information!"
   },
   "newBlog": {
     "titleNewBlog":"Tạo blog",
