@@ -801,7 +801,7 @@ function Blogs (){
                 style={{backgroundColor:"#00000085", zIndex:"1001"}}
                 onClick={handleClose}>
                 <div className="flex jc-center items-center" style={{width: "88%"}}>
-                    <img class={styles.btnArrowLeft} style={{width:"32px", height:"32px"}} src={arrow_left} 
+                    <img class={styles.btnArrowLeft} style={{width:"32px", height:"32px", display: selectedBlog.imgURLs.length > 1 ? "blog": "none"}} src={arrow_left} 
                         onClick={(e) => {
                             e.stopPropagation(); 
                             handlePrev();
@@ -815,7 +815,7 @@ function Blogs (){
                         onClick={(e) => e.stopPropagation()}
                         alt="Zoom"
                     />
-                    <img class={styles.btnArrowRight} style={{width:"32px", height:"32px"}} src={arrow_right} 
+                    <img class={styles.btnArrowRight} style={{width:"32px", height:"32px", display: selectedBlog.imgURLs.length > 1 ? "blog": "none"}} src={arrow_right} 
                         onClick={(e) => {   
                             e.stopPropagation(); 
                             handleNext();
