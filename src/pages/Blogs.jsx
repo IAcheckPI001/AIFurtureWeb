@@ -49,6 +49,7 @@ function Blogs (){
     const [urls, setUrls] = useState(null);
     const [limit, setLimit] = useState(250);
     const [zoomImage, setZoomImage] = useState(null);
+    const [zoomIndex, setZoomIndex] = useState(null);
 
     
     const [scaleShow, setScaleFrame] = useState(false);
@@ -438,13 +439,6 @@ function Blogs (){
         await cloudinary.uploader.destroy(public_id);
     }
 
-    const handleOpenZoom = (index) => {
-        setZoomIndex(index);
-    };
-
-    const handleCloseZoom = () => {
-        setZoomIndex(null);
-    };
 
     const handleNext = (length) => {
         setZoomIndex((prev) => (prev + 1) % length);
@@ -778,20 +772,8 @@ function Blogs (){
                                             <img key={idx} className={styles.imgUpload}  
                                             src={image} 
                                             alt={idx}
-                                            onClick={() => handleOpenZoom(idx)}/>
+                                            onClick={() => setZoomIndex(idx)}/>
                                         ))}
-                                        {blog.imgURLs.length > 2 && (
-                                            <div>
-                                                <img
-                                                    className={styles.imgUpload}
-                                                    src={blog.imgURLs[2]}
-                                                    alt="extra"
-                                                />
-                                                <div className={styles.overlay}>
-                                                    +{blog.imgURLs.length - 2}
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 </>
                                 )}
@@ -800,9 +782,22 @@ function Blogs (){
                     </div>
                 </div>
             </div>
+            {zoomIndex && (
+                <div className="fixed inset-0 width-100 flex jc-center"
+                    style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                    onClick={() => setZoomIndex(null)}>
+                    <img style={{width:"32px", height:"32px"}} src={arrow_left} onClick={() => handlePrev(results.blog.imgURLs.length)} alt="image_before" />
+                    {(results.length > 0 ? results : filteredBlogs).map((blog) => (
+                        <img
+                            style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                            src={blog.imgURLs[zoomIndex]}
+                            alt="Zoom"
+                        />
+                    ))}
+                    <img style={{width:"32px", height:"32px"}} src={arrow_right} onClick={() => handleNext(results.blog.imgURLs.length)} alt="image_before" />
+                </div>
+            )}
             {zoomImage && (
-            <div className="flex">
-                <img style={{width:"32px", height:"32px"}} src={arrow_left} onClick={handlePrev} alt="image_before" />
                 <div className="fixed inset-0 width-100 flex jc-center"
                     style={{backgroundColor:"#00000085", zIndex:"1001"}}
                     onClick={() => setZoomImage(null)}>
@@ -812,8 +807,6 @@ function Blogs (){
                         alt="Zoom"
                     />
                 </div>
-                <img style={{width:"32px", height:"32px"}} src={arrow_right} onClick={handleNext} alt="image_next" />
-            </div>
             )}
         </div>
     );
