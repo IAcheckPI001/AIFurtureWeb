@@ -15,6 +15,8 @@ import closeIcon from "../assets/icon/close.png";
 import addScale from "../assets/icon/add.png";
 import minusIcon from "../assets/icon/minus.png";
 import reloadCode from "../assets/icon/reload.png";
+import arrow_right from "../assets/icon/arrow_right.png";
+import arrow_left from "../assets/icon/arrow_left.png";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
@@ -436,6 +438,23 @@ function Blogs (){
         await cloudinary.uploader.destroy(public_id);
     }
 
+    const handleOpenZoom = (index) => {
+        setZoomIndex(index);
+    };
+
+    const handleCloseZoom = () => {
+        setZoomIndex(null);
+    };
+
+    const handleNext = (length) => {
+        setZoomIndex((prev) => (prev + 1) % length);
+    };
+
+    const handlePrev = (length) => {
+        setZoomIndex((prev) =>
+        prev === 0 ? length - 1 : prev - 1
+        );
+    };
 
     const { data: ss_user, loadSession, errorSession } = useEffectCheckSession();
     if (loadSession) return <p>Loading...</p>;
@@ -737,7 +756,7 @@ function Blogs (){
                                             <div className="flex items-center">
                                                 <img style={{borderRadius:"100%", width:"30px", height:"28px"}} className="img_user" src={blog.avatar_img || "https://res.cloudinary.com/dhbcyrfmw/image/upload/v1758181154/avatar_default_naxupt.png"} alt="" />
                                                 <span className="nameID" style={{fontSize:"16px"}}>{blog.nickname}</span>
-                                                <div className="flex">
+                                                <div className="flex items-center" style={{marginLeft:"17px", marginTop:"2px"}}>
                                                     <img style={{width:"16px", height:"16px", marginRight:"6px"}} src={calendar} alt="date_created" />
                                                     <p className={styles.createDate}>{new Date(blog.created_at).toLocaleDateString()}</p>
                                                 </div>
@@ -748,37 +767,52 @@ function Blogs (){
                                             </div>
                                         </div>
                                     </Link>
-                                    
                                 </div>
-                                <span style={{fontSize: ".8em", margin: ".33em 0 !important"}}>Danh sách ảnh</span>
-                                <div className={styles.frameImages}>
-                                    {blog.imgURLs.length > 0 && (
-                                        <>
-                                            {blog.imgURLs
-                                            .slice(0, 3)
-                                            .map((image, idx) => (
-                                                <img key={idx} className={styles.imgUpload}  
-                                                src={image} 
-                                                alt={idx}
-                                                onClick={() => setZoomImage(image)}/>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
+                                {blog.imgURLs.length > 0 && (
+                                <>
+                                    <span style={{fontSize: ".8em", margin: "8px 0 0 10px", fontWeight:"600"}}>Danh sách ảnh</span>
+                                    <div className={styles.frameImages}>
+                                        {blog.imgURLs
+                                        .slice(0, 2)
+                                        .map((image, idx) => (
+                                            <img key={idx} className={styles.imgUpload}  
+                                            src={image} 
+                                            alt={idx}
+                                            onClick={() => handleOpenZoom(idx)}/>
+                                        ))}
+                                        {blog.imgURLs.length > 2 && (
+                                            <div>
+                                                <img
+                                                    className={styles.imgUpload}
+                                                    src={blog.imgURLs[2]}
+                                                    alt="extra"
+                                                />
+                                                <div className={styles.overlay}>
+                                                    +{blog.imgURLs.length - 2}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                                )}
                             </div>
                         ))}    
                     </div>
                 </div>
             </div>
             {zoomImage && (
-            <div className="fixed inset-0 width-100 flex jc-center"
-                style={{backgroundColor:"#00000085", zIndex:"1001"}}
-                onClick={() => setZoomImage(null)}>
-                <img
-                    style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
-                    src={zoomImage}
-                    alt="Zoom"
-                />
+            <div className="flex">
+                <img style={{width:"32px", height:"32px"}} src={arrow_left} onClick={handlePrev} alt="image_before" />
+                <div className="fixed inset-0 width-100 flex jc-center"
+                    style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                    onClick={() => setZoomImage(null)}>
+                    <img
+                        style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                        src={zoomImage}
+                        alt="Zoom"
+                    />
+                </div>
+                <img style={{width:"32px", height:"32px"}} src={arrow_right} onClick={handleNext} alt="image_next" />
             </div>
             )}
         </div>
