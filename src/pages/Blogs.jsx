@@ -734,7 +734,7 @@ function Blogs (){
                     <div id={styles.userOption} className="flex items-center relative">
                     {ss_user ? (
                         <>
-                            <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
+                            <img style={{height:"1.8em", borderRadius:"100%", cursor:"pointer"}} onClick={menuOption} src={ss_user.avatar_img} alt={ss_user.nickname} />
                             {optionUser && (
                                 <div ref={frameRefUser} id={styles.frameUser} className="flex flex-column">
                                     <Link to="/manage-blogs"><button className={styles.btnOption}>Blogs</button></Link>
@@ -744,7 +744,7 @@ function Blogs (){
                             )}
                         </>
                     ):(
-                        <img style={{height:"34px", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={avatar} alt="login" />
+                        <img style={{height:"1.8em", borderRadius:"100%", cursor:"pointer"}} onClick={loginUser} src={avatar} alt="login" />
                     )}
                     </div>
                 </div>
@@ -778,7 +778,7 @@ function Blogs (){
                                 </div>
                                 {blog.imgURLs.length > 0 && (
                                 <>
-                                    <span style={{fontSize: ".8em", margin: "8px 0 0 10px", fontWeight:"600"}}>Danh sách ảnh</span>
+                                    <span style={{fontSize: ".8em", margin: "12px 0 0 10px", fontWeight:"600"}}>Danh sách ảnh</span>
                                     <div className={styles.frameImages}>
                                         {blog.imgURLs
                                         .slice(0, 2)
@@ -801,7 +801,7 @@ function Blogs (){
                 style={{backgroundColor:"#00000085", zIndex:"1001"}}
                 onClick={handleClose}>
                 <div className="flex jc-center items-center">
-                    <img style={{width:"32px", height:"32px"}} src={arrow_left} 
+                    <img class={styles.btnArrowLeft} style={{width:"32px", height:"32px"}} src={arrow_left} 
                         onClick={(e) => {
                             e.stopPropagation(); 
                             handlePrev();
@@ -809,12 +809,13 @@ function Blogs (){
                         alt="image_before" 
                     />
                     <img
+                        id={styles.imgZoom}
                         style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
                         src={selectedBlog.imgURLs[zoomIndex]}
                         onClick={(e) => e.stopPropagation()}
                         alt="Zoom"
                     />
-                    <img style={{width:"32px", height:"32px"}} src={arrow_right} 
+                    <img class={styles.btnArrowRight} style={{width:"32px", height:"32px"}} src={arrow_right} 
                         onClick={(e) => {   
                             e.stopPropagation(); 
                             handleNext();

@@ -18,7 +18,7 @@
     margin-top: 10px;
     top: 53px;
     padding: 7px 0;
-    left: 252px;
+    left: 184px;
     width: 88vw;
     background-color: #fff;
     z-index: 900;
@@ -265,6 +265,7 @@
 }
 
 .imgUpload {
+    border: 1px solid #dfdfdf;
     height: 100px; 
     max-width: 70%; 
     max-height: 70%; 
@@ -274,11 +275,23 @@
     cursor: pointer;
 }
 
-
 .description {
     margin-left: 26px;
     font-size: 13px;
     padding-right: 26px;
+}
+
+
+.btnArrowLeft, .btnArrowRight {
+    border-radius: 100%;
+    cursor: pointer;
+    border: 1px solid #00000085;
+    padding: 2px;
+    padding-right: 4px;
+}
+
+.btnArrowLeft, .btnArrowRight:hover {
+    border: 1px solid #ffff;
 }
 
 @media (max-width: 1280px) {
@@ -329,8 +342,8 @@
     }
 
     .searchInput {
-        left: 0;
-        width: 88%;
+        left: 8px;
+        width: 98%;
     }
     
 
@@ -374,5 +387,10 @@
 
     .frameImages {
         justify-content: center;
+    }
+
+    #imgZoom {
+        padding: 0 !important; 
+        max-width: 84% !important; 
     }
 }
