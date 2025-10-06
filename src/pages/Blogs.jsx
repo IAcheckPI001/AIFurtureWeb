@@ -439,6 +439,13 @@ function Blogs (){
         await cloudinary.uploader.destroy(public_id);
     }
 
+    const handleZoom = (index) => {
+        setZoomIndex(index);
+    };
+
+    const handleClose = () => {
+        handleClose(null);
+    };
 
     const handleNext = (length) => {
         setZoomIndex((prev) => (prev + 1) % length);
@@ -742,7 +749,9 @@ function Blogs (){
                     <h3 style={{marginBottom: "10px"}}>{t("blog_page.titleContent")}</h3>
                     <span style={{fontSize: "1.23m", marginLeft:"2px"}}>{t("blog_page.description")}</span>
                     <div className="flex flex-column" style={{marginTop:"10px"}}>
-                       {(results.length > 0 ? results : filteredBlogs).map((blog) => (
+                       {(results.length > 0 ? results : filteredBlogs)
+                       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                       .map((blog) => (
                             <div className={styles.blogContent} key={blog.public_id}>
                                 <div style={{border: "1px solid var(--color-border)"}} className={styles.content}>
                                     <Link id={styles.createBlog} className="flex" to={`/blogs/${blog.public_id}`}>
@@ -771,8 +780,8 @@ function Blogs (){
                                         .map((image, idx) => (
                                             <img key={idx} className={styles.imgUpload}  
                                             src={image} 
-                                            alt={idx}
-                                            onClick={() => setZoomIndex(idx)}/>
+                                            alt={`blog-image-${idx}`}
+                                            onClick={() => handleZoom(idx)}/>
                                         ))}
                                     </div>
                                 </>
@@ -782,19 +791,31 @@ function Blogs (){
                     </div>
                 </div>
             </div>
-            {zoomIndex && (
+            {zoomIndex !== null && (
                 (results.length > 0 ? results : filteredBlogs).map((blog) => (
                     <div className="fixed inset-0 width-100 flex jc-center items-center"
                         style={{backgroundColor:"#00000085", zIndex:"1001"}}
-                        onClick={() => setZoomIndex(null)}>
+                        onClick={handleClose}>
                         <div className="flex jc-center items-center">
-                            <img style={{width:"32px", height:"32px"}} src={arrow_left} onClick={() => handlePrev(blog.imgURLs.length)} alt="image_before" />
+                            <img style={{width:"32px", height:"32px"}} src={arrow_left} 
+                                onClick={(e) => {
+                                    e.stopPropagation(); 
+                                    handlePrev(blog.imgURLs.length);
+                                }} 
+                                alt="image_before" 
+                            />
                             <img
                                 style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
                                 src={blog.imgURLs[zoomIndex]}
                                 alt="Zoom"
                             />
-                            <img style={{width:"32px", height:"32px"}} src={arrow_right} onClick={() => handleNext(blog.imgURLs.length)} alt="image_before" />
+                            <img style={{width:"32px", height:"32px"}} src={arrow_right} 
+                                onClick={(e) => {
+                                    e.stopPropagation(); 
+                                    handleNext(blog.imgURLs.length);
+                                }} 
+                                alt="image_next" 
+                            />
                         </div>
                     </div>
                 ))
