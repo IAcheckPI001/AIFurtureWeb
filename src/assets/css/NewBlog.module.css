@@ -91,7 +91,7 @@
     z-index: 10000;
     background-color: #d6d6d659;
     height: 100%;
-    top: 28px;
+    top: 64px;
     margin-left: 0;
     justify-content: start;
     align-items: center;
@@ -272,8 +272,12 @@
         width: 45vw;
     }
 
+    #blockContent {
+        width: 84vw !important;
+    }
+
     #frameDemoBlog .blogContent {
-        width: 76vw !important;
+        width: 88vw !important;
     }
 
     #btnDemoBlog {
@@ -305,11 +309,15 @@
     }
 
     .inputTitle {
-        width: 45vw;
+        width: 75vw;
+    }
+
+    #blockContent {
+        width: 84vw !important;
     }
 
     #frameDemoBlog .blogContent {
-        width: 76vw !important;
+        width: 80vw !important;
     }
 
     #btnDemoBlog {
