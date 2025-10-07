@@ -23,7 +23,7 @@ function AutoResizeTextarea ({value, placeholder, handleKey, onChange}){
                 onKeyDown= {handleKey}
                 onChange={onChange}
                 className={chatbotStyles.inputTextCb}
-                style={{width: "88%", padding: "13px 14px 13px 18px", marginLeft: "12px", height: "22px", borderRadius: "26px", maxHeight: "140px", scrollbarWidth: "thin", scrollBehavior:"smooth", border: "1px solid #dadada", fontSize:"16px"}}
+                style={{width: "88%", padding: "12px 14px 12px 18px", marginLeft: "12px", height: "22px", borderRadius: "26px", maxHeight: "140px", scrollbarWidth: "thin", scrollBehavior:"smooth", border: "1px solid #dadada", fontSize:"16px"}}
                 placeholder= {placeholder}
                 type="text"
             />

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useRef, useEffect  } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "../assets/css/Blogs.module.css"
+import AvatarEditor from "react-avatar-editor";
 import AutoResizeTextarea from "../hooks/AutoResizeTextarea.jsx";
 import useEffectGetBlogs from "../hooks/useEffectGetBlogs.jsx";
 import LimitText from "../components/LimitText.jsx";
@@ -17,6 +18,8 @@ import minusIcon from "../assets/icon/minus.png";
 import reloadCode from "../assets/icon/reload.png";
 import arrow_right from "../assets/icon/arrow_right.png";
 import arrow_left from "../assets/icon/arrow_left.png";
+import checked from "../assets/icon/checked.png";
+import checkIcon from "../assets/icon/checkIcon.png";
 import useEffectGetTags from "../hooks/useEffectGetTags.jsx";
 import useEffectGetNicknames from "../hooks/useEffectGetNicknames.jsx";
 import useEffectCheckSession from "../hooks/useEffectCheckSession.jsx";
@@ -52,7 +55,7 @@ function Blogs (){
     const [selectedBlog, setSelectedBlog] = useState(null);
     const [zoomIndex, setZoomIndex] = useState(null);
 
-    
+    const [checkEmpty, setFrame] = useState(false);
     const [scaleShow, setScaleFrame] = useState(false);
     const [scale, setScale] = useState(1);
     const editorRef = useRef(null);
@@ -294,7 +297,11 @@ function Blogs (){
 
     const login = async () => {
         setCheckUser("")
-        if(!user_id.trim() || !passkey.trim()){
+        if(!user_id.trim()){
+            setNotif({ message: t("createSession.warningEmpty"), type: "warning" });
+            setTimeout(() => setNotif(null), 4000);
+
+        }else if(!passkey.trim()){
             setNotif({ message: t("createSession.warningEmpty"), type: "warning" });
             setTimeout(() => setNotif(null), 4000);
         }
@@ -508,8 +515,8 @@ function Blogs (){
                         </div>
                     )}
                     {eventAuth ? (
-                        <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
-                            <div className="flex jc-space-between" style={{margin:"15px 15px 0 0"}}>
+                        <div style={{width: "392px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
+                            <div className="flex jc-space-between" style={{margin:"14px 15px 0px 0px"}}>
                                 <h1 style={{marginBottom:"22px", marginTop:"14px"}}>{t("createSession.signUpbtn")}</h1>
                                 <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                     src={closeIcon} 
@@ -520,13 +527,13 @@ function Blogs (){
                                 <div className="relative">
                                     <img
                                         className="cursor-pointer"
-                                        style={{width:"58px", height:"58px", borderRadius:"100%"}}
+                                        style={{width:"50px", height:"50px", borderRadius:"100%"}}
                                         src={uploadAvatar ? uploadAvatar.preview : avatar}
                                         alt="Your avatar"
                                         onClick={() => setZoomImage(uploadAvatar.preview)}/>
                                     
-                                    <label style={{top: "26px", left: "18px"}} className="cursor-pointer flex items-center width-auto absolute">
-                                        <img style={{height:"28px", marginLeft:"16px"}} className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
+                                    <label style={{top: "16px", left: "18px"}} className="cursor-pointer flex items-center width-auto absolute">
+                                        <img style={{height:"28px", marginLeft:"16px", border: "none"}} className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -579,23 +586,27 @@ function Blogs (){
                                     }}
                                     placeholder="#########" required/>
                             </div>
-                            <ul style={{margin:"0", paddingLeft:"26px", marginBottom:"14px"}}>
+                            <ul style={{margin:"0px 38px 0px 8px", listStyle:"none"}}>
                                 {!checkPass.lengthOk ?(
-                                    <li style={{margin:"0"}}>
-                                        <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff"}}>{t("createUser.checkLengthPass")}</span>
+                                    <li style={{margin:"0"}} className="flex items-center">
+                                        <img style={{width:"18px", height:"18px"}} className="radius-100" src={checkIcon} alt="" />
+                                        <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff", marginLeft:"8px"}}>{t("createUser.checkLengthPass")}</span>
                                     </li>
                                 ):(
                                     <li style={{margin:"0"}}>
-                                        <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>{t("createUser.checkLengthPass")}</span>
+                                        <img style={{width:"18px", height:"18px"}} className="radius-100" src={checked} alt="" />
+                                        <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600", marginLeft:"8px"}}>{t("createUser.checkLengthPass")}</span>
                                     </li>
                                 )}
                                 {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
                                     <li style={{margin:"0"}}>
-                                        <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff"}}>{t("createUser.checkFormatPass")}</span>
+                                        <img style={{width:"18px", height:"18px"}} className="radius-100" src={checkIcon} alt="" />
+                                        <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff", marginLeft:"8px"}}>{t("createUser.checkFormatPass")}</span>
                                     </li>
                                 ):(
                                     <li style={{margin:"0"}}>
-                                        <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>{t("createUser.checkFormatPass")}</span>
+                                        <img style={{width:"18px", height:"18px"}} className="radius-100" src={checked} alt="" />
+                                        <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600", marginLeft:"8px"}}>{t("createUser.checkFormatPass")}</span>
                                     </li>
                                 )}
                             </ul>
@@ -618,7 +629,7 @@ function Blogs (){
                                 )}
                             </div>
                             
-                            <div className="flex jc-space-between" style={{margin:"6px 28px 28px 0"}}>
+                            <div className="flex jc-space-between" style={{margin:"6px 28px 18px 0px"}}>
                                 <span style={{fontSize:"14px", marginLeft:"6px"}}>{t("createUser.loginLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createUser.loginbtn")}</span></span>
                                 <button id={styles.submit} onClick={createUser}>{t("createUser.btnSignUp")}</button>
                             </div>
@@ -657,6 +668,9 @@ function Blogs (){
                                     }}
                                     placeholder="#########" required/>
                             </div>
+                            {eventCheck.trim() && (
+                                <span style={{fontSize:"14px", color:"#670a0a", margin:"3px 0 12px 2px"}}>{eventCheck}</span>
+                            )}
                             <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"16px"}}>
                                 <label className={styles.label} htmlFor="verifyCode">{t("createUser.verifyCode")}<span style={{color:"red"}}>*</span></label>
                                 <div className="flex items-center">

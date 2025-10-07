@@ -60,6 +60,7 @@ function NewBlog (){
     const [eventCheck, setCheckUser] = useState("");
     const [eventAuth, setEventAuth] = useState(false);
     const [scaleShow, setScaleFrame] = useState(false);
+    const [demoBlog, setDemoBlog] = useState(false);
     const checkPass = validatePassword(passkey);
 
     useEffect(() => {
@@ -517,6 +518,10 @@ function NewBlog (){
         await cloudinary.uploader.destroy(public_id);
     }
 
+    const watchBlog = () =>{
+        setDemoBlog(!demoBlog);
+    }
+
     return( 
     
         <div className="width-100 flex">
@@ -531,7 +536,7 @@ function NewBlog (){
                             width={200}
                             height={200}
                             border={50}
-                            borderRadius={100} // circle crop
+                            borderRadius={100}
                             scale={scale}
                         />
 
@@ -558,25 +563,25 @@ function NewBlog (){
                     </div>
                 )}
                 {eventAuth ? (
-                    <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
-                        <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
+                    <div style={{width: "392px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
+                        <div className="flex jc-space-between" style={{margin:"14px 15px 0px 0px"}}>
+                            <h1 style={{marginBottom:"22px", marginTop:"14px"}}>{t("createSession.signUpbtn")}</h1>
                             <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                 src={closeIcon} 
                                 alt=""
-                                onClick={closeFrame} />
+                                onClick={loginUser} />
                         </div>
-                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.signUpbtn")}</h1>
                         <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
                             <div className="relative">
                                 <img
                                     className="cursor-pointer"
-                                    style={{width:"58px", height:"58px", borderRadius:"100%"}}
+                                    style={{width:"50px", height:"50px", borderRadius:"100%"}}
                                     src={uploadAvatar ? uploadAvatar.preview : avatar}
                                     alt="Your avatar"
                                     onClick={() => setZoomImage(uploadAvatar.preview)}/>
                                 
-                                <label style={{top: "34px", left: "32px"}} className="cursor-pointer flex items-center width-auto absolute">
-                                    <img className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
+                                <label style={{top: "16px", left: "18px"}} className="cursor-pointer flex items-center width-auto absolute">
+                                    <img style={{height:"28px", marginLeft:"16px", border: "none"}} className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -608,7 +613,6 @@ function NewBlog (){
                             <label className={styles.label} htmlFor="email">{t("newBlog.emailLabel")}<span style={{color:"red"}}>*</span></label>
                             <input className={styles.inputEmail} id="email" type="email"
                                 maxLength={MAX_EMAIL_LENGTH}
-                                value={email}
                                 onChange={(e) => {
                                     if (e.target.value.length <= MAX_EMAIL_LENGTH) {
                                         setEmail(e.target.value)
@@ -625,28 +629,32 @@ function NewBlog (){
                                 maxLength={MAX_PASSKEY_LENGTH}
                                 onChange={(e) => {
                                     if (e.target.value.length <= MAX_PASSKEY_LENGTH) {
-                                        setPasskey(e.target.value)
+                                        setPass(e.target.value)
                                     }
                                 }}
                                 placeholder="#########" required/>
                         </div>
-                        <ul style={{margin:"0", paddingLeft:"26px", marginBottom:"14px"}}>
+                        <ul style={{margin:"0px 38px 0px 8px", listStyle:"none"}}>
                             {!checkPass.lengthOk ?(
-                                <li style={{margin:"0"}}>
-                                    <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff"}}>{t("createUser.checkLengthPass")}</span>
+                                <li style={{margin:"0"}} className="flex items-center">
+                                    <img style={{width:"18px", height:"18px"}} className="radius-100" src={checkIcon} alt="" />
+                                    <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff", marginLeft:"8px"}}>{t("createUser.checkLengthPass")}</span>
                                 </li>
                             ):(
                                 <li style={{margin:"0"}}>
-                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>{t("createUser.checkLengthPass")}</span>
+                                    <img style={{width:"18px", height:"18px"}} className="radius-100" src={checked} alt="" />
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600", marginLeft:"8px"}}>{t("createUser.checkLengthPass")}</span>
                                 </li>
                             )}
                             {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
                                 <li style={{margin:"0"}}>
-                                    <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff"}}>{t("createUser.checkFormatPass")}</span>
+                                    <img style={{width:"18px", height:"18px"}} className="radius-100" src={checkIcon} alt="" />
+                                    <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff", marginLeft:"8px"}}>{t("createUser.checkFormatPass")}</span>
                                 </li>
                             ):(
                                 <li style={{margin:"0"}}>
-                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600"}}>{t("createUser.checkFormatPass")}</span>
+                                    <img style={{width:"18px", height:"18px"}} className="radius-100" src={checked} alt="" />
+                                    <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600", marginLeft:"8px"}}>{t("createUser.checkFormatPass")}</span>
                                 </li>
                             )}
                         </ul>
@@ -669,21 +677,20 @@ function NewBlog (){
                             )}
                         </div>
                         
-                        <div className="flex jc-space-between" style={{margin:"6px 28px 28px 0"}}>
+                        <div className="flex jc-space-between" style={{margin:"6px 28px 18px 0px"}}>
                             <span style={{fontSize:"14px", marginLeft:"6px"}}>{t("createUser.loginLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createUser.loginbtn")}</span></span>
                             <button id={styles.submit} onClick={createUser}>{t("createUser.btnSignUp")}</button>
                         </div>
                     </div>
                 ):(
                     <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
-                        <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
+                        <div className="flex jc-space-between" style={{margin:"15px 15px 0 0"}}>
+                            <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.loginTitle")}</h1>
                             <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                 src={closeIcon} 
                                 alt=""
-                                onClick={closeFrame} />
+                                onClick={loginUser} />
                         </div>
-                        <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.loginTitle")}</h1>
-                        
                         <div className="flex flex-column" style={{margin: "13px 0"}}>
                             <label className={styles.label} htmlFor="user_key">{t("createSession.usernameLabel")}</label>
                             <input className={styles.inputNickname} 
@@ -698,17 +705,20 @@ function NewBlog (){
                                 placeholder={t("createSession.placeholderUser")} required
                                 />
                         </div>
-                        <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
-                            <label className={styles.label} htmlFor="passkey">{t("createSession.passLabel")}</label>
+                        <div className="flex flex-column" style={{margin: "8px 22px 8px 0px"}}>
+                                <label className={styles.label} htmlFor="passkey">{t("createSession.passLabel")}</label>
                             <input className={styles.inputEmail} id="passkey" type="password"
                                 maxLength={MAX_PASSKEY_LENGTH}
                                 onChange={(e) => {
                                     if (e.target.value.length <= MAX_PASSKEY_LENGTH) {
-                                        setPasskey(e.target.value)
+                                        setPass(e.target.value)
                                     }
                                 }}
                                 placeholder="#########" required/>
                         </div>
+                        {eventCheck.trim() && (
+                            <span style={{fontSize:"14px", color:"#670a0a", margin:"3px 0 12px 2px"}}>{eventCheck}</span>
+                        )}
                         <div id="codeFrame" className="flex flex-column" style={{display:"none", marginBottom:"16px"}}>
                             <label className={styles.label} htmlFor="verifyCode">{t("createUser.verifyCode")}<span style={{color:"red"}}>*</span></label>
                             <div className="flex items-center">
@@ -724,11 +734,11 @@ function NewBlog (){
                             </div>
                         </div>
                         {eventCheck.trim() && (
-                            <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
+                            <span style={{fontSize:"14px", color:"#670a0a", margin:"3px 0 12px 2px"}}>{eventCheck}</span>
                         )}
-                        <span style={{fontSize:"14px"}}>{t("createSession.signUpLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createSession.signUpbtn")}</span></span>
                     
-                        <div className="flex jc-end" style={{margin:"6px 28px 28px 0"}}>
+                        <div className="flex jc-space-between" style={{margin:"6px 28px 28px 0"}}>
+                            <span style={{fontSize:"14px"}}>{t("createSession.signUpLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createSession.signUpbtn")}</span></span>
                             <button id={styles.submit} onClick={login}>{t("createSession.loginTitle")}</button>
                         </div>
                     </div>
@@ -736,7 +746,7 @@ function NewBlog (){
             </div>
             )}
             <div className="container width-100 flex jc-center">
-                <div className="flex flex-column" style={{width:"58vw" ,marginTop:"40px", marginLeft:"62px"}}>
+                <div id={styles.frameCreateBlog} className="flex flex-column" style={{width:"58vw" ,marginTop:"40px", marginLeft:"62px"}}>
                     <div className="flex items-center jc-space-between" style={{width:"90%"}}>
                         <h1 style={{marginBottom:"22px"}}>{t("newBlog.titleNewBlog")}</h1>
                     </div>
@@ -754,7 +764,7 @@ function NewBlog (){
                         </div>
                         
                     </div>
-                    <div className="flex flex-column jc-space-between" style={{width:"16vw"}}>
+                    <div id={styles.blockTags} className="flex flex-column jc-space-between" style={{width:"16vw"}}>
                         <label style={{marginTop:"14px",marginBottom:"10px"}}>{t("newBlog.topicLabel")}</label>
                         <CreatableSelect
                             isMulti
@@ -764,17 +774,77 @@ function NewBlog (){
                             placeholder={t("newBlog.placeholderTags")}
                         />
                     </div>
-                    <div className="flex flex-column" style={{marginTop: "20px", width:"50vw", marginBottom:"50px"}}>
+                    <div id={styles.blockContent} className="flex flex-column" style={{marginTop: "20px", width:"50vw", marginBottom:"50px"}}>
                         <ReactQuill ref={quillRef} modules={modules} style={{margin:"5px 0"}} 
                             onChange={normalizeContent}
                             id={styles.contentFrame} 
                             placeholder={t("newBlog.placeholderContent")} 
                             required/>
                     </div>
-                    <div className="flex jc-end" style={{margin:"18px 0px 25px 0px"}}>
-                        <button id={styles.submit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
+
+                    <div id={styles.btnCreateBlog} className="flex jc-end" style={{margin:"18px 0px 25px 0px"}}>
+                        <button id={styles.btnDemoBlog} onClick={watchBlog}>{t("newBlog.btnSubmit")}</button>
+                        <button id={styles.btnSubmit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
                     </div>
                 </div>
+                {demoBlog && (
+                <div id={styles.blogframe} className="width-100 flex flex-column">
+                    <div id={styles.blogContent}>
+                        <div className="flex width-100">
+                            {nickname ? (
+                            <div className="flex items-center">
+                                <img
+                                style={{width:"32px", height:"32px", borderRadius:"100%", cursor:"pointer"}}
+                                src={uploadAvatar ? uploadAvatar.preview : avatar}
+                                alt={nickname}
+                                onClick={() => setZoomImage(uploadAvatar.preview)}/>
+                                <p style={{marginLeft:"10px", fontSize:"16px"}}>{nickname}</p>
+                            </div>
+                            ):(
+                                <div className="flex items-center">
+                                    <img
+                                    style={{width:"32px", height:"32px", borderRadius:"100%", cursor:"pointer"}}
+                                    src={uploadAvatar ? uploadAvatar.preview : avatar}
+                                    alt={nickname}
+                                    onClick={() => setZoomImage(uploadAvatar.preview)}/>
+                                    <p style={{marginLeft:"10px", fontSize:"16px"}}>Happy</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="width-100">
+                            {title ? (
+                                <h2 style={{whiteSpace:"pre-wrap", wordWrap:"break-word", overflowWrap: "anywhere"}}>{title}</h2>
+                            ):(
+                                <h2 style={{whiteSpace:"pre-wrap", wordWrap:"break-word", overflowWrap: "anywhere"}}>{t("newBlog.titleDefault")}</h2>
+                            )}
+                        </div>
+                        {content ? (
+                            <SafeContent html={content}/>
+                        ) : (
+                            <SafeContent html={t("newBlog.descriptionDefault")}/>
+                        )}
+                        {content.trim() === "" && (
+                            <div className="flex flex-wrap" style={{marginTop:"18px"}}>
+                                <img className={styles.imageFrame}
+                                    src={imgDefault} 
+                                    alt="AI Furture"
+                                    onClick={() => setZoomImage(imgDefault)}/>
+                            </div>
+                        )}
+                    </div>
+                    {zoomImage && (
+                    <div className="fixed inset-0 width-100 flex jc-center"
+                        style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                        onClick={() => setZoomImage(null)}>
+                        <img
+                            style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                            src={zoomImage}
+                            alt="Zoom"
+                        />
+                    </div>
+                    )}
+                </div>  
+                )}
                 <div id={styles.blogframe} className="width-100 flex flex-column">
                     <div id={styles.blogContent}>
                         <div className="flex width-100">
