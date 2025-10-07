@@ -634,25 +634,25 @@ function NewBlog (){
                                 }}
                                 placeholder="#########" required/>
                         </div>
-                        <ul style={{margin:"0px 38px 0px 8px", listStyle:"none"}}>
+                        <ul style={{margin:"0px 38px 0px 8px", listStyle:"none", padding:"0"}}>
                             {!checkPass.lengthOk ?(
-                                <li style={{margin:"0"}} className="flex items-center">
+                                <li style={{marginTop:"6px"}} className="flex items-center">
                                     <img style={{width:"18px", height:"18px"}} className="radius-100" src={checkIcon} alt="" />
                                     <span id="typeLength" style={{fontSize:"14px", color: "#2d2d2dff", marginLeft:"8px"}}>{t("createUser.checkLengthPass")}</span>
                                 </li>
                             ):(
-                                <li style={{margin:"0"}}>
+                                <li style={{margin:"6px"}} className="flex items-center">
                                     <img style={{width:"18px", height:"18px"}} className="radius-100" src={checked} alt="" />
                                     <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600", marginLeft:"8px"}}>{t("createUser.checkLengthPass")}</span>
                                 </li>
                             )}
                             {!checkPass.hasDigit || !checkPass.hasLower || !checkPass.hasUpper || !checkPass.hasSpecial ?(
-                                <li style={{margin:"0"}}>
+                                <li style={{margin:"6px"}} className="flex items-center">
                                     <img style={{width:"18px", height:"18px"}} className="radius-100" src={checkIcon} alt="" />
                                     <span id="typeFormat" style={{fontSize:"14px", color: "#2d2d2dff", marginLeft:"8px"}}>{t("createUser.checkFormatPass")}</span>
                                 </li>
                             ):(
-                                <li style={{margin:"0"}}>
+                                <li style={{margin:"6px"}} className="flex items-center">
                                     <img style={{width:"18px", height:"18px"}} className="radius-100" src={checked} alt="" />
                                     <span style={{fontSize:"14px", color:"#2d2d2dff", fontWeight:"600", marginLeft:"8px"}}>{t("createUser.checkFormatPass")}</span>
                                 </li>
@@ -787,65 +787,7 @@ function NewBlog (){
                         <button id={styles.btnSubmit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
                     </div>
                 </div>
-                {demoBlog && (
-                <div id={styles.blogframe} className="width-100 flex flex-column">
-                    <div id={styles.blogContent}>
-                        <div className="flex width-100">
-                            {nickname ? (
-                            <div className="flex items-center">
-                                <img
-                                style={{width:"32px", height:"32px", borderRadius:"100%", cursor:"pointer"}}
-                                src={uploadAvatar ? uploadAvatar.preview : avatar}
-                                alt={nickname}
-                                onClick={() => setZoomImage(uploadAvatar.preview)}/>
-                                <p style={{marginLeft:"10px", fontSize:"16px"}}>{nickname}</p>
-                            </div>
-                            ):(
-                                <div className="flex items-center">
-                                    <img
-                                    style={{width:"32px", height:"32px", borderRadius:"100%", cursor:"pointer"}}
-                                    src={uploadAvatar ? uploadAvatar.preview : avatar}
-                                    alt={nickname}
-                                    onClick={() => setZoomImage(uploadAvatar.preview)}/>
-                                    <p style={{marginLeft:"10px", fontSize:"16px"}}>Happy</p>
-                                </div>
-                            )}
-                        </div>
-                        <div className="width-100">
-                            {title ? (
-                                <h2 style={{whiteSpace:"pre-wrap", wordWrap:"break-word", overflowWrap: "anywhere"}}>{title}</h2>
-                            ):(
-                                <h2 style={{whiteSpace:"pre-wrap", wordWrap:"break-word", overflowWrap: "anywhere"}}>{t("newBlog.titleDefault")}</h2>
-                            )}
-                        </div>
-                        {content ? (
-                            <SafeContent html={content}/>
-                        ) : (
-                            <SafeContent html={t("newBlog.descriptionDefault")}/>
-                        )}
-                        {content.trim() === "" && (
-                            <div className="flex flex-wrap" style={{marginTop:"18px"}}>
-                                <img className={styles.imageFrame}
-                                    src={imgDefault} 
-                                    alt="AI Furture"
-                                    onClick={() => setZoomImage(imgDefault)}/>
-                            </div>
-                        )}
-                    </div>
-                    {zoomImage && (
-                    <div className="fixed inset-0 width-100 flex jc-center"
-                        style={{backgroundColor:"#00000085", zIndex:"1001"}}
-                        onClick={() => setZoomImage(null)}>
-                        <img
-                            style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
-                            src={zoomImage}
-                            alt="Zoom"
-                        />
-                    </div>
-                    )}
-                </div>  
-                )}
-                <div id={styles.blogframe} className="width-100 flex flex-column">
+                <div id={styles.blogframe} style={{display: demoBlog ? "flex !important" : "flex"}} className="width-100 flex-column">
                     <div id={styles.blogContent}>
                         <div className="flex width-100">
                             {nickname ? (

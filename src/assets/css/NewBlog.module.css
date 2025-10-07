@@ -237,9 +237,12 @@
         width: 88vw !important;
         margin-left: 42px !important;
     }
+
+    #blogFrame{
+        display: none !important;
+    }
     
     #blogFrame{
-        display: none;
         position: fixed;
         z-index: 10000;
         background-color: #d6d6d659;
@@ -292,7 +295,10 @@
     }
 
     #blogFrame{
-        display: none;
+        display: none !important;
+    }
+    
+    #blogFrame{
         position: fixed;
         z-index: 10000;
         background-color: #d6d6d659;
