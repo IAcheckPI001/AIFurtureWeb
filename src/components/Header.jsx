@@ -26,17 +26,23 @@ function Header(){
                     <li><Link className={headerStyle.styleLink} to = "/contact">{t("menu_bar.contact")}</Link></li>
                 </ul>
                 
-                <nav id="btnLanguage" className="flex items-center" style={{marginLeft:"8px"}}>
+                <nav id="btnLanguage" className="flex items-center" style={{marginRight:"88px", marginLeft:"38px"}}>
                     <button className={currentLang === "en" ? headerStyle.active : headerStyle.btnLanguage} onClick={() => i18n.changeLanguage("en")}>EN</button>
                     <button className={currentLang === "vi" ? headerStyle.active : headerStyle.btnLanguage} onClick={() => i18n.changeLanguage("vi")}>VI</button>
                 </nav>
             </nav>
-            <button
-                id={headerStyle.menuBarIcon}
-                onClick={() => setOpen(!open)}
-            >
-                {open ? <X size={18} /> : <Menu size={18} />}
-            </button>
+            <div id={headerStyle.frameMenuBar} className="flex items-center">
+                <nav id="btnLanguage" className="flex items-center" style={{marginRight:"16px"}}>
+                    <button className={currentLang === "en" ? headerStyle.active : headerStyle.btnLanguage} onClick={() => i18n.changeLanguage("en")}>EN</button>
+                    <button className={currentLang === "vi" ? headerStyle.active : headerStyle.btnLanguage} onClick={() => i18n.changeLanguage("vi")}>VI</button>
+                </nav>
+                <button
+                    id={headerStyle.menuBarIcon}
+                    onClick={() => setOpen(!open)}
+                >
+                    {open ? <X size={18} /> : <Menu size={18} />}
+                </button>
+            </div>
             {open && (
                 <ul id={headerStyle.menuBar} className="flex flex-column absolute">
                     <li >

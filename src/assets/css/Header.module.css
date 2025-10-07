@@ -93,9 +93,12 @@
     color: black;    
 }
 
+#frameMenuBar {
+    display: none;
+}
 
 #menuBarIcon{
-    display: none;
+    display: flex;
     height: 25px;
     align-items: center;
     margin-right: 18px;
@@ -104,7 +107,7 @@
 
 
 @media screen and (max-width: 767px) {
-    #menuBarIcon{
+    #frameMenuBar{
         display: flex;
     }
     #frameMenu {

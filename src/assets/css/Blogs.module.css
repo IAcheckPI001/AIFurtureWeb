@@ -34,7 +34,7 @@
 
 #frameFilter {
     position: absolute;
-    right: 410px;
+    right: 488px;
     top: 58px;
     width: 450px;
     height: auto;
@@ -73,7 +73,7 @@
 }
 
 #frameTag {
-    max-height: 50vh;
+    max-height: 32vh;
     overflow-y: auto;
     white-space: pre-wrap;
     scrollbar-width: thin;
@@ -298,8 +298,14 @@
     border: 1px solid #7a7a7a;
 }
 
-.btnArrowLeft, .btnArrowRight:hover {
+.btnArrowLeft:hover {
     border: 1px solid #ffff;
+    transition: all 0.3s ease-in;
+}
+
+.btnArrowRight:hover{
+    border: 1px solid #ffff;
+    transition: all 0.3s ease-in;
 }
 
 @media (max-width: 1280px) {
@@ -361,7 +367,7 @@
 
     #frameFilter {
         right: 88px;
-        width: 318px;
+        width: 356px;
     }
 
     

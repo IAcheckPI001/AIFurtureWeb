@@ -481,7 +481,7 @@ function Blogs (){
                                 width={200}
                                 height={200}
                                 border={50}
-                                borderRadius={100} // circle crop
+                                borderRadius={100}
                                 scale={scale}
                             />
     
@@ -509,13 +509,13 @@ function Blogs (){
                     )}
                     {eventAuth ? (
                         <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
-                            <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
+                            <div className="flex jc-space-between" style={{margin:"15px 15px 0 0"}}>
+                                <h1 style={{marginBottom:"22px", marginTop:"14px"}}>{t("createSession.signUpbtn")}</h1>
                                 <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                     src={closeIcon} 
                                     alt=""
                                     onClick={loginUser} />
                             </div>
-                            <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.signUpbtn")}</h1>
                             <div className="flex items-center" style={{marginRight:"24px", marginBottom:"10px"}}>
                                 <div className="relative">
                                     <img
@@ -525,8 +525,8 @@ function Blogs (){
                                         alt="Your avatar"
                                         onClick={() => setZoomImage(uploadAvatar.preview)}/>
                                     
-                                    <label style={{top: "34px", left: "32px"}} className="cursor-pointer flex items-center width-auto absolute">
-                                        <img className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
+                                    <label style={{top: "26px", left: "18px"}} className="cursor-pointer flex items-center width-auto absolute">
+                                        <img style={{height:"28px", marginLeft:"16px"}} className={styles.imgUpload} src={imgUpload} alt="Upload avatar" />
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -625,14 +625,13 @@ function Blogs (){
                         </div>
                     ):(
                         <div style={{width: "450px", height:"auto", backgroundColor:"#ffffff", borderRadius:"10px", paddingLeft: "34px"}} className="flex flex-column jc-center">
-                            <div className="flex jc-end" style={{margin:"15px 15px 0 0"}}>
+                            <div className="flex jc-space-between" style={{margin:"15px 15px 0 0"}}>
+                                <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.loginTitle")}</h1>
                                 <img className={styles.closeFrame} style={{padding:"8px", borderRadius:"100%", width:"22px", height:"22px"}}
                                     src={closeIcon} 
                                     alt=""
                                     onClick={loginUser} />
                             </div>
-                            <h1 style={{marginBottom:"28px", marginTop:"8px"}}>{t("createSession.loginTitle")}</h1>
-                            
                             <div className="flex flex-column" style={{margin: "13px 0"}}>
                                 <label className={styles.label} htmlFor="user_key">{t("createSession.usernameLabel")}</label>
                                 <input className={styles.inputNickname} 
@@ -647,7 +646,7 @@ function Blogs (){
                                     placeholder={t("createSession.placeholderUser")} required
                                     />
                             </div>
-                            <div className="flex flex-column" style={{margin: "10px 22px 16px 0"}}>
+                            <div className="flex flex-column" style={{margin: "8px 22px 8px 0px"}}>
                                  <label className={styles.label} htmlFor="passkey">{t("createSession.passLabel")}</label>
                                 <input className={styles.inputEmail} id="passkey" type="password"
                                     maxLength={MAX_PASSKEY_LENGTH}
@@ -673,11 +672,11 @@ function Blogs (){
                                 </div>
                             </div>
                             {eventCheck.trim() && (
-                                <span style={{fontSize:"14px", color:"#670a0a"}}>{eventCheck}</span>
+                                <span style={{fontSize:"14px", color:"#670a0a", margin:"3px 0 12px 2px"}}>{eventCheck}</span>
                             )}
-                            <span style={{fontSize:"14px"}}>{t("createSession.signUpLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createSession.signUpbtn")}</span></span>
                         
-                            <div className="flex jc-end" style={{margin:"6px 28px 28px 0"}}>
+                            <div className="flex jc-space-between" style={{margin:"6px 28px 28px 0"}}>
+                                <span style={{fontSize:"14px"}}>{t("createSession.signUpLabel")} <span className="cursor-pointer" style={{color: "#0058a5"}} onClick={handleAuth}> {t("createSession.signUpbtn")}</span></span>
                                 <button id={styles.submit} onClick={login}>{t("createSession.loginTitle")}</button>
                             </div>
                         </div>
@@ -697,7 +696,7 @@ function Blogs (){
                         }}
                         handleKey = {handleSearch}/>
                     <div className="relatire cursor-pointer radius-100">
-                        <img id={styles.filterIco} onClick={handleIconClick} style={{height:"20px", width:"20px", marginTop:"8px", padding: "8px 10px", borderRadius:"10px"}} src={filterIcon} alt="filter" />
+                        <img id={styles.filterIco} onClick={handleIconClick} style={{height:"18px", width:"18px", marginTop:"8px", padding: "8px 10px", borderRadius:"10px"}} src={filterIcon} alt="filter" />
                         {isOpen && (
                             <div ref={frameRef} id={styles.frameFilter} className="flex flex-column">
                                 <div style={{marginLeft:"18px"}}>
@@ -778,7 +777,7 @@ function Blogs (){
                                 </div>
                                 {blog.imgURLs.length > 0 && (
                                 <>
-                                    <span style={{fontSize: ".8em", margin: "12px 0 0 10px", fontWeight:"600"}}>{t("blog_page.labelListImage")}</span>
+                                    <span style={{fontSize: ".85em", margin: "12px 0 0 4px", fontWeight:"600"}}>{t("blog_page.labelListImage")}</span>
                                     <div className={styles.frameImages}>
                                         {blog.imgURLs
                                         .slice(0, 2)
