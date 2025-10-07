@@ -787,7 +787,65 @@ function NewBlog (){
                         <button id={styles.btnSubmit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
                     </div>
                 </div>
-                <div id={styles.blogframe} style={{display: demoBlog ? "flex !important" : "flex"}} className="width-100 flex-column">
+                {demoBlog &&(
+                    <div id={styles.frameDemoBlog} className="width-100 flex flex-column">
+                        <div class={styles.blogContent}>
+                            <div className="flex width-100">
+                                {nickname ? (
+                                <div className="flex items-center">
+                                    <img
+                                    style={{width:"32px", height:"32px", borderRadius:"100%", cursor:"pointer"}}
+                                    src={uploadAvatar ? uploadAvatar.preview : avatar}
+                                    alt={nickname}
+                                    onClick={() => setZoomImage(uploadAvatar.preview)}/>
+                                    <p style={{marginLeft:"10px", fontSize:"16px"}}>{nickname}</p>
+                                </div>
+                                ):(
+                                    <div className="flex items-center">
+                                        <img
+                                        style={{width:"32px", height:"32px", borderRadius:"100%", cursor:"pointer"}}
+                                        src={uploadAvatar ? uploadAvatar.preview : avatar}
+                                        alt={nickname}
+                                        onClick={() => setZoomImage(uploadAvatar.preview)}/>
+                                        <p style={{marginLeft:"10px", fontSize:"16px"}}>Happy</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="width-100">
+                                {title ? (
+                                    <h2 style={{whiteSpace:"pre-wrap", wordWrap:"break-word", overflowWrap: "anywhere"}}>{title}</h2>
+                                ):(
+                                    <h2 style={{whiteSpace:"pre-wrap", wordWrap:"break-word", overflowWrap: "anywhere"}}>{t("newBlog.titleDefault")}</h2>
+                                )}
+                            </div>
+                            {content ? (
+                                <SafeContent html={content}/>
+                            ) : (
+                                <SafeContent html={t("newBlog.descriptionDefault")}/>
+                            )}
+                            {content.trim() === "" && (
+                                <div className="flex flex-wrap" style={{marginTop:"18px"}}>
+                                    <img className={styles.imageFrame}
+                                        src={imgDefault} 
+                                        alt="AI Furture"
+                                        onClick={() => setZoomImage(imgDefault)}/>
+                                </div>
+                            )}
+                        </div>
+                        {zoomImage && (
+                        <div className="fixed inset-0 width-100 flex jc-center"
+                            style={{backgroundColor:"#00000085", zIndex:"1001"}}
+                            onClick={() => setZoomImage(null)}>
+                            <img
+                                style={{width:"auto", padding:"84px", maxWidth:"90%", maxHeight:"90%"}}
+                                src={zoomImage}
+                                alt="Zoom"
+                            />
+                        </div>
+                        )}
+                    </div>
+                )}
+                <div id={styles.blogframe} className="width-100 flex-column">
                     <div id={styles.blogContent}>
                         <div className="flex width-100">
                             {nickname ? (
