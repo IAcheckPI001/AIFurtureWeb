@@ -802,7 +802,7 @@ function NewBlog (){
                     </div>
 
                     <div id={styles.btnCreateBlog} className="flex jc-end" style={{margin:"18px 0px 25px 0px"}}>
-                        <button id={styles.btnDemoBlog} onClick={watchBlog}>{t("newBlog.btnSubmit")}</button>
+                        <button id={styles.btnDemoBlog} onClick={watchBlog}>{t("newBlog.btnDemo")}</button>
                         <button id={styles.btnSubmit} onClick={createBlog}>{t("newBlog.btnSubmit")}</button>
                     </div>
                 </div>
@@ -839,7 +839,7 @@ function NewBlog (){
                                         <p style={{marginLeft:"10px", fontSize:"16px"}}>Happy</p>
                                     </div>
                                 )}
-                                <img src={exitIcon} id={styles.exitDemo} style={{width:"18px", height:"18px"}} className="radius-100" onClick={watchBlog} alt="turn-back"/>
+                                <img src={exitIcon} id={styles.exitDemo} style={{width:"18px", height:"18px", marginRight: "6px"}} onClick={watchBlog} alt="turn-back"/>
                             </div>
                             <div className="width-100">
                                 {title ? (

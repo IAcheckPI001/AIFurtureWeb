@@ -88,7 +88,7 @@
 
 #frameDemoBlog{
     position: fixed;
-    z-index: 10000;
+    z-index: 900;
     background-color: #d6d6d659;
     height: 100%;
     top: 64px;
@@ -258,6 +258,7 @@
 #exitDemo {
     padding: 6px;
     border: 1px solid #ffff;
+    
 }
 
 #exitDemo:hover {
