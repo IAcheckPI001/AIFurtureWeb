@@ -99,12 +99,16 @@
 
 #frameDemoBlog .blogContent {
     width: 83%;
-    padding: 28px 8px 12px 45px;
+    padding: 28px 8px 12px 18px;
     border-left: 1px solid rgb(223, 223, 223);
-    height: auto;
     background-color: white;
     margin-top: 23px;
     border-radius: 8px;
+    height: 80%;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #blogContent{
@@ -251,6 +255,28 @@
     transition: all 0.3s ease-in-out;
 }
 
+#exitDemo {
+    padding: 6px;
+    border: 1px solid #ffff;
+}
+
+#exitDemo:hover {
+    border: 1px solid rgb(57, 57, 57);
+    transition: all 0.3s ease-in-out;
+}
+
+#btnScroll {
+    padding: 6px;
+    border: 1px solid #ffff;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
+#btnScroll {
+    border: 1px solid rgb(57, 57, 57);
+    transition: all 0.3s ease-in-out;
+}
 
 @media (max-width: 1280px) {
 

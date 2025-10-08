@@ -17,6 +17,7 @@ import avatar from "../assets/image/avatar_default.png";
 import imgUpload from "../assets/icon/image-upload.png";
 import imgDefault from "../assets/image/service-back.png"
 import closeIcon from "../assets/icon/close.png";
+import exitIcon from "../assets/icon/exit.png";
 import addScale from "../assets/icon/add.png";
 import minusIcon from "../assets/icon/minus.png";
 import reloadCode from "../assets/icon/reload.png";
@@ -61,6 +62,7 @@ function NewBlog (){
     const [eventAuth, setEventAuth] = useState(false);
     const [scaleShow, setScaleFrame] = useState(false);
     const [demoBlog, setDemoBlog] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const checkPass = validatePassword(passkey);
 
     useEffect(() => {
@@ -522,6 +524,22 @@ function NewBlog (){
         setDemoBlog(!demoBlog);
     }
 
+    useEffect(() =>{
+       const handleScroll = () => {
+        if (window.scrollY > 300){
+            setIsVisible(true);
+        } else{
+            setIsVisible(false);
+        }
+       };
+       window.addEventListener("scroll", handleScroll);
+       return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({top: 0, behavior: "smooth"});
+    }
+
     return( 
     
         <div className="width-100 flex">
@@ -790,7 +808,17 @@ function NewBlog (){
                 {demoBlog &&(
                     <div id={styles.frameDemoBlog} className="width-100 flex flex-column">
                         <div class={styles.blogContent}>
-                            <div className="flex width-100">
+                            <div>
+                                <img src={header_back} 
+                                    id={styles.btnScroll} 
+                                    style={{width:"16px", height:"16px", opacity: isVisible ? 1 : 0, 
+                                        pointerEvents: isVisible ? "auto" : "none", transition: "opacity 0.3s ease"
+                                    }} 
+                                    className="radius-100" 
+                                    onClick={scrollToTop}
+                                    alt="turn-back"/>
+                            </div>
+                            <div className="flex width-100 jc-space-between">
                                 {nickname ? (
                                 <div className="flex items-center">
                                     <img
@@ -810,6 +838,7 @@ function NewBlog (){
                                         <p style={{marginLeft:"10px", fontSize:"16px"}}>Happy</p>
                                     </div>
                                 )}
+                                <img src={exitIcon} id={styles.exitDemo} style={{width:"18px", height:"18px"}} className="radius-100" onClick={watchBlog} alt="turn-back"/>
                             </div>
                             <div className="width-100">
                                 {title ? (

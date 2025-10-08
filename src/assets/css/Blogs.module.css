@@ -323,6 +323,12 @@
         margin-left: 7px;
     }
 
+    #frameFilter {
+        right: 190px;
+        width: 298px;
+    }
+
+
 
     #framebtnCreateBlog {
         display: flex;
@@ -367,7 +373,7 @@
 
     #frameFilter {
         right: 88px;
-        width: 356px;
+        width: 300px;
     }
 
     
