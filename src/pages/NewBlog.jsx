@@ -16,6 +16,7 @@ import styles from "../assets/css/NewBlog.module.css";
 import avatar from "../assets/image/avatar_default.png";
 import imgUpload from "../assets/icon/image-upload.png";
 import imgDefault from "../assets/image/service-back.png"
+import header_back from "../assets/icon/header_back.png";
 import closeIcon from "../assets/icon/close.png";
 import exitIcon from "../assets/icon/exit.png";
 import addScale from "../assets/icon/add.png";
